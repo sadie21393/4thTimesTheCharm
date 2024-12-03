@@ -1,87 +1,173 @@
-
-/* Root Variables */
-:root {
-    --primary-color: #2B6796; /* Deep Blue */
-    --secondary-color: #C9DCA9; /* Light Green */
-    --background-color: #edeeec; /* Pale Green */
-    --accent-color: #A5E4E3; /* Soft Aqua */
-    --dark-color: #173D38; /* Dark Green */
-}
-
 /* General Styles */
 body {
-    background-color: var(--background-color);
-    color: var(--dark-color);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Arial', sans-serif;
+    color: #333;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+/* Transparent Navbar Styles */
+.navbar.transparent-navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    transition: padding 0.3s ease;
 }
 
-p {
-    margin-bottom: 1rem;
-    line-height: 1.5;
+/* Navbar styles when scrolling */
+.navbar.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 2rem;
 }
 
-/* Navbar */
-.navbar {
-    background-color: var(--primary-color);
-    padding: 1rem;
-}
-
-.navbar .nav-link {
-    color: var(--background-color);
+.navbar-brand {
+    font-weight: bold;
+    color: #fff;
     text-decoration: none;
-    margin: 0 1rem;
 }
 
-.navbar .nav-link:hover {
-    color: var(--accent-color);
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;
 }
 
-/* Buttons */
-button, .btn-primary {
-    background-color: var(--primary-color);
-    border: none;
-    color: var(--background-color);
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
+.navbar-links .nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 300; /* Light font weight for cleaner appearance */
+    transition: color 0.3s;
 }
 
-button:hover, .btn-primary:hover {
-    background-color: var(--secondary-color);
+.navbar-links .nav-link:hover {
+    color: #000; /* Change link color to black for contrast */
 }
 
-/* Forms */
-form .form-control {
+.btn-take-action {
+    background: #fff;
+    color: #000;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Style for button after being clicked */
+.btn-take-action:active {
+    background: #000;
+    color: #fff;
+}
+
+/* Masthead Styles */
+.masthead {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end; /* Align content to the bottom of the masthead */
+    padding: 2rem;
+    color: white;
+}
+
+.masthead-content {
+    position: relative;
     width: 100%;
-    padding: 0.5rem;
+}
+
+.masthead-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.masthead h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    text-transform: uppercase;
     margin-bottom: 1rem;
-    border: 1px solid var(--secondary-color);
-    border-radius: 5px;
+    line-height: 1.2;
 }
 
-form .form-control:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 5px var(--accent-color);
+.subheadline {
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
 }
 
-form button {
-    display: block;
-    width: 100%;
+.btn-learn-more {
+    background: #fff;
+    
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Footer */
-footer {
-    background-color: var(--primary-color);
-    color: var(--background-color);
-    padding: 1rem;
-    text-align: center;
+/* Style for button after being clicked */
+.btn-learn-more {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Two-Column Section Styles */
+.mission-section {
+    background: #f8f8f8;
+    padding: 50px 0;
+}
+
+.two-column {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.left-column {
+    flex: 1;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.right-column {
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .two-column {
+        flex-direction: column;
+    }
+
+    .masthead h1 {
+        font-size: 2.5rem;
+    }
+
+    .subheadline {
+        font-size: 1.2rem;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .btn-take-action {
+        margin-top: 1rem;
+    }
 }

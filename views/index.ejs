@@ -1,49 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include('partials/head') %>
-    <link rel="stylesheet" href="/styles.css"> <!-- Assuming your CSS is in styles.css -->
+    <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
+    <!-- Transparent Navbar -->
+    <nav class="navbar transparent-navbar">
+        <div class="container navbar-container">
+            <div class="navbar-brand-container">
+                <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
+            </div>
             <div class="navbar-links">
                 <a href="/about" class="nav-link">About</a>
                 <a href="/initiatives" class="nav-link">Initiatives</a>
                 <a href="/contact" class="nav-link">Contact Us</a>
                 <a href="/login" class="nav-link">Login</a>
-                <a href="#" class="nav-link">Instagram</a>
+                <a href="#" class="nav-link">Twitter</a>
+                <a href="#" class="nav-link">LinkedIn</a>
                 <a href="#" class="nav-link">Facebook</a>
             </div>
-            <a href="/take-action" class="btn btn-take-action">Donate</a>
+            <div class="navbar-button-container">
+                <a href="/take-action" class="btn btn-take-action">Take Action</a>
+            </div>
         </div>
     </nav>
 
     <!-- Masthead Banner -->
-    <header class="masthead">
-        <div class="masthead-content">
-            <h1>Protecting natural habitats from extinction.</h1>
-            <a href="/learn-more" class="btn btn-learn-more">Learn More</a>
+    <header class="masthead" style="background-image: url('/images/banner.JPG');">
+        <div class="container masthead-content">
+            <div class="masthead-text">
+                <p class="subheadline">Helping to save lives of people experiencing homelessness</p>
+                <h1>STARTS WITH YOU</h1>
+                <a href="https://turtleshelterproject.org" class="btn btn-learn-more">Learn More</a>
+            </div>
         </div>
     </header>
 
-    <!-- Image Upload Section 1 -->
-    <section class="upload-section py-5">
-        <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Our Mission</h2>
-            <p class="section-subheading text-muted">
-                Collaborating with communities to provide high-tech winter gear to the homeless.
-            </p>
-            <div class="image-container mt-4">
-                <img src="/public/banner.JPG" alt="Our Mission Image" class="img-fluid rounded">
-            </div>
-        </div>
-    </section>
-
-    <!-- Image Upload Section 2 -->
-    <section class="upload-section bg-light py-5">
+    <!-- Volunteer Highlights Section -->
+    <section class="volunteer-section bg-light py-5">
         <div class="container text-center">
             <h2 class="section-heading text-uppercase">Volunteer Highlights</h2>
             <p class="section-subheading text-muted">
@@ -62,12 +59,33 @@
             <p class="cta-description">
                 Your contributions, whether through volunteering or donations, make a lasting impact.
             </p>
-            <a href="/donate" class="btn btn-primary btn-lg mx-2">Donate Now</a>
-            <a href="/volunteer" class="btn btn-secondary btn-lg mx-2">Become a Volunteer</a>
+            <div class="mt-4">
+                <a href="/donate" class="btn btn-primary btn-lg mx-2">Donate Now</a>
+                <a href="/volunteer" class="btn btn-secondary btn-lg mx-2">Become a Volunteer</a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <%- include('partials/footer') %>
+<!-- JavaScript to handle navbar and button effects -->
+<script>
+    // Scroll event to keep navbar transparent and adjust position
+    window.onscroll = function () {
+        const navbar = document.querySelector(".transparent-navbar");
+        if (window.scrollY > 50) {
+            navbar.classList.add("navbar-fixed");
+        } else {
+            navbar.classList.remove("navbar-fixed");
+        }
+    };
+
+    // Add event listener to change Take Action button style on click
+    document.querySelector(".btn-take-action").addEventListener("click", function () {
+        this.style.backgroundColor = "#000";
+        this.style.color = "#fff";
+    });
+</script>
 </body>
+
 </html>
