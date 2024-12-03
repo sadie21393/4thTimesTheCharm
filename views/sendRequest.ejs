@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Character</title>
+  <style>
+    form {
+      width: 50%;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #F9F9F9;
+      font-size: 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="checkbox"], input[type="radio"] {
+      width: auto;
+      margin-right: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45A049;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align: center;">Send Request to Host and Event For TSP</h1>
+  <form action="/sendRequest/<%= characters.id %>" method="POST">
+    <!-- Character First Name -->
+    <label for="first_name">First Name</label>
+    <input type="text" id="first_name" name="first_name" value="<%= characters.first_name %>" required oninput="this.value = this.value.toUpperCase()">
+    <!-- Character Last Name -->
+    <label for="last_name">Last Name</label>
+    <input type="text" id="last_name" name="last_name" value="<%= characters.last_name %>" required oninput="this.value = this.value.toUpperCase()">
+    <!-- Jedi (Checkbox) -->
+    <label for="jedi">
+      <input type="checkbox" id="jedi" name="jedi" value="true" <%= characters.jedi ? 'checked' : '' %>>
+      Jedi
+    </label>
+    <!-- Weapon (Radio Buttons) -->
+    <label>Weapon</label>
+    <label>
+      <input type="radio" name="weapon" value="L" <%= characters.weapon === 'L' ? 'checked' : '' %>> Lightsaber
+    </label>
+    <label>
+      <input type="radio" name="weapon" value="B" <%= characters.weapon === 'B' ? 'checked' : '' %>> Blaster
+    </label>
+    <label>
+      <input type="radio" name="weapon" value="N" <%= characters.weapon === 'N' ? 'checked' : '' %>> None
+    </label>
+    <!-- Planet Name -->
+    <label for="planet_name">Planet Name</label>
+    <select id="planet_name" name="planet_name">
+      <% planets.forEach(planet => { %>
+        <option value="<%= planet.id %>" <%= characters.planet_name === planet.id ? 'selected' : '' %>>
+          <%= planet.planet_name %>
+        </option>
+      <% }) %>
+    </select>
+    <!-- Submit Button -->
+    <button type="submit">Save Changes</button>
+  </form>
+</body>
+</html>
+:javascript-on-fire:
+1
