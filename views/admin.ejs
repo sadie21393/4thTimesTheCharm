@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <main class="container mt-5">
+        <h1>Admin Dashboard</h1>
+        <p>Manage volunteers and events here.</p>
+        <h2>Upcoming Events</h2>
+        <ul>
+            <% events.forEach(event => { %>
+                <li><%= event.name %> on <%= event.date %> at <%= event.location %></li>
+            <% }); %>
+        </ul>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>
