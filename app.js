@@ -11,7 +11,12 @@ const app = express();
 // Middleware
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));  // Serving public folder for CSS, JS, etc.
+app.use('/images', express.static(path.join(__dirname, 'images')));  // Serving the new images folder
+
+// Session setup
 app.use(session({ secret: 'turtle-secret', resave: false, saveUninitialized: true }));
 
 // Routes

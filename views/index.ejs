@@ -1,54 +1,73 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <%- include('partials/head') %>
+    <link rel="stylesheet" href="/styles.css"> <!-- Assuming your CSS is in styles.css -->
 </head>
 <body>
-    <%- include('partials/navbar') %>
-    <header class="masthead text-center">
+    <!-- Navbar -->
+    <nav class="navbar">
         <div class="container">
-            <h1>Welcome to the Turtle Shelter Project!</h1>
-            <p class="lead">Empowering lives with high-tech winter gear for the homeless.</p>
-            <a href="/volunteer" class="btn btn-primary btn-lg mx-2">Join Us</a>
-            <a href="/donate" class="btn btn-secondary btn-lg mx-2">Donate Now</a>
+            <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
+            <div class="navbar-links">
+                <a href="/about" class="nav-link">About</a>
+                <a href="/initiatives" class="nav-link">Initiatives</a>
+                <a href="/contact" class="nav-link">Contact Us</a>
+                <a href="/login" class="nav-link">Login</a>
+                <a href="#" class="nav-link">Instagram</a>
+                <a href="#" class="nav-link">Facebook</a>
+            </div>
+            <a href="/take-action" class="btn btn-take-action">Donate</a>
+        </div>
+    </nav>
+
+    <!-- Masthead Banner -->
+    <header class="masthead">
+        <div class="masthead-content">
+            <h1>Protecting natural habitats from extinction.</h1>
+            <a href="/learn-more" class="btn btn-learn-more">Learn More</a>
         </div>
     </header>
 
-    <!-- Highlight Donation Section -->
-    <section class="donate-section py-5 bg-light">
+    <!-- Image Upload Section 1 -->
+    <section class="upload-section py-5">
         <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Make a Difference Today</h2>
-            <p class="lead text-muted">
-                Your donation helps us create and distribute life-saving winter vests for those in need.
-                Together, we can provide warmth and hope to Utah's homeless population.
+            <h2 class="section-heading text-uppercase">Our Mission</h2>
+            <p class="section-subheading text-muted">
+                Collaborating with communities to provide high-tech winter gear to the homeless.
             </p>
-            <a href="/donate" class="btn btn-primary btn-lg">Donate Now</a>
+            <div class="image-container mt-4">
+                <img src="/public/banner.JPG" alt="Our Mission Image" class="img-fluid rounded">
+            </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about-section py-5">
+    <!-- Image Upload Section 2 -->
+    <section class="upload-section bg-light py-5">
         <div class="container text-center">
-            <h2 class="section-heading text-uppercase">What We Do</h2>
-            <p class="lead text-muted">
-                The Turtle Shelter Project partners with communities and volunteers to create high-tech winter vests
-                for the homeless. Through service events, donations, and volunteer efforts, we bring warmth and
-                support to those who need it most.
+            <h2 class="section-heading text-uppercase">Volunteer Highlights</h2>
+            <p class="section-subheading text-muted">
+                See how our volunteers make a difference in our community.
             </p>
+            <div class="image-container mt-4">
+                <img src="/uploads/volunteer-highlight.jpg" alt="Volunteer Highlights Image" class="img-fluid rounded">
+            </div>
         </div>
     </section>
 
-    <!-- Call to Action -->
+    <!-- Call-to-Action Section -->
     <section class="cta-section py-5 bg-dark text-white">
         <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Get Involved</h2>
-            <p class="lead">Whether through volunteering or donating, your help matters. Join us in making a lasting impact.</p>
+            <h2 class="cta-heading text-uppercase">Get Involved</h2>
+            <p class="cta-description">
+                Your contributions, whether through volunteering or donations, make a lasting impact.
+            </p>
+            <a href="/donate" class="btn btn-primary btn-lg mx-2">Donate Now</a>
             <a href="/volunteer" class="btn btn-secondary btn-lg mx-2">Become a Volunteer</a>
-            <a href="/donate" class="btn btn-primary btn-lg mx-2">Support Our Mission</a>
         </div>
     </section>
 
+    <!-- Footer -->
     <%- include('partials/footer') %>
 </body>
 </html>
