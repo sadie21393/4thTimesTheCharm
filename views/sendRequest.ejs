@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Edit Character</title>
+  <title>Host an Event Request</title>
   <style>
     form {
       width: 50%;
@@ -24,10 +24,6 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    input[type="checkbox"], input[type="radio"] {
-      width: auto;
-      margin-right: 5px;
-    }
     button {
       background-color: #4CAF50;
       color: white;
@@ -40,43 +36,129 @@
   </style>
 </head>
 <body>
-  <h1 style="text-align: center;">Send Request to Host and Event For TSP</h1>
-  <form action="/sendRequest/<%= characters.id %>" method="POST">
-    <!-- Character First Name -->
-    <label for="first_name">First Name</label>
-    <input type="text" id="first_name" name="first_name" value="<%= characters.first_name %>" required oninput="this.value = this.value.toUpperCase()">
-    <!-- Character Last Name -->
-    <label for="last_name">Last Name</label>
-    <input type="text" id="last_name" name="last_name" value="<%= characters.last_name %>" required oninput="this.value = this.value.toUpperCase()">
-    <!-- Jedi (Checkbox) -->
-    <label for="jedi">
-      <input type="checkbox" id="jedi" name="jedi" value="true" <%= characters.jedi ? 'checked' : '' %>>
-      Jedi
-    </label>
-    <!-- Weapon (Radio Buttons) -->
-    <label>Weapon</label>
-    <label>
-      <input type="radio" name="weapon" value="L" <%= characters.weapon === 'L' ? 'checked' : '' %>> Lightsaber
-    </label>
-    <label>
-      <input type="radio" name="weapon" value="B" <%= characters.weapon === 'B' ? 'checked' : '' %>> Blaster
-    </label>
-    <label>
-      <input type="radio" name="weapon" value="N" <%= characters.weapon === 'N' ? 'checked' : '' %>> None
-    </label>
-    <!-- Planet Name -->
-    <label for="planet_name">Planet Name</label>
-    <select id="planet_name" name="planet_name">
-      <% planets.forEach(planet => { %>
-        <option value="<%= planet.id %>" <%= characters.planet_name === planet.id ? 'selected' : '' %>>
-          <%= planet.planet_name %>
-        </option>
-      <% }) %>
+  <h1 style="text-align: center;">Send Request to Host an Event for TSP</h1>
+  <form action="/sendRequest" method="POST">
+    <!-- Location Name -->
+    <label for="req_location">Location Name</label>
+    <input type="text" id="req_location" name="req_location" required>
+
+    <!-- Street Address -->
+    <label for="req_street_address">Street Address</label>
+    <input type="text" id="req_street_address" name="req_street_address" required>
+
+    <!-- City -->
+    <label for="req_city">City</label>
+    <input type="text" id="req_city" name="req_city" required>
+
+    <!-- State -->
+    <label for="req_state">State</label>
+    <select id="req_state" name="req_state" required>
+      <option value="AL">AL</option>
+      <option value="AK">AK</option>
+      <option value="AZ">AZ</option>
+      <option value="AR">AR</option>
+      <option value="CA">CA</option>
+      <option value="CO">CO</option>
+      <option value="CT">CT</option>
+      <option value="DE">DE</option>
+      <option value="FL">FL</option>
+      <option value="GA">GA</option>
+      <option value="HI">HI</option>
+      <option value="ID">ID</option>
+      <option value="IL">IL</option>
+      <option value="IN">IN</option>
+      <option value="IA">IA</option>
+      <option value="KS">KS</option>
+      <option value="KY">KY</option>
+      <option value="LA">LA</option>
+      <option value="ME">ME</option>
+      <option value="MD">MD</option>
+      <option value="MA">MA</option>
+      <option value="MI">MI</option>
+      <option value="MN">MN</option>
+      <option value="MS">MS</option>
+      <option value="MO">MO</option>
+      <option value="MT">MT</option>
+      <option value="NE">NE</option>
+      <option value="NV">NV</option>
+      <option value="NH">NH</option>
+      <option value="NJ">NJ</option>
+      <option value="NM">NM</option>
+      <option value="NY">NY</option>
+      <option value="NC">NC</option>
+      <option value="ND">ND</option>
+      <option value="OH">OH</option>
+      <option value="OK">OK</option>
+      <option value="OR">OR</option>
+      <option value="PA">PA</option>
+      <option value="RI">RI</option>
+      <option value="SC">SC</option>
+      <option value="SD">SD</option>
+      <option value="TN">TN</option>
+      <option value="TX">TX</option>
+      <option value="UT" selected>UT</option>
+      <option value="VT">VT</option>
+      <option value="VA">VA</option>
+      <option value="WA">WA</option>
+      <option value="WV">WV</option>
+      <option value="WI">WI</option>
+      <option value="WY">WY</option>
     </select>
+
+    <!-- Zip Code -->
+    <label for="req_zip">Zip Code</label>
+    <input type="text" id="req_zip" name="req_zip" maxlength="5" pattern="\d{5}" title="Please enter a valid 5-digit zip code" required>
+
+    <!-- Event Date -->
+    <label for="req_event_date">Event Date</label>
+    <input type="date" id="req_event_date" name="req_event_date" required>
+
+    <!-- Event Time -->
+    <label for="event_time">Event Time</label>
+    <input type="time" id="event_time" name="event_time" required>
+
+    <!-- Event Duration -->
+    <label for="req_event_duration">Event Duration (hours)</label>
+    <input type="number" id="req_event_duration" name="req_event_duration" required>
+
+    <!-- Volunteers with No Sewing Experience -->
+    <label for="num_no_sewing">Number of Volunteers with No Sewing Experience</label>
+    <input type="number" id="num_no_sewing" name="num_no_sewing" required>
+
+    <!-- Volunteers with Basic Sewing Experience -->
+    <label for="num_basic_sewing">Number of Volunteers with Basic Sewing Experience</label>
+    <input type="number" id="num_basic_sewing" name="num_basic_sewing" required>
+
+    <!-- Volunteers with Advanced Sewing Experience -->
+    <label for="num_adv_sewing">Number of Volunteers with Advanced Sewing Experience</label>
+    <input type="number" id="num_adv_sewing" name="num_adv_sewing" required>
+
+    <!-- Number of Sewing Machines -->
+    <label for="num_sewing_machines">Number of Sewing Machines</label>
+    <input type="number" id="num_sewing_machines" name="num_sewing_machines" required>
+
+    <!-- Number of Sergers -->
+    <label for="num_sergers">Number of Sergers</label>
+    <input type="number" id="num_sergers" name="num_sergers" required>
+
+    <!-- First Name -->
+    <label for="req_first_name">First Name</label>
+    <input type="text" id="req_first_name" name="req_first_name" required>
+
+    <!-- Last Name -->
+    <label for="req_last_name">Last Name</label>
+    <input type="text" id="req_last_name" name="req_last_name" required>
+
+    <!-- Phone -->
+    <label for="req_phone">Phone</label>
+    <input type="tel" id="req_phone" name="req_phone" required>
+
+    <!-- Email -->
+    <label for="req_email">Email</label>
+    <input type="email" id="req_email" name="req_email" required>
+
     <!-- Submit Button -->
-    <button type="submit">Save Changes</button>
+    <button type="submit">Submit Request</button>
   </form>
 </body>
 </html>
-:javascript-on-fire:
-1
