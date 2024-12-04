@@ -22,6 +22,21 @@ router.post('/event-request', async (req, res) => {
     res.redirect('/');
 });
 
+// Donate Page Route
+router.get('/donate', (req, res) => {
+    res.render('donate'); // Ensure this matches the file name of your Donate Page (donate.ejs)
+});
+
+// One-Time Donation Route
+router.get('/donate/one-time', (req, res) => {
+    res.send('Thank you for your support!'); // Placeholder for one-time donation logic
+});
+
+// Monthly Donation Route
+router.get('/donate/monthly', (req, res) => {
+    res.send('Thank you for setting up a monthly donation!'); // Placeholder for monthly donation logic
+});
+
 // Admin login
 router.get('/admin', (req, res) => res.render('login'));
 
@@ -112,8 +127,6 @@ router.post('/login', (req, res) => {
 //     }
 // });
 
-module.exports = router;
-
 // Admin Home Route
 router.get("/admin-home", async (req, res) => {
     try {
@@ -125,6 +138,7 @@ router.get("/admin-home", async (req, res) => {
     }
   });
 
+  
 // Event Requests Route with Tabs
 router.get("/admin/admin-event-requests/:tab", (req, res) => {
     const tab = req.params.tab;
@@ -248,3 +262,5 @@ router.get("/admin/team-members", (req, res) => {
         res.status(500).send("Internal Server Error");
       });
   });
+
+  module.exports = router;
