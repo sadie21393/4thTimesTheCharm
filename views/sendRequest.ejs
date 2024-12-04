@@ -38,127 +38,203 @@
 <body>
   <h1 style="text-align: center;">Send Request to Host an Event for TSP</h1>
   <form action="/sendRequest" method="POST">
-    <!-- Location Name -->
-    <label for="req_location">Location Name</label>
-    <input type="text" id="req_location" name="req_location" required>
 
-    <!-- Street Address -->
-    <label for="req_street_address">Street Address</label>
-    <input type="text" id="req_street_address" name="req_street_address" required>
+  <div id="event_details">
+    <h1>Event Details:</h1>
+    <p>Please provide details about where and when the event will be held.</p>
+        <!-- Location Name -->
+        <label for="req_location">Location Name</label>
+        <input type="text" id="req_location" name="req_location" required>
 
-    <!-- City -->
-    <label for="req_city">City</label>
-    <input type="text" id="req_city" name="req_city" required>
+        <!-- Street Address -->
+        <label for="req_street_address">Event Street Address</label>
+        <input type="text" id="req_street_address" name="req_street_address" required>
 
-    <!-- State -->
-    <label for="req_state">State</label>
-    <select id="req_state" name="req_state" required>
-      <option value="AL">AL</option>
-      <option value="AK">AK</option>
-      <option value="AZ">AZ</option>
-      <option value="AR">AR</option>
-      <option value="CA">CA</option>
-      <option value="CO">CO</option>
-      <option value="CT">CT</option>
-      <option value="DE">DE</option>
-      <option value="FL">FL</option>
-      <option value="GA">GA</option>
-      <option value="HI">HI</option>
-      <option value="ID">ID</option>
-      <option value="IL">IL</option>
-      <option value="IN">IN</option>
-      <option value="IA">IA</option>
-      <option value="KS">KS</option>
-      <option value="KY">KY</option>
-      <option value="LA">LA</option>
-      <option value="ME">ME</option>
-      <option value="MD">MD</option>
-      <option value="MA">MA</option>
-      <option value="MI">MI</option>
-      <option value="MN">MN</option>
-      <option value="MS">MS</option>
-      <option value="MO">MO</option>
-      <option value="MT">MT</option>
-      <option value="NE">NE</option>
-      <option value="NV">NV</option>
-      <option value="NH">NH</option>
-      <option value="NJ">NJ</option>
-      <option value="NM">NM</option>
-      <option value="NY">NY</option>
-      <option value="NC">NC</option>
-      <option value="ND">ND</option>
-      <option value="OH">OH</option>
-      <option value="OK">OK</option>
-      <option value="OR">OR</option>
-      <option value="PA">PA</option>
-      <option value="RI">RI</option>
-      <option value="SC">SC</option>
-      <option value="SD">SD</option>
-      <option value="TN">TN</option>
-      <option value="TX">TX</option>
-      <option value="UT" selected>UT</option>
-      <option value="VT">VT</option>
-      <option value="VA">VA</option>
-      <option value="WA">WA</option>
-      <option value="WV">WV</option>
-      <option value="WI">WI</option>
-      <option value="WY">WY</option>
-    </select>
+        <!-- City -->
+        <!-- City -->
+        <label for="req_city">Event City</label>
+        <input type="text" id="req_city" name="req_city" required pattern="^[A-Za-z\s]+$" title="City name should only contain letters and spaces">
+                
+        <!-- State -->
+        <div id="state_dropdown">
+            <label for="req_state">Event State</label>
+            <select id="req_state" name="req_state" required>
+            <option value="AL">AL</option>
+            <option value="AK">AK</option>
+            <option value="AZ">AZ</option>
+            <option value="AR">AR</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DE">DE</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="IA">IA</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="ME">ME</option>
+            <option value="MD">MD</option>
+            <option value="MA">MA</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MS">MS</option>
+            <option value="MO">MO</option>
+            <option value="MT">MT</option>
+            <option value="NE">NE</option>
+            <option value="NV">NV</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NY">NY</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX">TX</option>
+            <option value="UT" selected>UT</option>
+            <option value="VT">VT</option>
+            <option value="VA">VA</option>
+            <option value="WA">WA</option>
+            <option value="WV">WV</option>
+            <option value="WI">WI</option>
+            <option value="WY">WY</option>
+            </select>
+        </div>
 
-    <!-- Zip Code -->
-    <label for="req_zip">Zip Code</label>
-    <input type="text" id="req_zip" name="req_zip" maxlength="5" pattern="\d{5}" title="Please enter a valid 5-digit zip code" required>
+        <!-- Zip Code -->
+        <!-- Zip Code -->
+        <label for="req_zip">Event Zip Code</label>
+        <input type="text" id="req_zip" name="req_zip" maxlength="5" pattern="\d{5}" required 
+        title="Please enter a 5-digit ZIP code" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);">
 
-    <!-- Event Date -->
-    <label for="req_event_date">Event Date</label>
-    <input type="date" id="req_event_date" name="req_event_date" required>
+        <!-- Event Date -->
+        <label for="req_event_date">Event Date</label>
+        <input type="date" id="req_event_date" name="req_event_date" required>
 
-    <!-- Event Time -->
-    <label for="event_time">Event Time</label>
-    <input type="time" id="event_time" name="event_time" required>
+        <!-- Event Time -->
+        <label for="event_time">Event Start Time</label>
+        <input type="time" id="event_time" name="event_time" required>
 
-    <!-- Event Duration -->
-    <label for="req_event_duration">Event Duration (hours)</label>
-    <input type="number" id="req_event_duration" name="req_event_duration" required>
+        <!-- Event Duration -->
+        <!-- Event Duration -->
+        <!-- Event Duration -->
+        <!-- Event Duration -->
+        <label for="req_event_duration">Event Duration (hours)</label>
+        <input type="number" id="req_event_duration" name="req_event_duration" step="0.5" min="0.5" max="12" required 
+        onblur="if (!/^\d+(\.5|\.0)?$/.test(this.value) || this.value > 12 || this.value < 0.5) {
+                    let value = parseFloat(this.value);
+                    if (value < 0.5) this.value = 0.5;
+                    else if (value > 12) this.value = 12;
+                    else this.value = Math.ceil(value * 2) / 2;
+                }"
+        title="Please enter a value between 0.5 and 12, in increments of 0.5">
+</div>
 
-    <!-- Volunteers with No Sewing Experience -->
-    <label for="num_no_sewing">Number of Volunteers with No Sewing Experience</label>
-    <input type="number" id="num_no_sewing" name="num_no_sewing" required>
+  <div id="volunteer_info">
+        <h1>Volunteer Information:</h1>
+        <p>Please provide details about how many volunteers are expected to attend the event and how many sewing machines and sergers can be provided.</p>
+        <!-- Number of No Sewing Volunteers -->
+        <label for="num_no_sewing">Volunteers With No Sewing Expereince</label>
+        <input type="number" id="num_no_sewing" name="num_no_sewing" min="0" max="2000" required 
+        oninput="if (this.value > 2000) this.value = 2000; if (this.value < 0) this.value = 0;" 
+        onblur="if (this.value === '') this.value = 0;">
 
-    <!-- Volunteers with Basic Sewing Experience -->
-    <label for="num_basic_sewing">Number of Volunteers with Basic Sewing Experience</label>
-    <input type="number" id="num_basic_sewing" name="num_basic_sewing" required>
+        <!-- Number of Basic Sewing Volunteers -->
+        <label for="num_basic_sewing">Volunteers With Basic Sewing Experience (Can Sew a Straight Line)</label>
+        <input type="number" id="num_basic_sewing" name="num_basic_sewing" min="0" max="2000" required 
+        oninput="if (this.value > 2000) this.value = 2000; if (this.value < 0) this.value = 0;" 
+        onblur="if (this.value === '') this.value = 0;">
 
-    <!-- Volunteers with Advanced Sewing Experience -->
-    <label for="num_adv_sewing">Number of Volunteers with Advanced Sewing Experience</label>
-    <input type="number" id="num_adv_sewing" name="num_adv_sewing" required>
+        <!-- Number of Advanced Sewing Volunteers -->
+        <label for="num_adv_sewing">Volunteers With Advanced Sewing Experience</label>
+        <input type="number" id="num_adv_sewing" name="num_adv_sewing" min="0" max="2000" required 
+        oninput="if (this.value > 2000) this.value = 2000; if (this.value < 0) this.value = 0;" 
+        onblur="if (this.value === '') this.value = 0;">
+        
+       <!-- Total Volunteers -->
+        <label for="total_volunteers">Total Volunteers</label>
+        <input type="number" id="total_volunteers" name="total_volunteers" readonly style="background-color: #e0e0e0; color: #000; border: 1px solid #ccc;">
+        <script>
+        const noSewing = document.getElementById('num_no_sewing');
+        const basicSewing = document.getElementById('num_basic_sewing');
+        const advSewing = document.getElementById('num_adv_sewing');
+        const totalVolunteers = document.getElementById('total_volunteers');
 
-    <!-- Number of Sewing Machines -->
-    <label for="num_sewing_machines">Number of Sewing Machines</label>
-    <input type="number" id="num_sewing_machines" name="num_sewing_machines" required>
+        function updateTotalVolunteers() {
+            const total = 
+            (parseFloat(noSewing.value) || 0) + 
+            (parseFloat(basicSewing.value) || 0) + 
+            (parseFloat(advSewing.value) || 0);
+            totalVolunteers.value = total;
+        }
 
-    <!-- Number of Sergers -->
-    <label for="num_sergers">Number of Sergers</label>
-    <input type="number" id="num_sergers" name="num_sergers" required>
+        noSewing.addEventListener('input', updateTotalVolunteers);
+        basicSewing.addEventListener('input', updateTotalVolunteers);
+        advSewing.addEventListener('input', updateTotalVolunteers);
+        </script>
 
-    <!-- First Name -->
-    <label for="req_first_name">First Name</label>
-    <input type="text" id="req_first_name" name="req_first_name" required>
+        <!-- Number of Sewing Machines -->
+        <label for="num_sewing_machines">Number of Sewing Machines</label>
+        <input type="number" id="num_sewing_machines" name="num_sewing_machines" required>
 
-    <!-- Last Name -->
-    <label for="req_last_name">Last Name</label>
-    <input type="text" id="req_last_name" name="req_last_name" required>
+        <!-- Number of Sergers -->
+        <label for="num_sergers">Number of Sergers</label>
+        <input type="number" id="num_sergers" name="num_sergers" required>
+    </div>
 
-    <!-- Phone -->
-    <label for="req_phone">Phone</label>
-    <input type="tel" id="req_phone" name="req_phone" required>
+    <div id="requester_contact_info">
+        <h1>Requester Contact Information:</h1>
+        <p>Please provide info for how we may get in contact with your organization. </p>
+        <!-- First Name -->
+        <label for="req_first_name">First Name</label>
+        <input type="text" id="req_first_name" name="req_first_name" required pattern="^[A-Za-z\s]+$" title="First name should only contain letters and spaces">
+                
+        <!-- Last Name -->
+        <label for="req_last_name">Last Name</label>
+        <input type="text" id="req_last_name" name="req_last_name" required pattern="^[A-Za-z\s]+$" title="Last name should only contain letters and spaces">
 
-    <!-- Email -->
-    <label for="req_email">Email</label>
-    <input type="email" id="req_email" name="req_email" required>
+        <div id="phone_number">
+            <!-- Phone Number -->
+            <label for="req_phone">Phone Number</label>
+            <div style="display: flex; align-items: center;">
+            <!-- Area Code Input -->
+            <input type="text" id="area_code" name="area_code" maxlength="3" required 
+                pattern="[0-9]{3}" title="Area code must be 3 digits" 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})/, '$1 $2');" 
+                placeholder="---">
 
-    <!-- Submit Button -->
-    <button type="submit">Submit Request</button>
+            <!-- Next 3 Digits Input -->
+            <input type="text" id="next_3_digits" name="next_3_digits" maxlength="3" required 
+                pattern="[0-9]{3}" title="Next 3 digits must be 3 digits" 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d{3})(\d{3})/, '$1 $2');" 
+                placeholder="---">
+
+            <!-- Next 4 Digits Input -->
+            <input type="text" id="next_4_digits" name="next_4_digits" maxlength="4" required 
+                pattern="[0-9]{4}" title="Next 4 digits must be 4 digits" 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d{4})(\d{4})/, '$1 $2');" 
+                placeholder="----">
+            </div>
+        </div>
+
+        <!-- Email -->
+        <label for="req_email">Email</label>
+        <input type="email" id="req_email" name="req_email" required>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit Request</button>
+  </div>
   </form>
 </body>
 </html>

@@ -1,54 +1,214 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include('partials/head') %>
+    <link rel="stylesheet" href="/styles.css">
 </head>
+
 <body>
-    <%- include('partials/navbar') %>
-    <header class="masthead text-center">
-        <div class="container">
-            <h1>Welcome to the Turtle Shelter Project!</h1>
-            <p class="lead">Empowering lives with high-tech winter gear for the homeless.</p>
-            <a href="/volunteer" class="btn btn-primary btn-lg mx-2">Join Us</a>
-            <a href="/donate" class="btn btn-secondary btn-lg mx-2">Donate Now</a>
+    <!-- Transparent Navbar -->
+<nav class="navbar transparent-navbar">
+    <div class="container navbar-container">
+        <div class="navbar-brand-container" style="display: flex; align-items: center; gap: 10px;">
+            <img src="/images/logo.png" alt="Logo" style="height: 115px; position: absolute; left: 0;"> <!-- Adjust the path and size as needed -->
+            <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
         </div>
-    </header>
+        <div class="navbar-links">
+            <a href="/about" class="nav-link">About</a>
+            <a href="/views/sendRequest.ejs" class="nav-link">Volunteer</a>
+            <a href="/contact" class="nav-link">Contact Us</a>
+            <a href="/login" class="nav-link">Login</a>
+            <a href="https://www.instagram.com/turtleshelterproject/?hl=en" class="nav-link">Instagram</a>
+            <a href="https://www.facebook.com/turtleshelterproject/" class="nav-link">Facebook</a>
+        </div>
+        <div class="navbar-button-container">
+            <a href="/take-action" class="btn btn-take-action">DONATE</a>
+        </div>
+    </div>
+</nav>
 
-    <!-- Highlight Donation Section -->
-    <section class="donate-section py-5 bg-light">
-        <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Make a Difference Today</h2>
-            <p class="lead text-muted">
-                Your donation helps us create and distribute life-saving winter vests for those in need.
-                Together, we can provide warmth and hope to Utah's homeless population.
+    <!-- Masthead Banner -->
+<header class="masthead" style="background-image: url('/images/banner.JPG');">
+    <div class="container masthead-content">
+        <div class="masthead-text">
+            <p class="subheadline">Helping to save lives of people experiencing homelessness</p>
+            <h1>STARTS WITH YOU</h1>
+            <!-- Correct Route Link -->
+            <a href="/JenStory" class="btn btn-learn-more">JEN'S STORY</a>
+        </div>
+    </div>
+</header>
+
+<!-- Our Mission Section -->
+<section class="mission-section py-5" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; background-color: #ebe6e2; padding: 50px;">
+    <div class="container" style="display: flex; flex-wrap: wrap; gap: 80px; justify-content: space-between;">
+        <!-- Left Text Section -->
+        <div style="flex: 1; max-width: 50%;">
+            <p style="font-size: 35px; font-weight: bold; line-height: 1.6; color: #333;">
+                Homelessness is a crisis affecting individuals in every community. It’s a human problem that demands compassionate, innovative solutions.
             </p>
-            <a href="/donate" class="btn btn-primary btn-lg">Donate Now</a>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about-section py-5">
-        <div class="container text-center">
-            <h2 class="section-heading text-uppercase">What We Do</h2>
-            <p class="lead text-muted">
-                The Turtle Shelter Project partners with communities and volunteers to create high-tech winter vests
-                for the homeless. Through service events, donations, and volunteer efforts, we bring warmth and
-                support to those who need it most.
+        <!-- Right Text Section -->
+        <div style="flex: 1; max-width: 40%;">
+            <p style="font-size: 25px; line-height: 1.8; color: #555;">
+                Our mission is to combat the dangers of extreme weather by providing portable, high-tech foam vests to those without shelter, offering warmth, dignity, and hope. Together, we can make a life-saving difference.
             </p>
         </div>
-    </section>
+    </div>
+</section>
+        
+<!-- Leadership Section -->
+<section class="leadership-section" style="display: flex; flex-wrap: wrap; align-items: center; background-color: #f9f6f3; padding: 50px 0;">
+    <div class="container" style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; align-items: center;">
+        <!-- Text Section -->
+        <div style="flex: 1; max-width: 45%;">
+            <h2 style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">
+                Making a Difference is Possible. We've Done it Before.
+            </h2>
+            <p style="font-size: 18px; line-height: 1.8; color: #555; margin-bottom: 20px;">
+                Our team brings years of experience to bear on the challenge of homelessness. We’re results-driven, with a proven record of success and meaningful impact in our community.
+            </p>
+            <a href="/learn-more" style="background-color: #a63636; color: white; padding: 12px 24px; font-size: 16px; border-radius: 30px; text-decoration: none; display: inline-block;">
+                Learn More
+            </a>
+        </div>
+        <!-- Image Section -->
+        <div style="flex: 1; max-width: 45%;">
+            <img src="/images/example.jpg" alt="Leadership Team" style="width: 100%; border-radius: 8px; object-fit: cover;">
+        </div>
+    </div>
+</section>
+<!-- Leadership Section (Flipped) -->
+<section class="leadership-section" style="display: flex; flex-wrap: wrap; align-items: center; background-color: #f9f6f3; padding: 50px 0;">
+    <div class="container" style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; align-items: center;">
+        <!-- Image Section -->
+        <div style="flex: 1; max-width: 45%;">
+            <img src="/images/sewing.png" alt="Leadership Team" style="width: 100%; border-radius: 8px; object-fit: cover;">
+        </div>
+        <!-- Text Section -->
+        <div style="flex: 1; max-width: 45%;">
+            <h2 style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">
+                Ready to take the next step?
+            </h2>
+            <p style="font-size: 18px; line-height: 1.8; color: #555; margin-bottom: 20px;">
+                This is a movement of compassion and impact. Whether you’re most comfortable contributing your time to make vests, donating funds to support the production of lifesaving gear, or organizing events to spread awareness, we need you on our team. Together, we can save lives and bring hope to those in need.
+            </p>
+            <a href="/learn-more" style="background-color: #a63636; color: white; padding: 12px 24px; font-size: 16px; border-radius: 30px; text-decoration: none; display: inline-block;">
+                Take Action
+            </a>
+        </div>
+    </div>
+</section>
 
-    <!-- Call to Action -->
-    <section class="cta-section py-5 bg-dark text-white">
+    <!-- Volunteer Highlights Section -->
+<section class="volunteer-section" style="background-color: #f9f6f3; padding: 50px 0;">
+    <div class="container text-center">
+        <h2 style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">Volunteer Highlights</h2>
+        <p style="font-size: 18px; line-height: 1.8; color: #555; margin-bottom: 30px;">
+            See how our volunteers make a difference in our community
+        </p>
+        <div id="volunteerCarousel" class="carousel" style="position: relative; overflow: hidden;">
+            <!-- Carousel Items -->
+            <div class="carousel-item active" style="display: block;">
+                <img src="/images/v6.png" alt="Volunteer Highlight 1" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <div class="carousel-item" style="display: none;">
+                <img src="/images/v1.png" alt="Volunteer Highlight 2" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <div class="carousel-item" style="display: none;">
+                <img src="/images/v2.png" alt="Volunteer Highlight 3" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer;">&#10094;</button>
+            <button class="carousel-control next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer;">&#10095;</button>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Event Request Section -->
+    <section class="event-request-section py-5" style="background-color: #f9f9f9;">
         <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Get Involved</h2>
-            <p class="lead">Whether through volunteering or donating, your help matters. Join us in making a lasting impact.</p>
-            <a href="/volunteer" class="btn btn-secondary btn-lg mx-2">Become a Volunteer</a>
-            <a href="/donate" class="btn btn-primary btn-lg mx-2">Support Our Mission</a>
+            <h2 class="section-heading" style="font-size: 32px; color: #333; margin-bottom: 20px;">Request an Event</h2>
+            <p class="section-subheading" style="font-size: 18px; color: #555; margin-bottom: 30px;">
+                Have an idea for an event that can help the community? Fill out our event request form to get involved!
+            </p>
+            <div>
+                <a href="/sendRequest" class="btn btn-primary btn-lg" style="background-color: #a63636; color: white; padding: 10px 30px; border-radius: 5px; font-size: 16px; text-decoration: none;">
+                    Request an Event
+                </a>
+            </div>
         </div>
     </section>
+    
 
+    <!-- Call-to-Action Section -->
+    <section class="cta-section py-5" style="background-color: #ebe6e2;">
+        <div class="container text-center">
+            <h2 class="cta-heading" style="font-size: 40px; margin-bottom: 20px;">Your Contributions Can Make A Lasting Impact</h2>
+            <p class="cta-description" style="font-size: 18px; color: #555; margin-bottom: 30px;">
+                Every action you take helps save lives
+            </p>
+            <div>
+                <a href="/volunteer" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
+                <a href="/donate" class="btn btn-secondary btn-lg mx-2" style="background-color: #555; color: white;">Donate</a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
     <%- include('partials/footer') %>
+<!-- JavaScript to handle navbar and button effects -->
+<script>
+    // Scroll event to keep navbar transparent and adjust position
+    window.onscroll = function () {
+        const navbar = document.querySelector(".transparent-navbar");
+        if (window.scrollY > 50) {
+            navbar.classList.add("navbar-fixed");
+        } else {
+            navbar.classList.remove("navbar-fixed");
+        }
+    };
+
+    // Add event listener to change Take Action button style on click
+    document.querySelector(".btn-take-action").addEventListener("click", function () {
+        this.style.backgroundColor = "#000";
+        this.style.color = "#fff";
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const items = document.querySelectorAll('.carousel-item');
+        const next = document.querySelector('.carousel-control.next');
+        const prev = document.querySelector('.carousel-control.prev');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            items.forEach((item, i) => {
+                item.style.display = i === index ? 'block' : 'none';
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        next.addEventListener('click', function () {
+            currentIndex = (currentIndex + 1) % items.length;
+            showSlide(currentIndex);
+        });
+
+        prev.addEventListener('click', function () {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            showSlide(currentIndex);
+        });
+
+        // Auto-rotate slides every 5 seconds
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % items.length;
+            showSlide(currentIndex);
+        }, 5000);
+
+        // Initialize the first slide
+        showSlide(currentIndex);
+    });
+
+</script>
 </body>
+
 </html>

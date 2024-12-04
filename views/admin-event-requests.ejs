@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Requests</title>
+  <style>
+    /* Existing styles */
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background-color: #333;
+      color: #fff;
+    }
+    tr:hover {
+      background-color: #f4f4f4;
+    }
+    .action_buttons button {
+      padding: 8px 12px;
+      margin: 0 5px;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+    .approve {
+      background-color: #28a745;
+    }
+    .deny {
+      background-color: #dc3545;
+    }
+    .approve:hover, .deny:hover {
+      opacity: 0.9;
+    }
+    /* Styles for tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .tabs a {
+      padding: 10px 20px;
+      margin: 0 5px;
+      text-decoration: none;
+      background-color: #ddd;
+      color: #333;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .tabs a.active {
+      background-color: #333;
+      color: #fff;
+    }
+    /* Styles for status coloring */
+    .status_approved {
+      background-color: green;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .status_pending {
+      background-color: yellow;
+      color: black;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .status_denied {
+      background-color: red;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <%- include('navbar') %>
+  <h1 style="text-align: center;">Event Requests</h1>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <a href="/admin/event-requests/pending" class="<%= activeTab === 'pending' ? 'active' : '' %>">Pending Requests</a>
+    <a href="/admin/event-requests/all" class="<%= activeTab === 'all' ? 'active' : '' %>">All Requests</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Event Duration</th>
+        <th>Number of Volunteers</th>
+        <th>Requested By</th>
+        <th>Contact Info</th>
+        <% if (activeTab === 'all') { %>
+          <th>Status</th>
+        <% } %>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% eventRequests.forEach(request => { %>
+        <tr>
+          <td><%= request.req_location %></td>
+          <td><%= request.req_city %></td>
+          <td><%= request.req_state %></td>
+          <td>
+            <% if (request.req_event_date) { %>
+              <%= new Date(request.req_event_date).toLocaleDateString() %>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>
+          <td>
+            <% if (request.req_event_time) { %>
+              <%= request.req_event_time.substring(0,5) %>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>
+          <td>
+            <% 
+              // Calculate duration in hours, rounded to the nearest 0.5
+              const duration_hours = Math.round((request.req_event_duration / 60) * 2) / 2;
+            %>
+            <%= duration_hours %> hrs
+          </td>
+          <td>
+            <% 
+              const total_volunteers = 
+                (request.num_no_sewing || 0) + 
+                (request.num_basic_sewing || 0) + 
+                (request.num_adv_sewing || 0);
+            %>
+            <%= total_volunteers %>
+          </td>
+          <td><%= request.req_first_name %> <%= request.req_last_name %></td>
+          <td><%= request.req_phone %></td>
+          <% if (activeTab === 'all') { %>
+            <td>
+              <span class="
+                <% if (request.status === 'approved') { %>
+                  status_approved
+                <% } else if (request.status === 'pending') { %>
+                  status_pending
+                <% } else if (request.status === 'denied') { %>
+                  status_denied
+                <% } %>
+              ">
+              <%= request.status.charAt(0).toUpperCase() + request.status.slice(1) %>
+              </span>
+            </td>
+          <% } %>
+          <td class="action_buttons">
+            <% if (request.status === 'pending') { %>
+              <form action="/admin/event-requests/approve/<%= request.req_id %>" method="post" style="display:inline;">
+                <button type="submit" class="approve">Approve</button>
+              </form>
+              <form action="/admin/event-requests/deny/<%= request.req_id %>" method="post" style="display:inline;">
+                <button type="submit" class="deny">Deny</button>
+              </form>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
