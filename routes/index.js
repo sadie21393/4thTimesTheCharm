@@ -30,4 +30,9 @@ router.get('/dashboard', async (req, res) => {
     res.render('admin', { events: events.rows });
 });
 
+router.get('/Jen', (req, res) => {
+    console.log("Rendering Jen");
+    res.render('Jen');
+});
+
 module.exports = router;
