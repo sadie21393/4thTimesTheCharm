@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const routes = require('./routes/index');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 // Import knex from database.js to access the database
 const knex = require('./models/database');
@@ -10,7 +12,7 @@ const knex = require('./models/database');
 require('dotenv').config();
 
 const app = express();
-
+app.use(cookieParser());
 // Middleware
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,3 +30,11 @@ app.use('/', routes);
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+app.use(session({
+    secret: 'yourSecretKey', // Replace with a strong secret
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true } // Set `true` for HTTPS
+}));
+
