@@ -1,20 +1,14 @@
-const { Pool } = require('pg');
-require('dotenv').config();
-
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+const knex = require("knex")({
+    client: "pg",
+    connection: {
+        host: process.env.RDS_HOSTNAME || "localhost",
+        user: process.env.RDS_USERNAME || "postgres",
+        password: process.env.RDS_PASSWORD || "goEFYbyu#1",
+        database: process.env.RDS_DB_NAME || "turtle",
+        port: process.env.RDS_PORT || 5432,
+        ssl: process.env.DB_SSL ? {rejectUnauthorized: false} : false
+    }
 });
 
-pool.on('connect', () => {
-    console.log('Connected to the database');
-});
-
-pool.on('error', (err) => {
-    console.error('Unexpected database error', err);
-});
-
-module.exports = pool;
+// Export knex to be used in other parts of the application
+module.exports = knex;

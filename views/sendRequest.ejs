@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Volunteer with Us & Host an Event</title>
+  <title>Edit Character</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -39,10 +39,6 @@
       border-radius: 5px;
       font-size: 14px;
     }
-    input[type="checkbox"], input[type="radio"] {
-      width: auto;
-      margin-right: 5px;
-    }
     button {
       background-color: #4CAF50;
       color: white;
@@ -56,54 +52,31 @@
   </style>
 </head>
 <body>
-
-<%- include('partials/navbar') %>
-
-<h1>Volunteer with Us</h1>
-<main>
-  <!-- Volunteer Form -->
-  <form action="/volunteer" method="POST">
-    <div class="mb-3">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" required>
-    </div>
-    <div class="mb-3">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="level">Sewing Level</label>
-      <select id="level" name="level">
-        <option value="Beginner">Beginner</option>
-        <option value="Intermediate">Intermediate</option>
-        <option value="Experienced">Experienced</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="hours">Available Hours per Month</label>
-      <input type="number" id="hours" name="hours" required>
-    </div>
-    <button type="submit">Sign Up</button>
-  </form>
-
-  <h1>Send a Request to Host an Event</h1>
-  <!-- Event Hosting Request Form -->
+  <h1 style="text-align: center;">Send Request to Host and Event For TSP</h1>
   <form action="/sendRequest/<%= characters.id %>" method="POST">
+    <!-- Character First Name -->
     <label for="first_name">First Name</label>
     <input type="text" id="first_name" name="first_name" value="<%= characters.first_name %>" required oninput="this.value = this.value.toUpperCase()">
-    
+    <!-- Character Last Name -->
     <label for="last_name">Last Name</label>
     <input type="text" id="last_name" name="last_name" value="<%= characters.last_name %>" required oninput="this.value = this.value.toUpperCase()">
-    
+    <!-- Jedi (Checkbox) -->
     <label for="jedi">
-      <input type="checkbox" id="jedi" name="jedi" value="true" <%= characters.jedi ? 'checked' : '' %>> Jedi
+      <input type="checkbox" id="jedi" name="jedi" value="true" <%= characters.jedi ? 'checked' : '' %>>
+      Jedi
     </label>
-
+    <!-- Weapon (Radio Buttons) -->
     <label>Weapon</label>
-    <label><input type="radio" name="weapon" value="L" <%= characters.weapon === 'L' ? 'checked' : '' %>> Lightsaber</label>
-    <label><input type="radio" name="weapon" value="B" <%= characters.weapon === 'B' ? 'checked' : '' %>> Blaster</label>
-    <label><input type="radio" name="weapon" value="N" <%= characters.weapon === 'N' ? 'checked' : '' %>> None</label>
-    
+    <label>
+      <input type="radio" name="weapon" value="L" <%= characters.weapon === 'L' ? 'checked' : '' %>> Lightsaber
+    </label>
+    <label>
+      <input type="radio" name="weapon" value="B" <%= characters.weapon === 'B' ? 'checked' : '' %>> Blaster
+    </label>
+    <label>
+      <input type="radio" name="weapon" value="N" <%= characters.weapon === 'N' ? 'checked' : '' %>> None
+    </label>
+    <!-- Planet Name -->
     <label for="planet_name">Planet Name</label>
     <select id="planet_name" name="planet_name">
       <% planets.forEach(planet => { %>
@@ -112,8 +85,8 @@
         </option>
       <% }) %>
     </select>
-    
-    <button type="submit">Submit Request</button>
+    <!-- Submit Button -->
+    <button type="submit">Save Changes</button>
   </form>
 </main>
 
