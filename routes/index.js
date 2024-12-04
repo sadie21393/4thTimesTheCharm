@@ -24,15 +24,15 @@ router.post('/event-request', async (req, res) => {
 // Admin login
 router.get('/admin', (req, res) => res.render('login'));
 
+router.get('/JenStory', (req, res) => {
+    res.render('JenStory'); // This assumes 'JenStory.ejs' exists in the views folder
+});
+
+
 // Admin dashboard
 router.get('/dashboard', async (req, res) => {
     const events = await pool.query('SELECT * FROM Events');
     res.render('admin', { events: events.rows });
-});
-
-router.get('/Jen', (req, res) => {
-    console.log("Rendering Jen");
-    res.render('Jen');
 });
 
 module.exports = router;

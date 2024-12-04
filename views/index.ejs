@@ -102,41 +102,56 @@
 
 
     <!-- Volunteer Highlights Section -->
-    <section class="volunteer-section bg-light py-5">
-        <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Volunteer Highlights</h2>
-            <p class="section-subheading text-muted">
-                See how our volunteers make a difference in our community.
-            </p>
-            <div class="image-container mt-4">
-                <img src="/uploads/volunteer-highlight.jpg" alt="Volunteer Highlights Image" class="img-fluid rounded">
+<section class="volunteer-section" style="background-color: #f9f6f3; padding: 50px 0;">
+    <div class="container text-center">
+        <h2 style="font-size: 28px; font-weight: bold; color: #333; margin-bottom: 20px;">Volunteer Highlights</h2>
+        <p style="font-size: 18px; line-height: 1.8; color: #555; margin-bottom: 30px;">
+            See how our volunteers make a difference in our community.
+        </p>
+        <div id="volunteerCarousel" class="carousel" style="position: relative; overflow: hidden;">
+            <!-- Carousel Items -->
+            <div class="carousel-item active" style="display: block;">
+                <img src="/images/volunteer1.jpg" alt="Volunteer Highlight 1" style="width: 100%; border-radius: 8px; object-fit: cover;">
             </div>
+            <div class="carousel-item" style="display: none;">
+                <img src="/images/volunteer2.jpg" alt="Volunteer Highlight 2" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <div class="carousel-item" style="display: none;">
+                <img src="/uploads/volunteer3.jpg" alt="Volunteer Highlight 3" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer;">&#10094;</button>
+            <button class="carousel-control next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer;">&#10095;</button>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Event Request Section -->
-    <section class="event-request-section py-5">
-        <div class="container text-center">
-            <h2 class="section-heading text-uppercase">Request an Event</h2>
-            <p class="section-subheading text-muted">
-                Have an idea for an event that can help the community? Fill out our event request form to get involved.
-            </p>
-            <div class="mt-4">
-                <a href="/event-request" class="btn btn-primary">Request an Event</a>
-            </div>
+<section class="event-request-section py-5" style="background-color: #f9f9f9;">
+    <div class="container text-center">
+        <h2 class="section-heading" style="font-size: 32px; color: #333; margin-bottom: 20px;">Request an Event</h2>
+        <p class="section-subheading" style="font-size: 18px; color: #555; margin-bottom: 30px;">
+            Have an idea for an event that can help the community? Fill out our event request form to get involved.
+        </p>
+        <div>
+            <a href="/event-request" class="btn btn-primary btn-lg" style="background-color: #a63636; color: white; padding: 10px 30px; border-radius: 5px; font-size: 16px; text-decoration: none;">
+                Request an Event
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Call-to-Action Section -->
-    <section class="cta-section py-5 bg-dark text-white">
+    <section class="cta-section py-5" style="background-color: #ebe6e2;">
         <div class="container text-center">
-            <h2 class="cta-heading text-uppercase">Get Involved</h2>
-            <p class="cta-description">
-                Your contributions, whether through volunteering or donations, make a lasting impact.
+            <h2 class="cta-heading" style="font-size: 40px; margin-bottom: 20px;">Your Contributions Can Make A Lasting Impact</h2>
+            <p class="cta-description" style="font-size: 18px; color: #555; margin-bottom: 30px;">
+                Every action you take helps save lives
             </p>
-            <div class="mt-4">
-                <a href="/donate" class="btn btn-primary btn-lg mx-2">Donate Now</a>
-                <a href="/volunteer" class="btn btn-secondary btn-lg mx-2">Become a Volunteer</a>
+            <div>
+                <a href="/volunteer" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
+                <a href="/donate" class="btn btn-secondary btn-lg mx-2" style="background-color: #555; color: white;">Donate</a>
             </div>
         </div>
     </section>
@@ -159,6 +174,39 @@
         this.style.backgroundColor = "#000";
         this.style.color = "#fff";
     });
+    document.addEventListener('DOMContentLoaded', function () {
+        const items = document.querySelectorAll('.carousel-item');
+        const next = document.querySelector('.carousel-control.next');
+        const prev = document.querySelector('.carousel-control.prev');
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            items.forEach((item, i) => {
+                item.style.display = i === index ? 'block' : 'none';
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        next.addEventListener('click', function () {
+            currentIndex = (currentIndex + 1) % items.length;
+            showSlide(currentIndex);
+        });
+
+        prev.addEventListener('click', function () {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            showSlide(currentIndex);
+        });
+
+        // Auto-rotate slides every 5 seconds
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % items.length;
+            showSlide(currentIndex);
+        }, 5000);
+
+        // Initialize the first slide
+        showSlide(currentIndex);
+    });
+
 </script>
 </body>
 

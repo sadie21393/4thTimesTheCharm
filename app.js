@@ -13,9 +13,9 @@ const app = express();
 
 // Middleware
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
+app.set('views', path.join(__dirname, 'views'));
 
-app.set('views', path.join(__dirname, 'views')); // Ensure this points to your views folder
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Serve static files

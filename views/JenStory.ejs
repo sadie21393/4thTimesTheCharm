@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      body {
+          margin: 0;
+          padding: 0;
+      }
+  
+      .transparent-navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #ebe6e2 !important; /* Fully opaque solid color */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    }
+
+    .navbar a.nav-link {
+        color: black;
+        text-decoration: none;
+    }
+
+  
+      .navbar a.nav-link:hover {
+          text-decoration: underline;
+      }
+  
+      .navbar .navbar-brand {
+          color: black;
+      }
+  
+      .content-wrapper {
+          margin-top: 80px;
+      }
+  
+      .story-container {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          gap: 20px;
+          padding: 20px 0;
+      }
+  
+      .story-container img {
+          flex: 1;
+          max-width: 40%;
+          border-radius: 8px;
+          object-fit: cover;
+      }
+  
+      .story-text {
+          flex: 2;
+      }
+  
+      h1, h2 {
+          color: #333;
+      }
+  
+      p {
+          font-size: 20px;
+          line-height: 1.8;
+          color: #555;
+      }
+  
+      .btn-primary,
+      .btn-secondary {
+          border-radius: 5px;
+          padding: 10px 20px;
+          text-decoration: none;
+          font-size: 16px;
+          display: inline-block;
+          margin: 10px;
+      }
+  </style>
+</head>
+<body>
+    <!-- Transparent Navbar -->
+    <nav class="navbar transparent-navbar">
+        <div class="container navbar-container">
+            <div class="navbar-brand-container">
+                <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
+            </div>
+            <div class="navbar-links">
+                <a href="/about" class="nav-link">About</a>
+                <a href="/volunteer" class="nav-link">Volunteer</a>
+                <a href="/contact" class="nav-link">Contact Us</a>
+                <a href="/login" class="nav-link">Login</a>
+                <a href="https://www.instagram.com/turtleshelterproject/?hl=en" class="nav-link">Instagram</a>
+                <a href="https://www.facebook.com/turtleshelterproject/" class="nav-link">Facebook</a>
+            </div>
+            <div class="navbar-button-container">
+                <a href="/take-action" class="btn btn-take-action">DONATE</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <div class="content-wrapper">
+        <section class="story-section py-5" style="background-color: #f9f9f9;">
+            <div class="container">
+                <br>
+                <h1 style="text-align: center; font-size: 32px; margin-bottom: 20px;">Jen's Story</h1>
+                <div class="story-container">
+                    <img src="/images/jen.png" alt="Jen's Story">
+                    <div class="story-text">
+                        <p>
+                            My addiction led me to being homeless on several occasions throughout my life, and during that time I personally knew seven people who froze to death. When I first learned about this lifesaving technology, my mind flooded with ideas on how many people's lives this could save. I'd recently been homeless during an extreme winter. It had been one of the coldest winters Utah had suffered in a long time, so the misery of surviving the bitter cold was still very fresh in my mind.
+                        </p>
+                        <p>
+                            While I was homeless I remember feeling the chill all the way to my bones. I couldn't even think or function. It completely zapped me of my energy so much that I was losing my will to live. Everything felt beyond overwhelming. Simple tasks, like finding a bathroom, seemed to feel like huge obstacles.
+                        </p>
+                        <p> The crazy thing about it was: I had a car I was living in; I had a storage unit I could hang out in during the day and at night; and I had an income that was sufficient for my needs. But being homeless completely broke me - even with all of the resources I had available to me.
+                        </p>
+                    </div>
+                <p>
+                    I began thinking that if homelessness crushed me, even with all that I had, then what would it do to someone who had much less, or even nothing? I wanted to do something to help people with this burden. When I learned about foam clothing, I knew without a doubt that God was telling me - "THIS IS HOW YOU CAN HELP!"
+                </p>
+                <p>
+                    After a lot of prayer and asking God to put the right people in my path, I started talking to everyone about my desire to make foam clothing for the homeless. Eventually, I told the right person, and that is how I met Marian Edmonds-Allen. Marian was particularly interested in my idea for getting foam clothing into the hands of the homeless and arranged a meeting to hear more.
+                </p>
+                <p>
+                    Things were put on hold for a while because I needed to finish getting clean, sober, and stable. After about two years, in January 2017, God led me to Angela Roth. Angela is someone who not only knows how to create a pattern but can sew like a rock star! Together, we started the Turtle Shelter Project.
+                </p>
+                <p>
+                    We decided to make vests because a simple vest could keep a person's core warm. If your core is warm, the rest of you stays warm longer. Between September 2017 and January 2018, with the help of many volunteers, we produced 50 TSP vests. The response was excellent, and the project has grown ever since.
+                </p>
+                <p>
+                    The vests are called "Turtle Shelters" because they are a portable shelter - just like a turtle taking its shelter with it. Wearing a Turtle Shelter Vest makes having a source of heat a nicety, but not a necessity. The vests harness body heat, conserve it, and provide durability, wind resistance, insulation, and comfort.
+                </p>
+            </div>
+        </section>
+
+        <!-- Call-to-Action Section -->
+        <section class="cta-section py-5" style="background-color: #ebe6e2;">
+            <div class="container text-center">
+                <h2 class="cta-heading" style="font-size: 28px; margin-bottom: 20px;">Get Involved in Jen's Mission</h2>
+                <p class="cta-description" style="font-size: 18px; color: #555; margin-bottom: 30px;">
+                    Whether it’s volunteering your time, donating funds, or spreading the word, every action you take helps save lives.
+                </p>
+                <div>
+                    <a href="/volunteer" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
+                    <a href="/donate" class="btn btn-secondary btn-lg mx-2" style="background-color: #555; color: white;">Donate</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+
+   
+</body>
+
+</html>
