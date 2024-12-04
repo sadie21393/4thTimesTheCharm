@@ -10,33 +10,34 @@
           padding: 0;
       }
   
-      .transparent-navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background-color: #ebe6e2 !important; /* Fully opaque solid color */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
-    }
+      
+      .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #ebe6e2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-    .navbar a.nav-link {
-        color: black;
-        text-decoration: none;
-    }
+        .navbar a.nav-link {
+            color: black;
+            text-decoration: none;
+        }
 
-  
-      .navbar a.nav-link:hover {
-          text-decoration: underline;
-      }
-  
-      .navbar .navbar-brand {
-          color: black;
-      }
-  
-      .content-wrapper {
-          margin-top: 80px;
-      }
-  
+        .navbar a.nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .navbar .navbar-brand {
+            color: black;
+            text-decoration: none;
+        }
+
+        .content-wrapper {
+            margin-top: 80px;
+            padding: 20px;
+        }
       .story-container {
           display: flex;
           flex-wrap: wrap;
@@ -78,25 +79,26 @@
   </style>
 </head>
 <body>
-    <!-- Transparent Navbar -->
-    <nav class="navbar transparent-navbar">
-        <div class="container navbar-container">
-            <div class="navbar-brand-container">
-                <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
-            </div>
-            <div class="navbar-links">
-                <a href="/about" class="nav-link">About</a>
-                <a href="/volunteer" class="nav-link">Volunteer</a>
-                <a href="/contact" class="nav-link">Contact Us</a>
-                <a href="/login" class="nav-link">Login</a>
-                <a href="https://www.instagram.com/turtleshelterproject/?hl=en" class="nav-link">Instagram</a>
-                <a href="https://www.facebook.com/turtleshelterproject/" class="nav-link">Facebook</a>
-            </div>
-            <div class="navbar-button-container">
-                <a href="/take-action" class="btn btn-take-action">DONATE</a>
-            </div>
-        </div>
-    </nav>
+    <!-- Navbar -->
+<nav class="navbar">
+  <div class="container navbar-container">
+      <div class="navbar-brand-container">
+          <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
+          <img src="/images/logo.png" alt="Logo" style="height: 75px; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">
+      </div>
+      <div class="navbar-links">
+          <a href="/about" class="nav-link">About</a>
+          <a href="/volunteer" class="nav-link">Volunteer</a>
+          <a href="/contact" class="nav-link">Contact Us</a>
+          <a href="/login" class="nav-link">Login</a>
+          <a href="https://www.instagram.com/turtleshelterproject/?hl=en" class="nav-link">Instagram</a>
+          <a href="https://www.facebook.com/turtleshelterproject/" class="nav-link">Facebook</a>
+      </div>
+      <div class="navbar-button-container">
+          <a href="/take-action" class="btn btn-take-action">DONATE</a>
+      </div>
+  </div>
+</nav>
 
     <!-- Main Content Section -->
     <div class="content-wrapper">
@@ -142,7 +144,7 @@
                     Whether it’s volunteering your time, donating funds, or spreading the word, every action you take helps save lives.
                 </p>
                 <div>
-                    <a href="/volunteer" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
+                    <a href="/sendRequest" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
                     <a href="/donate" class="btn btn-secondary btn-lg mx-2" style="background-color: #555; color: white;">Donate</a>
                 </div>
             </div>
