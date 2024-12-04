@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../models/database');
+const knex = require('../routes/db')
 
 // Landing page
 router.get('/', (req, res) => res.render('index'));
@@ -38,7 +39,7 @@ router.get('/dashboard', async (req, res) => {
 module.exports = router;
 
 // Admin Home Route
-app.get("/admin-home", async (req, res) => {
+router.get("/admin-home", async (req, res) => {
     try {
       const adminName = "Admin"; // Replace with dynamic admin name if necessary
       res.render("admin-home", { admin_name: adminName });
@@ -49,7 +50,7 @@ app.get("/admin-home", async (req, res) => {
   });
 
 // Event Requests Route with Tabs
-app.get("/admin/admin-event-requests/:tab", (req, res) => {
+router.get("/admin/admin-event-requests/:tab", (req, res) => {
     const tab = req.params.tab;
     let query = knex("requests as r")
     .join("requeststatus as rs", "r.req_id", "=", "rs.req_id")
@@ -92,12 +93,12 @@ app.get("/admin/admin-event-requests/:tab", (req, res) => {
   });
   
 // Redirect /admin/admin-event-requests to /admin/admin-event-requests/pending
-app.get("/admin/admin-event-requests", (req, res) => {
+router.get("/admin/admin-event-requests", (req, res) => {
     res.redirect("/admin/admin-event-requests/pending");
   });
 
 // Approve Event Request
-app.post("/admin/admin-event-requests/approve/:id", (req, res) => {
+router.post("/admin/admin-event-requests/approve/:id", (req, res) => {
     const id = req.params.id;
     knex("eventrequests")
       .where("reqid", id)
@@ -110,7 +111,7 @@ app.post("/admin/admin-event-requests/approve/:id", (req, res) => {
   });
   
 // Deny Event Request
-app.post("/admin/admin-event-requests/deny/:id", (req, res) => {
+router.post("/admin/admin-event-requests/deny/:id", (req, res) => {
     const id = req.params.id;
     knex("eventrequests")
       .where("reqid", id)
@@ -123,7 +124,7 @@ app.post("/admin/admin-event-requests/deny/:id", (req, res) => {
   });
   
 // Events Route
-app.get("/admin/events/:status", (req, res) => {
+router.get("/admin/events/:status", (req, res) => {
     const status = req.params.status;
     let query = knex("events as e")
     .join("eventstatus as es", "e.event_id", "=", "es.event_id")
@@ -149,12 +150,12 @@ app.get("/admin/events/:status", (req, res) => {
   });
   
 // Redirect /admin/events to /admin/events/upcoming
-app.get("/admin/events", (req, res) => {
+router.get("/admin/events", (req, res) => {
     res.redirect("/admin/events/upcoming");
   });
 
 // Team Members Route
-app.get("/admin/team-members", (req, res) => {
+router.get("/admin/team-members", (req, res) => {
     knex("users")
       .select(
         "user_name as user_name",
