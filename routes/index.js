@@ -29,6 +29,10 @@ router.get('/JenStory', (req, res) => {
     res.render('JenStory'); // This assumes 'JenStory.ejs' exists in the views folder
 });
 
+//send request
+router.get('/sendRequest', (req, res) => {
+    res.render('sendRequest'); // Ensure 'sendRequest.ejs' is in your views folder
+});
 
 // Admin dashboard
 router.get('/dashboard', async (req, res) => {
