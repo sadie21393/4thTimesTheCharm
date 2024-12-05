@@ -5,6 +5,8 @@ const router = express.Router();
 const knex = require('../models/database'); // Database connection
 const cron = require('node-cron');
 
+const nodemailer = require('nodemailer');
+
 // // Middleware for admin authentication
 // function isAdmin(req, res, next) {
 //     if (req.session.user && req.session.user.role === 'admin') {
@@ -100,9 +102,7 @@ router.post('/contact', (req, res) => {
     res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
 });
 
-const express = require('express');
-const router = express.Router();
-const nodemailer = require('nodemailer');
+
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
