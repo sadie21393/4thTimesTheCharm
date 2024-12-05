@@ -1,37 +1,208 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <%- include('partials/head') %>
+  <title>Event Requests</title>
+  <style>
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background-color: #333;
+      color: #fff;
+    }
+    tr:hover {
+      background-color: #f4f4f4;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .action-button {
+      padding: 8px 12px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .approve-button {
+      background-color: #28a745;
+    }
+    .approve-button:hover {
+      opacity: 0.9;
+    }
+
+    .deny-button {
+      background-color: #dc3545;
+    }
+    .deny-button:hover {
+      opacity: 0.9;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .tabs a {
+      padding: 10px 20px;
+      margin: 0 5px;
+      text-decoration: none;
+      background-color: #ddd;
+      color: #333;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .tabs a.active {
+      background-color: #333;
+      color: #fff;
+    }
+
+    .details-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .details-link:hover {
+      text-decoration: underline;
+    }
+
+    .status-approved {
+      background-color: green;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .status-pending {
+      background-color: yellow;
+      color: black;
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .status-denied {
+      background-color: red;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-    <%- include('partials/navbar') %>
-    <main class="container mt-5">
-        <h1>Request an Event</h1>
-        <form action="/event-request" method="POST">
-            <div class="mb-3">
-                <label for="contactName" class="form-label">Contact Name</label>
-                <input type="text" id="contactName" name="contactName" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="date" class="form-label">Preferred Date</label>
-                <input type="date" id="date" name="date" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="type" class="form-label">Event Type</label>
-                <select id="type" name="type" class="form-select">
-                    <option value="Sewing">Sewing</option>
-                    <option value="Non-sewing">Non-sewing</option>
-                    <option value="Both">Both</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </main>
-    <%- include('partials/footer') %>
+  <%- include('admin-navbar') %>
+  <h1 style="text-align: center;">Event Requests</h1>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <a href="/admin/event-requests/pending" class="<%= activeTab === 'pending' ? 'active' : '' %>">Pending Requests</a>
+    <a href="/admin/event-requests/all" class="<%= activeTab === 'all' ? 'active' : '' %>">All Requests</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Event Duration</th>
+        <th>Number of Volunteers</th>
+        <th>Requested By</th>
+        <th>Contact Info</th>
+        <% if (activeTab === 'all') { %>
+          <th>Status</th>
+        <% } %>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% eventRequests.forEach(request => { %>
+        <tr>
+          <td>
+            <a href="/admin/event-requests/details/<%= request.req_id %>" class="details-link">
+              <%= request.req_location %>
+            </a>
+          </td>
+          <td><%= request.req_city %></td>
+          <td><%= request.req_state %></td>
+          <td>
+            <% if (request.req_event_date) { %>
+              <%= new Date(request.req_event_date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) %>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>                    
+          <td>
+            <% if (request.req_event_time) { %>
+              <%= request.req_event_time.substring(0,5) %>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>
+          <td>
+            <% 
+              const duration_hours = Math.round((request.req_event_duration / 60) * 2) / 2;
+            %>
+            <%= duration_hours %> hrs
+          </td>
+          <td>
+            <% 
+              const total_volunteers = 
+                (request.num_no_sewing || 0) + 
+                (request.num_basic_sewing || 0) + 
+                (request.num_adv_sewing || 0);
+            %>
+            <%= total_volunteers %>
+          </td>
+          <td><%= request.req_first_name %> <%= request.req_last_name %></td>
+          <td><%= request.req_phone %></td>
+          <% if (activeTab === 'all') { %>
+            <td>
+              <span class="
+                <% if (request.status.toLowerCase() === 'approved') { %>
+                  status-approved
+                <% } else if (request.status.toLowerCase() === 'pending') { %>
+                  status-pending
+                <% } else if (request.status.toLowerCase() === 'denied') { %>
+                  status-denied
+                <% } %>
+              ">
+              <%= request.status.charAt(0).toUpperCase() + request.status.slice(1).toLowerCase() %>
+              </span>
+            </td>
+          <% } %>
+          <td class="action-buttons">
+            <% if (request.status.toLowerCase() === 'pending') { %>
+              <!-- Approve Button -->
+              <form action="/admin/event-requests/create-event/<%= request.req_id %>" method="get" style="display:inline;">
+                <button type="submit" class="action-button approve-button">Approve</button>
+              </form>
+              <!-- Deny Button -->
+              <form action="/admin/event-requests/deny/<%= request.req_id %>" method="post" style="display:inline;">
+                <button type="submit" class="action-button deny-button">Deny</button>
+              </form>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>          
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </body>
 </html>

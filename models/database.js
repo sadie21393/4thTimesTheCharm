@@ -10,7 +10,9 @@ const knex = require("knex")({
             require: true,
             rejectUnauthorized: false
           }
-    }
+    },
+    pool: { min: 0, max: 7 },
 });
+
 
 module.exports = knex;

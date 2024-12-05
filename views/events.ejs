@@ -3,6 +3,24 @@
 <head>
   <title>Events</title>
   <style>
+    /* Button Styles */
+    .add-event-button {
+      display: block;
+      width: 150px;
+      margin: 20px auto 0;
+      padding: 10px;
+      background-color: #28a745;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .add-event-button:hover {
+      background-color: #218838;
+    }
+
+    /* Tabs Styles */
     .tabs {
       display: flex;
       justify-content: center;
@@ -21,6 +39,8 @@
       background-color: #333;
       color: #fff;
     }
+
+    /* Table Styles */
     .events-table {
       width: 90%;
       margin: 20px auto;
@@ -39,34 +59,137 @@
     tr:hover {
       background-color: #f4f4f4;
     }
+
+    /* Action Buttons */
+    .action-buttons form {
+      display: inline-block;
+      margin: 0 5px;
+    }
+    .action-buttons button,
+    .action-buttons a {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .complete-button {
+      background-color: #007bff;
+    }
+    .complete-button:hover {
+      background-color: #0069d9;
+    }
+    .cancel-button {
+      background-color: #dc3545;
+    }
+    .cancel-button:hover {
+      background-color: #c82333;
+    }
+    .edit-button {
+      background-color: #ffc107;
+      color: #212529;
+    }
+    .edit-button:hover {
+      background-color: #e0a800;
+    }
   </style>
 </head>
 <body>
-  <%- include('navbar.ejs') %>
+  <!-- Include Navbar -->
+  <%- include('admin-navbar.ejs') %>
+
+  <!-- Flash Messages -->
+  <% if (success_messages && success_messages.length > 0) { %>
+    <div class="alert alert-success">
+      <ul>
+        <% success_messages.forEach(function(message){ %>
+          <li><%= message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <% if (error_messages && error_messages.length > 0) { %>
+    <div class="alert alert-danger">
+      <ul>
+        <% error_messages.forEach(function(message){ %>
+          <li><%= message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <!-- Add Event Button -->
+  <a href="/admin/events/create" class="add-event-button">Add Event</a>
+
+  <!-- Status Tabs -->
   <div class="tabs">
     <a href="/admin/events/upcoming" class="<%= activeTab === 'upcoming' ? 'active' : '' %>">Upcoming</a>
-    <a href="/admin/events/held" class="<%= activeTab === 'held' ? 'active' : '' %>">Completed</a>
+    <a href="/admin/events/completed" class="<%= activeTab === 'completed' ? 'active' : '' %>">Completed</a>
     <a href="/admin/events/cancelled" class="<%= activeTab === 'cancelled' ? 'active' : '' %>">Cancelled</a>
   </div>
 
+  <!-- Events Table -->
   <table class="events-table">
     <thead>
       <tr>
-        <th>Event ID</th>
         <th>Location</th>
+        <th>City</th>
+        <th>State</th>
         <th>Date</th>
-        <th>Status</th>
+        <th>Time</th>
+        <th>Event Duration</th>
+        <th>Requested By</th>
+        <th>Contact Info</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <% events.forEach(event => { %>
+      <% if (events.length === 0) { %>
         <tr>
-          <td><%= event.event_id %></td>
-          <td><%= event.location %></td>
-          <td><%= new Date(event.date).toLocaleDateString() %></td>
-          <td><%= event.status %></td>
+          <td colspan="10">No events found.</td>
         </tr>
-      <% }) %>
+      <% } else { %>
+        <% events.forEach(event => { %>
+          <tr>
+            <td>
+              <a href="/admin/events/details/<%= event.event_id %>"><%= event.event_location %></a>
+            </td>
+            <td><%= event.city %></td>
+            <td><%= event.state %></td>
+            <td><%= event.formatted_date %></td>
+            <td><%= event.event_time ? event.event_time.substring(0,5) : 'N/A' %></td>
+            <td>
+              <% const duration_hours = Math.round((event.event_duration / 60) * 2) / 2; %>
+              <%= duration_hours %> hrs
+            </td>
+            <td><%= event.req_first_name %> <%= event.req_last_name %></td>
+            <td><%= event.req_phone || 'N/A' %></td>
+            <td>
+              <% 
+                const eventDate = DateTime.fromJSDate(new Date(event.event_date), { zone: "America/Denver" }).startOf('day');
+                const today = DateTime.local().setZone("America/Denver").startOf('day');
+                const isToday = eventDate.equals(today);
+              %>
+              <% if (isToday && event.status === 'Upcoming') { %>
+                <div class="action-buttons">
+                  <a href="/admin/events/complete/<%= event.event_id %>" class="complete-button">Complete</a>
+                  <form action="/admin/events/cancel/<%= event.event_id %>" method="post" style="display:inline;">
+                    <button type="submit" class="cancel-button">Cancel</button>
+                  </form>
+                  <a href="/admin/events/edit/<%= event.event_id %>" class="edit-button">Edit</a>
+                </div>
+              <% } else { %>
+                <div class="action-buttons">
+                  <a href="/admin/events/edit/<%= event.event_id %>" class="edit-button">Edit</a>
+                </div>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      <% } %>
     </tbody>
   </table>
 </body>
