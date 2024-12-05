@@ -40,6 +40,15 @@ router.get('/', (req, res) => res.render('index')); //This one worked v8
  router.get('/volunteer', (req, res) => {
    res.render('volunteer'); 
  });
+// Volunteer Form Route
+router.get('/volunteerForm', (req, res) => {
+    try {
+        res.render('volunteerForm'); // Ensure 'volunteerForm.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Volunteer Form page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 // router.post('/volunteer', async (req, res) => {
