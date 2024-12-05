@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <style>
+        body {
+            background-color: #f9f6f3;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .events-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .event-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .event-details {
+            flex-grow: 1;
+        }
+        .event-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .event-location {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .event-datetime {
+            font-size: 16px;
+            color: #666;
+        }
+        .signup-btn {
+            background-color: #a63636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .signup-btn:hover {
+            background-color: #8c2e2e;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="events-container">
+        <br>
+        <br>
+        <br>
+        <h1 style="text-align: center; margin-top: 20px;">Upcoming Events</h1>
+        <% if (events.length === 0) { %>
+            <p>No upcoming events found.</p>
+        <% } else { %>
+            <br>
+            <% events.forEach(function(event) { %>
+                <div class="event-card">
+                    <div class="event-details">
+                        <div class="event-name">
+                            <%= event.event_location %>
+                        </div>
+                        <div class="event-location">
+                            <%= event.street_address %>, <%= event.city %>, <%= event.state %> <%= event.zip %>
+                        </div>
+                        <div class="event-datetime">
+                            <%= new Date(event.event_date).toLocaleDateString() %> at <%= event.event_time %>
+                        </div>
+                    </div>
+                    <a href="/events/<%= event.event_id %>/signup" class="signup-btn">
+                        Sign Up
+                    </a>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

@@ -19,6 +19,8 @@ const nodemailer = require('nodemailer');
 
 
 const { OpenAI } = require('openai');
+const knex = require('../models/database'); // Import knex instance
+
 
 //configuration for OpenAI API
 const openai = new OpenAI({
@@ -71,15 +73,16 @@ router.get('/about', (req, res) => {
  router.get('/volunteer', (req, res) => {
    res.render('volunteer'); 
  });
+
 // Volunteer Form Route
-router.get('/volunteerForm', (req, res) => {
-    try {
-        res.render('volunteerForm'); // Ensure 'volunteerForm.ejs' exists in the views folder
-    } catch (error) {
-        console.error('Error loading the Volunteer Form page:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+// router.get('/show-events-by-month', (req, res) => {
+//     try {
+//         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
+//     } catch (error) {
+//         console.error('Error loading the Volunteer Form page:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
@@ -1221,7 +1224,100 @@ router.get('/takeAction', (req, res) => {
     }
 });
 
+// Updated route to show all upcoming events without filtering
+router.get('/show-events-by-month', async (req, res) => {
+    try {
+        // Base query to get all upcoming events with their associated request details
+        const events = await knex('events as e')
+            .join('eventstatus as es', 'e.event_id', 'es.event_id') // Join with eventstatus table
+            .select(
+                'e.event_id',
+                'e.event_location',
+                'e.street_address',
+                'e.city',
+                'e.state',
+                'e.zip',
+                'e.event_date',
+                'e.event_time'
+            )
+            .where('es.status', 'Upcoming') // Filter for upcoming events
+            .orderBy('e.event_date', 'asc'); // Order events by date
 
+        // Render the template with the events
+        res.render('show-events-by-month', {
+            events
+        });
+    } catch (error) {
+        console.error('Error fetching events:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Route to show volunteer sign-up form for a specific event
+router.get('/events/:eventId/signup', async (req, res) => {
+    const eventId = req.params.eventId;
+    
+    try {
+        // Fetch event details to show on sign-up page
+        const event = await knex('events')
+            .where('event_id', eventId)
+            .first();
+        
+        if (!event) {
+            return res.status(404).send('Event not found');
+        }
+
+        res.render('volunteerSignup', { event });
+    } catch (error) {
+        console.error('Error loading volunteer sign-up:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Route to process volunteer sign-up
+router.post('/events/:eventId/signup', async (req, res) => {
+    const eventId = req.params.eventId;
+    const { firstName, lastName, phone, email } = req.body;
+
+    try {
+        // Check if a user with the provided email or phone already exists
+        let user = await knex('users')
+            .where('email', email)
+            .orWhere('phone', phone)
+            .first();
+
+        // If no user exists, create a new user
+        if (!user) {
+            const [newUserId] = await knex('users').insert({
+                user_name: `${firstName.toLowerCase()}${lastName.toLowerCase()}${timestamp}`.slice(0, 30), // Ensure it is 30 characters max,
+                first_name: firstName,
+                last_name: lastName,
+                phone: phone,
+                email: email,
+                role: 'Volunteer',
+                street_address: null,
+                city: null,
+                state: null,
+                zip: null,
+                password: null
+            }).returning('user_name'); // Get the user_name of the newly created user
+
+            user = { user_name: newUserId };
+        }
+
+        // Insert a new record into the attendance table with the event ID and user ID
+        await knex('attendance').insert({
+            event_id: eventId,
+            user_name: user.user_name
+        });
+
+        // Render thank you page
+        res.render('volunteerThankYou');
+    } catch (error) {
+        console.error('Error processing volunteer sign-up:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 //   THIS NEEDS TO BE AT THE BOTTOM 
