@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../models/database'); // Database connection
 const cron = require('node-cron');
+const { DateTime } = require('luxon');
+
 
 const nodemailer = require('nodemailer');
 
@@ -19,8 +21,6 @@ const nodemailer = require('nodemailer');
 
 
 const { OpenAI } = require('openai');
-const knex = require('../models/database'); // Import knex instance
-
 
 //configuration for OpenAI API
 const openai = new OpenAI({
