@@ -26,9 +26,9 @@
         }
 
         .about-container h1 {
-            font-size: 40px;
+            font-size: 36px;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .about-container p {
@@ -44,63 +44,64 @@
             color: #333;
         }
 
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .tab-container button {
+            background-color: #ebe6e2;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            color: #333;
+            border-radius: 5px;
+            outline: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .tab-container button.active {
+            background-color: #a63636;
+            color: white;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: -5px;
+            height: 3px;
+            width: 50%;
+            background-color: #a63636;
+            transition: transform 0.3s ease;
+        }
+
         .tableau-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
             margin: 50px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .tableau-container h2 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .tableau-container iframe {
+        iframe {
             width: 100%;
             max-width: 900px;
             height: 600px;
             border: none;
-            margin: 20px auto;
+            display: none;
         }
 
-        .cta-section {
-            margin-top: 50px;
-            background-color: #ebe6e2;
-            padding: 30px 20px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        iframe.active {
+            display: block;
         }
 
-        .cta-section h3 {
+        .dashboard-title {
             font-size: 24px;
             color: #333;
             margin-bottom: 15px;
-        }
-
-        .cta-section p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .cta-section a {
-            display: inline-block;
-            background-color: #a63636;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-size: 16px;
-            text-decoration: none;
-            margin: 5px;
-        }
-
-        .cta-section a:hover {
-            background-color: #8c2e2e;
         }
 
         footer {
@@ -108,7 +109,6 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            margin-top: auto;
         }
 
         footer a {
@@ -120,6 +120,34 @@
             text-decoration: underline;
         }
     </style>
+    <script>
+        function showDashboard(type) {
+            const utahIframe = document.getElementById("utahDashboard");
+            const nationalIframe = document.getElementById("nationalDashboard");
+            const tabIndicator = document.querySelector(".tab-indicator");
+            const utahTab = document.getElementById("utahTab");
+            const nationalTab = document.getElementById("nationalTab");
+
+            if (type === 'utah') {
+                utahIframe.classList.add('active');
+                nationalIframe.classList.remove('active');
+                utahTab.classList.add('active');
+                nationalTab.classList.remove('active');
+                tabIndicator.style.transform = 'translateX(0%)';
+            } else {
+                nationalIframe.classList.add('active');
+                utahIframe.classList.remove('active');
+                nationalTab.classList.add('active');
+                utahTab.classList.remove('active');
+                tabIndicator.style.transform = 'translateX(100%)';
+            }
+        }
+
+        window.onload = function () {
+            // Set default dashboard to Utah
+            showDashboard('utah');
+        };
+    </script>
 </head>
 
 <body>
@@ -129,52 +157,36 @@
     <!-- Content Wrapper -->
     <div class="content-wrapper">
         <div class="about-container">
-            <h1>About <strong>Turtle Shelter Project</strong></h1>
+            <h1>About Turtle Shelter Project</h1>
             <p>
-                The <strong>Turtle Shelter Project</strong> was born from the realization that extreme weather can be life-threatening for individuals
-                experiencing homelessness. Each year, countless lives are lost to the cold due to a lack of shelter and proper insulation.
-                Our mission is to provide portable, effective, and durable solutions through the distribution of <strong>Turtle Shelter</strong> vests.
+                The <strong>Turtle Shelter Project</strong> was born from a desire to protect those experiencing homelessness from the harsh realities of the cold. 
+                Every year, extreme weather conditions claim the lives of individuals without access to proper shelter and clothing.
+                Our mission is to provide portable, durable, and insulating <strong>"Turtle Shelter"</strong> vests to those in need, ensuring they have a source of warmth 
+                even in the most challenging conditions.
             </p>
             <p>
-                Inspired by the turtle's ability to carry its shelter wherever it goes, the <strong>Turtle Shelter</strong> vest is a life-saving innovation designed
-                to trap body heat, shield from wind, and provide comfort. With the help of dedicated volunteers, generous donors, and supportive
-                communities, we've distributed thousands of these vests to individuals in need across Utah and beyond.
-            </p>
-            <p>
-                Together, we can make a meaningful impact by ensuring that no one has to face the cold alone. Join us in this life-saving mission
-                to provide hope, warmth, and dignity to those who need it most.
+                Inspired by the resilience and adaptability of turtles, our vests are designed to be lightweight, portable, and incredibly effective. 
+                With the help of compassionate volunteers, donors, and community support, we've distributed thousands of vests and saved countless lives. 
+                Together, we can continue to make a difference.
             </p>
         </div>
 
-        <!-- Tableau Dashboard -->
+        <!-- Tableau Dashboard Tabs -->
         <div class="tableau-container">
-            <h2>Homelessness Statistics</h2>
-            <p>
-                Understanding the scale of homelessness is the first step to addressing it. Explore our dashboard to see statistics on homelessness
-                nationwide and in Utah.
-            </p>
-            <iframe src="https://public.tableau.com/views/YourDashboardNameHere" title="Homelessness Statistics Dashboard"></iframe>
+            <h2 class="dashboard-title">Explore Homelessness Statistics</h2>
+            <p>Switch between Utah-specific and National data to understand homelessness trends and insights.</p>
+            <div class="tab-container">
+                <button id="utahTab" onclick="showDashboard('utah')">Utah Statistics</button>
+                <button id="nationalTab" onclick="showDashboard('national')">National Statistics</button>
+                <div class="tab-indicator"></div>
+            </div>
+            <iframe id="utahDashboard" src="https://public.tableau.com/views/kwchapter7/Sheet1?:showVizHome=no&:embed=true" title="Utah Homelessness Statistics"></iframe>
+            <iframe id="nationalDashboard" src="https://public.tableau.com/views/NationalDashboardHere/Sheet1?:showVizHome=no&:embed=true" title="National Homelessness Statistics"></iframe>
         </div>
-
-        <!-- Call-to-Action Section -->
-        <section class="cta-section">
-            <h3>Get Involved with <strong>Turtle Shelter Project</strong></h3>
-            <p>
-                Whether it’s volunteering your time, donating funds, or spreading the word, every action you take helps save lives.
-            </p>
-            <a href="/volunteer">Volunteer</a>
-            <a href="/donate">Donate</a>
-        </section>
     </div>
 
     <!-- Footer -->
-    <footer>
-        <p>
-            © 2024 Turtle Shelter Project. All rights reserved. 
-            <a href="/privacy-policy">Privacy Policy</a> | 
-            <a href="/terms">Terms of Service</a>
-        </p>
-    </footer>
+    <%- include('partials/footer') %>
 </body>
 
 </html>

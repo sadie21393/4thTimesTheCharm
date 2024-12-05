@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 const knex = require('../models/database'); // Database connection
@@ -12,6 +14,39 @@ const cron = require('node-cron');
 // }
 
 // --- General Routes ---
+
+
+const { OpenAI } = require('openai');
+
+//configuration for OpenAI API
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Chatbot Route for handling user messages
+router.post('/chatbot', async (req, res) => {
+    const userMessage = req.body.message;
+
+    if (!userMessage || userMessage.trim() === "") {
+        return res.status(400).json({ response: "Message cannot be empty" });
+    }
+
+    try {
+        // Make a request to OpenAI's chat API
+        const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: userMessage }],
+        });
+
+        // Send the response back
+        res.json({ response: response.choices[0].message.content });
+    } catch (error) {
+        console.error("Error in OpenAI API call:", error);
+        res.status(500).send("Something went wrong!");
+    }
+});
+
+
 // Landing page
 router.get('/', (req, res) => res.render('index')); //This one worked v8
 
@@ -30,10 +65,89 @@ router.get('/about', (req, res) => {
     }
 });
 
-// Volunteer form
-router.get('/volunteer', (req, res) => {
-    res.render('volunteer'); 
+//Volunteer form
+ router.get('/volunteer', (req, res) => {
+   res.render('volunteer'); 
+ });
+// Volunteer Form Route
+router.get('/volunteerForm', (req, res) => {
+    try {
+        res.render('volunteerForm'); // Ensure 'volunteerForm.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Volunteer Form page:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
+
+// Contact Us Route
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Contact Us page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handle Contact Form Submission
+router.post('/contact', (req, res) => {
+    const { name, email, message } = req.body;
+
+    // You can add logic here to handle the form submission, like sending an email or storing the message
+    console.log('Contact Form Submitted:', { name, email, message });
+
+    // Send a response back to the user
+    res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
+});
+
+const express = require('express');
+const router = express.Router();
+const nodemailer = require('nodemailer');
+
+// Contact Us Route
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Contact Us page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handle Contact Form Submission
+router.post('/contact', async (req, res) => {
+    const { name, email, message } = req.body;
+
+    // Set up Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'your-email@gmail.com', // Replace with your Gmail
+            pass: 'your-email-password'  // Replace with your Gmail password or app-specific password
+        }
+    });
+
+    // Email options
+    const mailOptions = {
+        from: email,
+        to: 'turtleshelterproject@gmail.com',
+        subject: `New message from ${name}`,
+        text: message,
+    };
+
+    try {
+        // Send email
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
+
+        // Send success response
+        res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send(`<script>alert('There was an error sending your message. Please try again later.'); window.location.href='/contact';</script>`);
+    }
+});
+
 // router.post('/volunteer', async (req, res) => {
 //     const { name, email, level, hours } = req.body;
 //     await pool.query('INSERT INTO Volunteers (name, email, level, hours) VALUES ($1, $2, $3, $4)', [name, email, level, hours]);
@@ -1090,6 +1204,24 @@ router.get('/sendRequest', (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+// Admin dashboard
+router.get('/dashboard', async (req, res) => {
+    const events = await pool.query('SELECT * FROM Events');
+    res.render('admin', { events: events.rows });
+});
+
+// Route for Take Action Page
+router.get('/takeAction', (req, res) => {
+    try {
+        res.render('takeAction'); // Ensure the 'takeAction.ejs' file is in your 'views' folder
+    } catch (error) {
+        console.error('Error loading the Take Action page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 
 //   THIS NEEDS TO BE AT THE BOTTOM 
