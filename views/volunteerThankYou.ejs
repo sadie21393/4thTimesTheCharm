@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <style>
+        body {
+            background-color: #f9f6f3;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .thank-you-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .thank-you-icon {
+            font-size: 80px;
+            color: #a63636;
+            margin-bottom: 20px;
+        }
+        .thank-you-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .thank-you-message {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .home-btn {
+            background-color: #a63636;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <div class="thank-you-icon">✓</div>
+        <h1 class="thank-you-title">Thank You for Signing Up!</h1>
+        <p class="thank-you-message">
+            A team member will be contacting you shortly with more details about the event.
+        </p>
+        <a href="/" class="home-btn">Return to Home</a>
+    </div>
