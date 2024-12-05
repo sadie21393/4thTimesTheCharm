@@ -50,6 +50,74 @@ router.get('/volunteerForm', (req, res) => {
     }
 });
 
+// Contact Us Route
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Contact Us page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handle Contact Form Submission
+router.post('/contact', (req, res) => {
+    const { name, email, message } = req.body;
+
+    // You can add logic here to handle the form submission, like sending an email or storing the message
+    console.log('Contact Form Submitted:', { name, email, message });
+
+    // Send a response back to the user
+    res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
+});
+
+const express = require('express');
+const router = express.Router();
+const nodemailer = require('nodemailer');
+
+// Contact Us Route
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Contact Us page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handle Contact Form Submission
+router.post('/contact', async (req, res) => {
+    const { name, email, message } = req.body;
+
+    // Set up Nodemailer transporter
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'your-email@gmail.com', // Replace with your Gmail
+            pass: 'your-email-password'  // Replace with your Gmail password or app-specific password
+        }
+    });
+
+    // Email options
+    const mailOptions = {
+        from: email,
+        to: 'turtleshelterproject@gmail.com',
+        subject: `New message from ${name}`,
+        text: message,
+    };
+
+    try {
+        // Send email
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
+
+        // Send success response
+        res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send(`<script>alert('There was an error sending your message. Please try again later.'); window.location.href='/contact';</script>`);
+    }
+});
 
 // router.post('/volunteer', async (req, res) => {
 //     const { name, email, level, hours } = req.body;
