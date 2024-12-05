@@ -107,6 +107,44 @@
     </div>
 </section>
 
+<!-- Explore Homelessness Section -->
+<section class="explore-homelessness-section" style="background-color: #f9f6f3; padding: 50px 20px; text-align: center;">
+    <div class="container">
+        <h2 style="font-size: 32px; font-weight: bold; color: #333; margin-bottom: 20px;">Explore Homelessness Statistics</h2>
+        <p style="font-size: 18px; color: #555; margin-bottom: 30px;">
+            Learn more about the impact of homelessness through detailed statistics and insights. 
+            Discover how the Turtle Shelter Project is making a difference in Utah and across the nation.
+        </p>
+
+        <!-- Interactive Statistics Section -->
+        <div class="interactive-stats" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 30px;">
+            <div class="stat-card" style="flex: 1; max-width: 300px; background-color: #ffffff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left;">
+                <h3 style="font-size: 24px; font-weight: bold; color: #a63636; margin-bottom: 10px;">Utah Statistics</h3>
+                <ul style="font-size: 16px; color: #555; padding-left: 20px; line-height: 1.8;">
+                    <li>Over 3,000 homeless individuals statewide.</li>
+                    <li>Harsh winters amplify risks of hypothermia.</li>
+                    <li>Increased demand for shelters and resources.</li>
+                </ul>
+            </div>
+            <div class="stat-card" style="flex: 1; max-width: 300px; background-color: #ffffff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left;">
+                <h3 style="font-size: 24px; font-weight: bold; color: #555; margin-bottom: 10px;">Nationwide Statistics</h3>
+                <ul style="font-size: 16px; color: #555; padding-left: 20px; line-height: 1.8;">
+                    <li>582,462 individuals experience homelessness.</li>
+                    <li>High rates of chronic homelessness persist.</li>
+                    <li>Rising housing costs contribute to challenges.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Call-to-Action Button -->
+        <a href="/about" class="btn btn-primary" style="background-color: #a63636; color: white; padding: 12px 24px; border-radius: 5px; font-size: 18px; text-decoration: none;">
+            Learn More
+        </a>
+    </div>
+</section>
+
+
+
     <!-- Volunteer Highlights Section -->
 <section class="volunteer-section" style="background-color: #f9f6f3; padding: 50px 0;">
     <div class="container text-center">
@@ -117,18 +155,49 @@
         <div id="volunteerCarousel" class="carousel" style="position: relative; overflow: hidden;">
             <!-- Carousel Items -->
             <div class="carousel-item active" style="display: block;">
-                <img src="/images/v6.png" alt="Volunteer Highlight 1" style="width: 100%; border-radius: 8px; object-fit: cover;">
+                <img src="/images/6.png" alt="Volunteer Highlight 1" style="width: 100%; border-radius: 8px; object-fit: cover;">
             </div>
             <div class="carousel-item" style="display: none;">
-                <img src="/images/v1.png" alt="Volunteer Highlight 2" style="width: 100%; border-radius: 8px; object-fit: cover;">
+                <img src="/images/1.png" alt="Volunteer Highlight 2" style="width: 100%; border-radius: 8px; object-fit: cover;">
             </div>
             <div class="carousel-item" style="display: none;">
-                <img src="/images/v2.png" alt="Volunteer Highlight 3" style="width: 100%; border-radius: 8px; object-fit: cover;">
+                <img src="/images/2.png" alt="Volunteer Highlight 3" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <div class="carousel-item active" style="display: block;">
+                <img src="/images/3.png" alt="Volunteer Highlight 1" style="width: 100%; border-radius: 8px; object-fit: cover;">
+            </div>
+            <div class="carousel-item active" style="display: block;">
+                <img src="/images/4.png" alt="Volunteer Highlight 1" style="width: 100%; border-radius: 8px; object-fit: cover;">
             </div>
             <!-- Carousel Controls -->
             <button class="carousel-control prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer;">&#10094;</button>
             <button class="carousel-control next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 24px; cursor: pointer;">&#10095;</button>
         </div>
+    </div>
+</section>
+<!-- newsletter-->
+<section class="newsletter-section" style="background-color: #f9f6f3; padding: 50px 20px; text-align: center;">
+    <div class="container">
+        <h2 style="font-size: 32px; font-weight: bold; color: #333; margin-bottom: 20px;">Subscribe to Our Newsletter</h2>
+        <p style="font-size: 18px; color: #555; margin-bottom: 30px;">
+            Stay updated with the latest news and progress from the Turtle Shelter Project. Join our mailing list today!
+        </p>
+        <form id="newsletterForm" style="display: flex; flex-direction: column; align-items: center;">
+            <input type="email" id="newsletterEmail" placeholder="Enter your email" required
+                style="padding: 10px; width: 100%; max-width: 400px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
+            <button type="submit" style="background-color: #a63636; color: white; padding: 12px 24px; border-radius: 5px; font-size: 18px; border: none; cursor: pointer;">
+                Subscribe
+            </button>
+        </form>
+        <!-- Popup Message -->
+        <div id="newsletterPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; text-align: center;">
+            <p style="font-size: 18px; color: #333; margin-bottom: 10px;">You've successfully subscribed to our newsletter!</p>
+            <button id="closePopup" style="background-color: #a63636; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                Close
+            </button>
+        </div>
+        <!-- Background Overlay -->
+        <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
     </div>
 </section>
 
@@ -140,8 +209,13 @@
                 Every action you take helps save lives
             </p>
             <div>
-                <a href="/sendRequest" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
-                <a href="/donate" class="btn btn-secondary btn-lg mx-2" style="background-color: #555; color: white;">Donate</a>
+                <a href="/sendRequest" style="background-color: #a63636; color: white; padding: 12px 20px; border-radius: 5px; font-size: 18px; border: none; cursor: pointer; text-decoration: none; margin-right: 10px;">
+                    Volunteer
+                </a>                 
+                <a href="/donate" style="background-color: #555; color: white; padding: 12px 20px; border-radius: 5px; font-size: 18px; border: none; cursor: pointer; text-decoration: none;">
+                    Donate
+                </a>                
+                
             </div>
         </div>
     </section>
@@ -187,6 +261,34 @@
         // Initialize the first slide
         showSlide(currentIndex);
     });
+    document.addEventListener('DOMContentLoaded', function () {
+    const newsletterForm = document.getElementById('newsletterForm');
+    const newsletterPopup = document.getElementById('newsletterPopup');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const closePopup = document.getElementById('closePopup');
+
+    newsletterForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form submission
+        // Show the popup and overlay
+        newsletterPopup.style.display = 'block';
+        popupOverlay.style.display = 'block';
+    });
+
+    closePopup.addEventListener('click', function () {
+        // Hide the popup and overlay
+        newsletterPopup.style.display = 'none';
+        popupOverlay.style.display = 'none';
+        // Optionally clear the email input
+        document.getElementById('newsletterEmail').value = '';
+    });
+
+    popupOverlay.addEventListener('click', function () {
+        // Hide the popup and overlay if the background is clicked
+        newsletterPopup.style.display = 'none';
+        popupOverlay.style.display = 'none';
+    });
+});
+
 
 </script>
 </body>
