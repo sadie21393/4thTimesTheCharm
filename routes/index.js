@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../models/database'); // Database connection
 const cron = require('node-cron');
+const { DateTime } = require('luxon');
+
 
 const nodemailer = require('nodemailer');
 
@@ -659,8 +661,8 @@ router.post("/admin/team-members/add", async (req, res) => {
       .select(
         "e.event_id",
         "e.event_location",
-        "r.req_city as city",
-        "r.req_state as state",
+        "e.city as city",
+        "e.state as state",
         "r.req_phone",
         "e.event_date",
         "e.event_time",
@@ -871,21 +873,48 @@ router.post("/admin/team-members/add", async (req, res) => {
   router.get("/admin/events", (req, res) => {
     res.redirect("/admin/events/upcoming");
   });
-  
-  // 7.13. Team Members Route (List)
-  router.get("/admin/team-members", async (req, res) => {
+
+router.get('/admin/team-members', async (req, res) => {
     try {
-      const teamMembers = await knex("users") // Changed 'Users' to 'users' to match PostgreSQL's default lowercase
-        .select("user_name", "first_name", "last_name", "email", "role", "phone", "street_address", "city", "state", "zip")
-        .orderBy("role", "asc");
-  
-      res.render("team-members", { teamMembers, activePage: "team-members" });
+        const teamMembers = await knex('users')
+            .select('user_name', 'first_name', 'last_name', 'email', 'role', 'phone', 'street_address', 'city', 'state', 'zip')
+            .whereIn('role', ['Admin', 'Team Member']) // Select only Admins and Team Members
+            .orderBy('role', 'asc');
+
+        res.render('team-members', {
+            users: teamMembers, // Use 'users' to make this page dynamic for both roles
+            activeTab: 'team-members',
+            activePage: 'team-members',
+            success_messages: [],
+            error_messages: []
+        });
     } catch (error) {
-      console.error("Error fetching team members:", error);
-      req.flash("error", "Failed to fetch team members.");
-      res.redirect("/admin");
+        console.error('Error fetching team members:', error);
+        req.flash('error', 'Failed to fetch team members.');
+        res.redirect('/admin');
     }
-  });
+});
+
+router.get('/admin/volunteers', async (req, res) => {
+    try {
+        const volunteers = await knex('users')
+            .select('user_name', 'first_name', 'last_name', 'email', 'role', 'phone', 'street_address', 'city', 'state', 'zip')
+            .where('role', 'Volunteer') // Select only Volunteers
+            .orderBy('first_name', 'asc');
+
+        res.render('team-members', {
+            users: volunteers, // Use 'users' to make this page dynamic for both roles
+            activeTab: 'volunteers',
+            activePage: 'team-members',
+            success_messages: [],
+            error_messages: []
+        });
+    } catch (error) {
+        console.error('Error fetching volunteers:', error);
+        req.flash('error', 'Failed to fetch volunteers.');
+        res.redirect('/admin');
+    }
+});
   
   // 7.14. Route to Display Individual Team Member Details
   router.get("/admin/team-members/:user_name", async (req, res) => {
