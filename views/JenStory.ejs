@@ -34,16 +34,31 @@
             text-decoration: none;
         }
 
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-links a i {
+            color: black; /* Black color for icons */
+            font-size: 1.5rem; /* Uniform size for icons */
+        }
+
+        .navbar-links a i:hover {
+            color: #333; /* Optional hover effect */
+        }
+
         .content-wrapper {
             margin-top: 80px;
-            padding: 20px;
+            
         }
       .story-container {
           display: flex;
           flex-wrap: wrap;
           align-items: flex-start;
           gap: 20px;
-          padding: 20px 0;
+          
       }
   
       .story-container img {
@@ -69,6 +84,7 @@
   
       .btn-primary,
       .btn-secondary {
+          background-color: #a63636;
           border-radius: 5px;
           padding: 10px 20px;
           text-decoration: none;
@@ -76,6 +92,15 @@
           display: inline-block;
           margin: 10px;
       }
+      .navbar-button-container .btn-take-action {
+            background-color: #a63636; /* Donate button color */
+            color: white;
+      }
+
+      .btn-primary:hover,
+        .btn-secondary:hover {
+            background-color: #8c2e2e;
+        }
   </style>
 </head>
 <body>
@@ -88,18 +113,23 @@
       </div>
       <div class="navbar-links">
           <a href="/about" class="nav-link">About</a>
-          <a href="/volunteer" class="nav-link">Volunteer</a>
+          <a href="/sendRequest" class="nav-link">Volunteer</a>
           <a href="/contact" class="nav-link">Contact Us</a>
           <a href="/login" class="nav-link">Login</a>
-          <a href="https://www.instagram.com/turtleshelterproject/?hl=en" class="nav-link">Instagram</a>
-          <a href="https://www.facebook.com/turtleshelterproject/" class="nav-link">Facebook</a>
+          <a href="https://www.instagram.com/turtleshelterproject/?hl=en" 
+               class="text-black" style="font-size: 1.25rem; padding: 10px; color: black;">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/turtleshelterproject/" 
+               class="text-black" style="font-size: 1.25rem; padding: 10px; color: rgb(0, 0, 0);">
+                <i class="fab fa-facebook-f"></i>
+            </a>
       </div>
       <div class="navbar-button-container">
           <a href="/donate" class="btn btn-take-action">DONATE</a>
       </div>
   </div>
 </nav>
-
     <!-- Main Content Section -->
     <div class="content-wrapper">
         <section class="story-section py-5" style="background-color: #f9f9f9;">

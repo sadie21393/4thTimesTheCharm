@@ -54,8 +54,8 @@ body {
 }
 
 .btn-take-action {
-    background: #fff;
-    color: #000;
+    background-color: #a63636;
+    color: #fff;
     padding: 15px 30px; /* Increase padding to make the button larger */
     text-decoration: none;
     border-radius: 4px;
@@ -114,7 +114,7 @@ body {
     text-decoration: none;
     border-radius: 4px;
     font-weight: 500;
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 /* Style for button after being clicked */
@@ -175,7 +175,7 @@ body {
 }
 /* Donate Now Button */
 #donate-button {
-    background-color: #007bff; /* Blue color */
+    
     color: white; /* White text */
     padding: 10px 20px; /* Padding */
     border: none; /* No border */
@@ -184,9 +184,7 @@ body {
     cursor: pointer; /* Pointer cursor on hover */
   }
   
-  #donate-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
+  
   
   /* Become a Volunteer Button */
   #volunteer-button {

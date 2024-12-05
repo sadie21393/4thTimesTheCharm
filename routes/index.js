@@ -44,9 +44,24 @@ router.get('/JenStory', (req, res) => {
     res.render('JenStory'); // This assumes 'JenStory.ejs' exists in the views folder
 });
 
-//send request
+// Route for About Page
+router.get('/about', (req, res) => {
+    try {
+        res.render('about');
+    } catch (error) {
+        console.error('Error loading the About Page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//sendRequest
 router.get('/sendRequest', (req, res) => {
-    res.render('sendRequest'); // Ensure 'sendRequest.ejs' is in your views folder
+    try {
+        res.render('sendRequest'); // Ensure 'sendRequest.ejs' is in your views folder
+    } catch (error) {
+        console.error('Error loading the Send Request Page:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Admin dashboard
