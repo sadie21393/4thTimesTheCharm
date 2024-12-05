@@ -19,7 +19,7 @@ const nodemailer = require('nodemailer');
 
 
 const { OpenAI } = require('openai');
-const knex = require('../models/database'); // Import knex instance
+
 
 
 //configuration for OpenAI API
