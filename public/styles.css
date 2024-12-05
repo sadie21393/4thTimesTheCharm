@@ -188,7 +188,7 @@ body {
   
   /* Become a Volunteer Button */
   #volunteer-button {
-    background-color: #6c757d; /* Gray color */
+    
     color: white; /* White text */
     padding: 10px 20px; /* Padding */
     border: none; /* No border */
@@ -203,7 +203,7 @@ body {
   
   /* Request an Event Button */
   #event-button {
-    background-color: #007bff; /* Blue color */
+    
     color: white; /* White text */
     padding: 10px 20px; /* Padding */
     border: none; /* No border */
@@ -213,7 +213,7 @@ body {
   }
   
   #event-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+   
   }
     .carousel {
         position: relative;
@@ -249,4 +249,4 @@ body {
 
 
     
-    
+   
