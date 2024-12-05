@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../models/database'); // Use knex from a single source
+const knex = require('../models/database');
+const jwt = require('jsonwebtoken');
 
 // Landing page
 router.get('/', (req, res) => res.render('index'));
@@ -16,12 +17,25 @@ router.get('/volunteer', (req, res) => res.render('volunteer'));
 
 // Event request form
 router.get('/event-request', (req, res) => res.render('event-request'));
-
 // router.post('/event-request', async (req, res) => {
 //     const { contactName, email, date, type } = req.body;
 //     await pool.query('INSERT INTO EventRequests (contact_name, email, event_date, event_type) VALUES ($1, $2, $3, $4)', [contactName, email, date, type]);
 //     res.redirect('/');
 // });
+// Donate Page Route
+router.get('/donate', (req, res) => {
+    res.render('donate'); // Ensure this matches the file name of your Donate Page (donate.ejs)
+});
+
+// One-Time Donation Route
+router.get('/donate/one-time', (req, res) => {
+    res.send('Thank you for your support!'); // Placeholder for one-time donation logic
+});
+
+// Monthly Donation Route
+router.get('/donate/monthly', (req, res) => {
+    res.send('Thank you for setting up a monthly donation!'); // Placeholder for monthly donation logic
+});
 
 // Admin login
 router.get('/admin', (req, res) => res.render('login'));
@@ -116,38 +130,51 @@ router.get('/sendRequest', (req, res) => {
 // // Admin Home Route
 // router.get("/admin-home", async (req, res) => {
 //     try {
-//       const adminName = "Admin"; // Replace with dynamic admin name if necessary
-//       res.render("admin-home", { admin_name: adminName });
-//     } catch (error) {
-//       console.error("Error rendering admin home:", error);
-//       res.status(500).send("Internal Server Error");
+//         const user = jwt.verify(token, 'yourSecretKey');
+//         res.render('userpage', { user });
+//     } catch (err) {
+//         res.clearCookie('authToken');
+//         res.redirect('/login');
 //     }
-//   });
+// });
 
-// // Event Requests Route with Tabs
-// router.get("/admin/admin-event-requests/:tab", (req, res) => {
-//     const tab = req.params.tab;
-//     let query = knex("requests as r")
-//     .join("requeststatus as rs", "r.req_id", "=", "rs.req_id")
-//       .select(
-//         'r.req_id',
-//         'r.req_location',
-//         'r.req_street_address',
-//         'r.req_city',
-//         'r.req_state',
-//         'r.req_event_date',
-//         'r.req_event_time',
-//         'r.req_event_duration',
-//         'r.num_no_sewing',
-//         'r.num_basic_sewing',
-//         'r.num_adv_sewing',
-//         'r.req_first_name',
-//         'r.req_last_name',
-//         'r.req_phone',
-//         'r.req_email',
-//         'rs.status'
-//       )
-//       .orderBy('r.req_event_date', 'asc'); // Order by event date ascending
+
+
+// Admin Home Route
+router.get("/admin-home", async (req, res) => {
+    try {
+      const adminName = "Admin"; // Replace with dynamic admin name if necessary
+      res.render("admin-home", { admin_name: adminName });
+    } catch (error) {
+      console.error("Error rendering admin home:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+
+// Event Requests Route with Tabs
+router.get("/admin/admin-event-requests/:tab", (req, res) => {
+    const tab = req.params.tab;
+    let query = knex("requests as r")
+    .join("requeststatus as rs", "r.req_id", "=", "rs.req_id")
+      .select(
+        'r.req_id',
+        'r.req_location',
+        'r.req_street_address',
+        'r.req_city',
+        'r.req_state',
+        'r.req_event_date',
+        'r.req_event_time',
+        'r.req_event_duration',
+        'r.num_no_sewing',
+        'r.num_basic_sewing',
+        'r.num_adv_sewing',
+        'r.req_first_name',
+        'r.req_last_name',
+        'r.req_phone',
+        'r.req_email',
+        'rs.status'
+      )
+      .orderBy('r.req_event_date', 'asc'); // Order by event date ascending
   
 //     if (tab === 'pending') {
 //       query = query.where("rs.status", "pending");
