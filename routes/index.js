@@ -36,10 +36,10 @@ router.post('/chatbot', async (req, res) => {
 // Landing page
 router.get('/', (req, res) => res.render('index')); //This one worked v8
 
-// Volunteer form
-// router.get('/volunteer', (req, res) => {
-//     res.render('volunteer'); 
-// });
+//Volunteer form
+ router.get('/volunteer', (req, res) => {
+   res.render('volunteer'); 
+ });
 
 
 // router.post('/volunteer', async (req, res) => {
@@ -365,7 +365,7 @@ router.get('/dashboard', async (req, res) => {
 //       });
 //   });
 // Route for Take Action Page
-router.get('/take-action', (req, res) => {
+router.get('/takeAction', (req, res) => {
     try {
         res.render('takeAction'); // Ensure the 'takeAction.ejs' file is in your 'views' folder
     } catch (error) {
