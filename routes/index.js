@@ -46,10 +46,67 @@ router.get('/JenStory', (req, res) => { //This one worked v8
     res.render('JenStory'); 
 });
 
+<<<<<<< HEAD
+// Donate Page Route
+router.get('/donate', (req, res) => {
+    res.render('donate'); // Ensure this matches the file name of your Donate Page (donate.ejs)
+});
+
+// One-Time Donation Route
+router.get('/donate/one-time', (req, res) => {
+    res.send('Thank you for your support!'); // Placeholder for one-time donation logic
+});
+
+// Monthly Donation Route
+router.get('/donate/monthly', (req, res) => {
+    res.send('Thank you for setting up a monthly donation!'); // Placeholder for monthly donation logic
+});
+
+// Admin login
+router.get('/admin', (req, res) => res.render('login'));
+
+router.get('/JenStory', (req, res) => {
+    res.render('JenStory'); // This assumes 'JenStory.ejs' exists in the views folder
+});
+
+// Route for About Page
+router.get('/about', (req, res) => {
+    try {
+        res.render('about');
+    } catch (error) {
+        console.error('Error loading the About Page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//sendRequest
+router.get('/sendRequest', (req, res) => {
+    try {
+        res.render('sendRequest'); // Ensure 'sendRequest.ejs' is in your views folder
+    } catch (error) {
+        console.error('Error loading the Send Request Page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Admin dashboard
+router.get('/dashboard', async (req, res) => {
+    const events = await pool.query('SELECT * FROM Events');
+    res.render('admin', { events: events.rows });
+});
+
+
+// router.get('/index/:id', (req, res) => {
+//     knex('users').select('first_name', 'last_name').where(req.params.id, 'id')
+//     .then(myuser => {
+//         res.render('userpage' {myuser})
+//     })
+=======
 // //send request
 // router.get('/sendRequest', (req, res) => {
 //     res.render('sendRequest'); // Ensure 'sendRequest.ejs' is in your views folder
 // });
+>>>>>>> b202a4abb915b5b1b0e6ae0c6cd547d67cffc971
 
 // // Admin dashboard
 // router.get('/dashboard', async (req, res) => {
