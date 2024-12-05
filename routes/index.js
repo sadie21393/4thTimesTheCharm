@@ -333,6 +333,15 @@ router.get('/dashboard', async (req, res) => {
 //         res.status(500).send("Internal Server Error");
 //       });
 //   });
+// Route for Take Action Page
+router.get('/take-action', (req, res) => {
+    try {
+        res.render('takeAction'); // Ensure the 'takeAction.ejs' file is in your 'views' folder
+    } catch (error) {
+        console.error('Error loading the Take Action page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 
 
