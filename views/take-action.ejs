@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f9f6f3;
+        }
+
+        .content-wrapper {
+            margin-top: 80px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .action-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .action-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .action-card h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .action-card p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .action-card button {
+            background-color: #a63636;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-card button:hover {
+            background-color: #8c2e2e;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <%- include('partials/navbar') %>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <h1>Take Action</h1>
+        <p>Make a difference today by supporting the Turtle Shelter Project. Whether it’s through donations, volunteering, or hosting an event, your contribution can save lives.</p>
+
+        <div class="action-container">
+            <!-- Donate Card -->
+            <div class="action-card">
+                <h3>Donate</h3>
+                <p>Your generosity helps us provide lifesaving vests and resources to those in need.</p>
+                <a href="/donate">
+                    <button>Donate Now</button>
+                </a>
+            </div>
+
+            <!-- Volunteer Card -->
+            <div class="action-card">
+                <h3>Volunteer</h3>
+                <p>Join our community of dedicated volunteers and help us make a tangible impact.</p>
+                <a href="/sendRequest">
+                    <button>Sign Up</button>
+                </a>
+            </div>
+
+            <!-- Request an Event Card -->
+            <div class="action-card">
+                <h3>Request an Event</h3>
+                <p>Have an idea for an event? Let’s work together to spread awareness and make a difference.</p>
+                <a href="/sendRequest">
+                    <button>Request Now</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+</body>
+
+</html>
