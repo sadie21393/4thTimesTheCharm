@@ -1,5 +1,36 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
+const { OpenAI } = require('openai');
+
+//configuration for OpenAI API
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Chatbot Route for handling user messages
+router.post('/chatbot', async (req, res) => {
+    const userMessage = req.body.message;
+
+    if (!userMessage || userMessage.trim() === "") {
+        return res.status(400).json({ response: "Message cannot be empty" });
+    }
+
+    try {
+        // Make a request to OpenAI's chat API
+        const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: userMessage }],
+        });
+
+        // Send the response back
+        res.json({ response: response.choices[0].message.content });
+    } catch (error) {
+        console.error("Error in OpenAI API call:", error);
+        res.status(500).send("Something went wrong!");
+    }
+});
 
 
 // Landing page
@@ -46,7 +77,7 @@ router.get('/JenStory', (req, res) => { //This one worked v8
     res.render('JenStory'); 
 });
 
-<<<<<<< HEAD
+// HEAD
 // Donate Page Route
 router.get('/donate', (req, res) => {
     res.render('donate'); // Ensure this matches the file name of your Donate Page (donate.ejs)
@@ -101,12 +132,12 @@ router.get('/dashboard', async (req, res) => {
 //     .then(myuser => {
 //         res.render('userpage' {myuser})
 //     })
-=======
+///=======
 // //send request
 // router.get('/sendRequest', (req, res) => {
 //     res.render('sendRequest'); // Ensure 'sendRequest.ejs' is in your views folder
 // });
->>>>>>> b202a4abb915b5b1b0e6ae0c6cd547d67cffc971
+///>>>>>>> b202a4abb915b5b1b0e6ae0c6cd547d67cffc971
 
 // // Admin dashboard
 // router.get('/dashboard', async (req, res) => {
