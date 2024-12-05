@@ -1,0 +1,124 @@
+<!-- all-event-results.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Completed Events</title>
+  <style>
+    /* Container Styles */
+    .container {
+      width: 90%;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Table Styles */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .results-table th, .results-table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    .results-table th {
+      background-color: #333;
+      color: #fff;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Back Button */
+    .back-button {
+      display: block;
+      width: 200px;
+      margin: 20px auto 0;
+      padding: 10px;
+      background-color: #6c757d;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+
+    /* Flash Messages Styles */
+    .alert {
+      padding: 15px;
+      margin: 20px auto;
+      width: 90%;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navbar -->
+  <%- include('admin-navbar.ejs') %>
+
+  <!-- Flash Messages -->
+  <% if (error_messages && error_messages.length > 0) { %>
+    <div class="alert">
+      <ul>
+        <% error_messages.forEach(function(message){ %>
+          <li><%= message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="container">
+    <h2>All Completed Events</h2>
+
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Event Name</th>
+          <th>Date</th>
+          <th>Requested By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (completedEvents.length === 0) { %>
+          <tr>
+            <td colspan="3">No completed events found.</td>
+          </tr>
+        <% } else { %>
+          <% completedEvents.forEach(event => { %>
+            <tr>
+              <td>
+                <a href="/admin/event-results/<%= event.event_id %>" class="event-link">
+                  <%= event.event_location %>
+                </a>
+              </td>
+              <td>
+                <%= DateTime.fromJSDate(new Date(event.event_date), { zone: "America/Denver" }).toLocaleString(DateTime.DATE_MED) %>
+              </td>
+              <td>
+                <% if (event.req_first_name && event.req_last_name) { %>
+                  <%= event.req_first_name %> <%= event.req_last_name %>
+                <% } else { %>
+                  Admin
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

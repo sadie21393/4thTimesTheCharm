@@ -1,0 +1,95 @@
+<!-- views/team-member-details.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Team Member Details</title>
+  <style>
+    /* Container Styles */
+    .container {
+      width: 60%;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .details {
+      font-size: 16px;
+      line-height: 1.6;
+      text-align: center; /* Centers the text within the details div */
+    }
+
+    .details p {
+      margin: 10px 0;
+    }
+
+    /* Back Button */
+    .back-button {
+      display: block;
+      width: 200px;
+      margin: 20px auto 0;
+      padding: 10px;
+      background-color: #6c757d;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+
+    /* Flash Messages Styles */
+    .alert {
+      padding: 15px;
+      margin: 20px auto;
+      width: 60%;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navbar -->
+  <%- include('admin-navbar.ejs') %>
+
+  <!-- Flash Messages -->
+  <% if (error_messages && error_messages.length > 0) { %>
+    <div class="alert">
+      <ul>
+        <% error_messages.forEach(function(message){ %>
+          <li><%= message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="container">
+    <h2>Team Member Details</h2>
+
+    <div class="details">
+      <p><strong>Full Name:</strong> <%= member.first_name + ' ' + member.last_name %></p>
+      <p><strong>Email:</strong> <%= member.email %></p>
+      <p><strong>Role:</strong> <%= member.role %></p>
+      <p><strong>Phone:</strong> <%= member.phone %></p>
+      <p><strong>Street Address:</strong> <%= member.street_address %></p>
+      <p><strong>City:</strong> <%= member.city %></p>
+      <p><strong>State:</strong> <%= member.state %></p>
+      <p><strong>Zip:</strong> <%= member.zip %></p>
+      <p><strong>Username:</strong> <%= member.user_name %></p>
+      <!-- Add any additional fields as necessary -->
+    </div>
+
+    <a href="/admin/team-members" class="back-button">Back to Team Members</a>
+  </div>
+</body>
+</html>
