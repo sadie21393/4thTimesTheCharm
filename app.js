@@ -4,7 +4,6 @@
 const express = require('express'); 
 const bodyParser = require('body-parser'); 
 const session = require('express-session'); 
-// const cookieParser = require('cookie-parser'); 
 const routes = require('./routes/index'); 
 const path = require('path'); // Core
 const flash = require("connect-flash");
@@ -27,9 +26,15 @@ dotenv.config();
 const app = express(); 
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// ==============================
+/* 5. Middleware Setup */
+// ==============================
+
+// Set the view engine to EJS
 app.set('view engine', 'ejs'); 
 app.set('views', path.join(__dirname, 'views'));
+
+// Middleware to parse JSON and form data
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -37,7 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public'))); // Serving public folder for CSS, JS, etc.
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Serving the new images folder
 
-// 6.3. Configure Express-Session Middleware
+// Configure Express-Session Middleware
 app.use(
     session({
       secret: process.env.SESSION_SECRET || "your_default_secret", // Use a secure secret in production
@@ -50,34 +55,51 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24, // 1 day
       },
     })
-  );
+);
 
-  // 6.4. Initialize Connect-Flash Middleware
+// Initialize Connect-Flash Middleware
 app.use(flash());
 
-// 6.5. Middleware to Make Flash Messages Available in All Templates
+// Middleware to Make Flash Messages Available in All Templates
 app.use((req, res, next) => {
     res.locals.success_messages = req.flash("success");
     res.locals.error_messages = req.flash("error");
     next();
-  });
+});
 
-  // 6.6. Middleware to Make Luxon's DateTime Available in EJS Templates
+// Middleware to Make Luxon's DateTime Available in EJS Templates
 app.use((req, res, next) => {
     res.locals.DateTime = DateTime;
     next();
-  });
+});
 
-// Routes
+// Authentication Middleware
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    }
+    res.redirect('/login'); // Redirect to login if not authenticated
+}
+
+// ==============================
+/* 6. Routes */
+// ==============================
+
+// Routes (use '/' for general and admin routes)
 app.use('/', routes);
 
-// Error handling middleware
+// Example of Protecting Routes with `isAuthenticated`
+app.use('/admin', isAuthenticated, routes); // This makes sure any routes under `/admin` are protected.
+
+// Error Handling Middleware
 app.use((req, res) => res.status(404).render('404', { message: 'Page Not Found' }));
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).render('error', { message: 'Internal Server Error' });
 });
 
-// Start server
+// ==============================
+/* 7. Start Server */
+// ==============================
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

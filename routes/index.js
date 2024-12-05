@@ -1,26 +1,33 @@
+// ==============================
+/* 1. Import Required Modules */
+// ==============================
 require('dotenv').config();
-
 const express = require('express');
 const router = express.Router();
 const knex = require('../models/database'); // Database connection
 const cron = require('node-cron');
 const { DateTime } = require('luxon');
-
-
+const bcrypt = require('bcrypt');
+const session = require('express-session');
+const flash = require('connect-flash'); // Flash messages middleware
 const nodemailer = require('nodemailer');
-
-// // Middleware for admin authentication
-// function isAdmin(req, res, next) {
-//     if (req.session.user && req.session.user.role === 'admin') {
-//         return next();
-//     }
-//     res.redirect('/login');
-// }
-
-// --- General Routes ---
-
-
 const { OpenAI } = require('openai');
+
+// Flash and session middleware configuration (ensure session and flash work properly)
+router.use(session({
+    secret: 'your-secret-key', // Change this to a secure key
+    resave: false,
+    saveUninitialized: false,
+}));
+
+router.use(flash());
+
+// Attach flash messages to response for easy access in views
+router.use((req, res, next) => {
+    res.locals.success_messages = req.flash('success');
+    res.locals.error_messages = req.flash('error');
+    next();
+});
 
 //configuration for OpenAI API
 const openai = new OpenAI({
@@ -50,6 +57,63 @@ router.post('/chatbot', async (req, res) => {
     }
 });
 
+// Login and Logout
+// Combined '/login' GET and POST Routes
+
+// Middleware to check if a user is authenticated
+function isAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        return next();
+    } else {
+        req.flash("error", "You must be logged in to access this page.");
+        return res.redirect('/login');
+    }
+}
+
+// GET route to render the login page
+router.get('/login', (req, res) => {
+    res.render('login', { success_messages: req.flash("success"), error_messages: req.flash("error") });
+});
+
+// POST route to handle login form submission
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const user = await knex('users').where({ user_name: username }).first();
+
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+
+            if (match) {
+                req.session.user = { username: user.user_name, role: user.role };
+                req.flash("success", "Login successful!");
+                return res.redirect('/admin');
+            } else {
+                req.flash("error", "Invalid credentials");
+            }
+        } else {
+            req.flash("error", "Invalid credentials");
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+        req.flash("error", "An error occurred. Please try again later.");
+    }
+
+    res.redirect('/login');
+});
+
+router.get('/logout', (req, res) => {
+    req.session.destroy(() => res.redirect('/login'));
+});
+
+// Example of protecting an admin route
+router.get('/admin', isAuthenticated, (req, res) => {
+    res.render('admin-home', {
+        admin_name: req.session.user.username,
+        activePage: 'home' // Pass the activePage variable to the template
+    });
+});
 
 // Landing page
 router.get('/', (req, res) => res.render('index')); //This one worked v8
@@ -83,29 +147,6 @@ router.get('/about', (req, res) => {
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
-
-// Contact Us Route
-router.get('/contact', (req, res) => {
-    try {
-        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
-    } catch (error) {
-        console.error('Error loading the Contact Us page:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
-
-// Handle Contact Form Submission
-router.post('/contact', (req, res) => {
-    const { name, email, message } = req.body;
-
-    // You can add logic here to handle the form submission, like sending an email or storing the message
-    console.log('Contact Form Submitted:', { name, email, message });
-
-    // Send a response back to the user
-    res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
-});
-
-
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
@@ -186,7 +227,7 @@ router.get("/", (req, res) => {
     res.redirect("/admin");
   });
 // 7.2. Admin Home Route
-router.get("/admin", (req, res) => {
+router.get("/admin", isAuthenticated, (req, res) => {
     try {
       const adminName = "Admin"; // Replace with dynamic admin name if necessary
       res.render("admin-home", { admin_name: adminName, activePage: "home" });
@@ -200,11 +241,11 @@ router.get("/admin", (req, res) => {
 /* 7.19. Add Team Member Routes */
 // ==============================
 // 7.19.1. GET Route to Render Add Team Member Form
-router.get("/admin/team-members/add", (req, res) => {
+router.get("/admin/team-members/add", isAuthenticated, (req, res) => {
     res.render("add-team-member", { activePage: "team-members" });
   });
 // 7.19.2. POST Route to Handle Add Team Member Form Submission
-router.post("/admin/team-members/add", async (req, res) => {
+router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
     const {
       user_name,
       first_name,
@@ -259,7 +300,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.3. Event Requests Route with Tabs
-  router.get("/admin/event-requests/:tab", async (req, res) => {
+  router.get("/admin/event-requests/:tab", isAuthenticated, async (req, res) => {
     const tab = req.params.tab.toLowerCase(); // Ensure case consistency
     let query = knex("requests as r")
       .join("requeststatus as rs", "r.req_id", "=", "rs.req_id")
@@ -305,7 +346,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.4. Redirect /admin/event-requests to /admin/event-requests/pending
-  router.get("/admin/event-requests", (req, res) => {
+  router.get("/admin/event-requests", isAuthenticated, (req, res) => {
     res.redirect("/admin/event-requests/pending");
   });
   
@@ -353,13 +394,13 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.6. Route to Display the Create Event Page from Scratch
-  router.get("/admin/events/create", (req, res) => {
+  router.get("/admin/events/create", isAuthenticated, (req, res) => {
     // Render the create-event.ejs template with an empty eventRequest object
     res.render("create-event", { eventRequest: null, activePage: "create-event" });
   });
   
   // 7.7. Route to Handle Event Creation
-  router.post("/admin/events/create", async (req, res) => {
+  router.post("/admin/events/create", isAuthenticated, async (req, res) => {
     try {
       let {
         req_id,
@@ -486,7 +527,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.8. Route to Display the Edit Event Page
-  router.get("/admin/events/edit/:id", async (req, res) => {
+  router.get("/admin/events/edit/:id", isAuthenticated, async (req, res) => {
     const eventId = req.params.id;
   
     try {
@@ -528,7 +569,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.9. Route to Handle Event Editing
-  router.post("/admin/events/edit/:id", async (req, res) => {
+  router.post("/admin/events/edit/:id", isAuthenticated, async (req, res) => {
     const eventId = req.params.id;
   
     try {
@@ -633,7 +674,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.10. Deny Event Request
-  router.post("/admin/event-requests/deny/:id", async (req, res) => {
+  router.post("/admin/event-requests/deny/:id", isAuthenticated, async (req, res) => {
     const id = req.params.id;
     try {
       await knex("requeststatus")
@@ -650,7 +691,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.11. Events Route with Status Tabs
-  router.get("/admin/events/:status", async (req, res) => {
+  router.get("/admin/events/:status", isAuthenticated, async (req, res) => {
     const status = req.params.status.toLowerCase();
   
     let query = knex("events as e")
@@ -715,7 +756,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.12. Mark Event as Completed and Redirect to Create Event Results
-  router.get("/admin/events/complete/:id", async (req, res) => {
+  router.get("/admin/events/complete/:id", isAuthenticated, async (req, res) => {
     const eventId = req.params.id;
   
     try {
@@ -751,7 +792,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.13. Cancel Event
-  router.post("/admin/events/cancel/:id", async (req, res) => {
+  router.post("/admin/events/cancel/:id", isAuthenticated, async (req, res) => {
     const eventId = req.params.id;
     try {
       // Update the event's status to "Cancelled"
@@ -769,7 +810,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // Route to Display Event Details
-  router.get("/admin/events/details/:id", async (req, res) => {
+  router.get("/admin/events/details/:id", isAuthenticated, async (req, res) => {
     const eventId = req.params.id;
   
     try {
@@ -810,7 +851,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.14. Handle Event Results Submission
-  router.post("/admin/events/complete/:id", async (req, res) => {
+  router.post("/admin/events/complete/:id", isAuthenticated, async (req, res) => {
     const eventId = req.params.id;
     const {
       num_volunteers,
@@ -845,7 +886,7 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.16. Display All Event Results
-  router.get("/admin/event-results", async (req, res) => {
+  router.get("/admin/event-results", isAuthenticated, async (req, res) => {
     try {
       const completedEvents = await knex("events as e")
         .join("eventresults as er", "e.event_id", "=", "er.event_id") // Join with eventresults
@@ -868,11 +909,11 @@ router.post("/admin/team-members/add", async (req, res) => {
   });
   
   // 7.12. Redirect /admin/events to /admin/events/upcoming
-  router.get("/admin/events", (req, res) => {
+  router.get("/admin/events", isAuthenticated, (req, res) => {
     res.redirect("/admin/events/upcoming");
   });
 
-router.get('/admin/team-members', async (req, res) => {
+router.get('/admin/team-members', isAuthenticated, async (req, res) => {
     try {
         const teamMembers = await knex('users')
             .select('user_name', 'first_name', 'last_name', 'email', 'role', 'phone', 'street_address', 'city', 'state', 'zip')
@@ -893,7 +934,7 @@ router.get('/admin/team-members', async (req, res) => {
     }
 });
 
-router.get('/admin/volunteers', async (req, res) => {
+router.get('/admin/volunteers',isAuthenticated,  async (req, res) => {
     try {
         const volunteers = await knex('users')
             .select('user_name', 'first_name', 'last_name', 'email', 'role', 'phone', 'street_address', 'city', 'state', 'zip')
@@ -915,7 +956,7 @@ router.get('/admin/volunteers', async (req, res) => {
 });
   
   // 7.14. Route to Display Individual Team Member Details
-  router.get("/admin/team-members/:user_name", async (req, res) => {
+  router.get("/admin/team-members/:user_name", isAuthenticated, async (req, res) => {
     const userName = req.params.user_name;
   
     try {
@@ -944,7 +985,7 @@ router.get('/admin/volunteers', async (req, res) => {
 // ==============================
 
 // 7.15.1. GET Route to Render Edit Team Member Form
-router.get("/admin/team-members/:user_name/edit", async (req, res) => {
+router.get("/admin/team-members/:user_name/edit", isAuthenticated, async (req, res) => {
   const userName = req.params.user_name;
 
   try {
@@ -968,7 +1009,7 @@ router.get("/admin/team-members/:user_name/edit", async (req, res) => {
 });
 
 // 7.15.2. POST Route to Handle Edit Team Member Form Submission
-router.post("/admin/team-members/:user_name/edit", async (req, res) => {
+router.post("/admin/team-members/:user_name/edit", isAuthenticated, async (req, res) => {
   const userName = req.params.user_name;
   const {
     first_name,
@@ -1018,7 +1059,7 @@ router.post("/admin/team-members/:user_name/edit", async (req, res) => {
 // ==============================
 
 // 7.16.1. POST Route to Handle Deletion of a Team Member
-router.post("/admin/team-members/:user_name/delete", async (req, res) => {
+router.post("/admin/team-members/:user_name/delete", isAuthenticated,  async (req, res) => {
   const userName = req.params.user_name;
 
   try {
@@ -1085,7 +1126,7 @@ cron.schedule(
 // ==============================
 
 // 7.18.1. GET Route to Display Event Results for a Specific Event
-router.get("/admin/event-results/:id", async (req, res) => {
+router.get("/admin/event-results/:id", isAuthenticated, async (req, res) => {
   const eventId = req.params.id;
 
   try {
@@ -1130,7 +1171,7 @@ router.get("/admin/event-results/:id", async (req, res) => {
 });
 
 // 7.18.2. GET Route to Display All Completed Event Results
-router.get("/admin/event-results", async (req, res) => {
+router.get("/admin/event-results", isAuthenticated, async (req, res) => {
   try {
     // Fetch all events with status 'Completed' along with their requesters (if any)
     const completedEvents = await knex("events as e")
@@ -1158,7 +1199,7 @@ router.get("/admin/event-results", async (req, res) => {
 // ==============================
 /* 7.19. Event Request Details Route */
 // ==============================
-router.get("/admin/event-requests/details/:id", async (req, res) => {
+router.get("/admin/event-requests/details/:id", isAuthenticated, async (req, res) => {
   const { id } = req.params;
   const { tab } = req.query || 'pending'; // Default to 'pending' if no tab is provided
 
@@ -1204,25 +1245,6 @@ router.get("/admin/event-requests/details/:id", async (req, res) => {
     req.flash("error", "Failed to load event request details.");
     res.redirect(`/admin/event-requests/${tab}`);
   }
-});
-
-
-
-
-// Login and Logout
-router.get('/login', (req, res) => res.render('login'));
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    const user = await knex('users').where({ username, password }).first();
-    if (user) {
-        req.session.user = { username: user.username, role: user.role };
-        res.redirect('/');
-    } else {
-        res.status(401).render('login', { error: 'Invalid credentials' });
-    }
-});
-router.get('/logout', (req, res) => {
-    req.session.destroy(() => res.redirect('/'));
 });
 
 //sendRequest
@@ -1345,7 +1367,6 @@ router.post('/events/:eventId/signup', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-
 
 //   THIS NEEDS TO BE AT THE BOTTOM 
 module.exports = router;

@@ -10,15 +10,15 @@
       background-color: #f4f4f4;
     }
     .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       padding: 20px;
-      background-color: #333;
-      color: #fff;
+      background-color: #fff;
+      margin: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
     .welcome {
       font-size: 24px;
+      color: #333;
     }
     .nav-links {
       display: flex;
@@ -37,7 +37,9 @@
 <body>
   <%- include('admin-navbar') %>
   <!-- Any additional content for the admin home page -->
-    <h1>Welcome to the Admin Dashboard</h1>
-    <!-- Other content -->
+  <div class="container">
+    <h1 class="welcome">Welcome to the Admin Dashboard, <%= admin_name %>!</h1>
+  </div>
+  <!-- Other content -->
 </body>
 </html>

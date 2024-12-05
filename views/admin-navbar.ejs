@@ -1,42 +1,44 @@
 <!-- views/navbar.ejs -->
 <style>
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      background-color: #333;
-      color: #fff;
-    }
-    .navbar-left a {
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .navbar-right {
-      display: flex;
-      gap: 15px;
-    }
-    .navbar a {
-      text-decoration: none;
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 4px;
-    }
-    .navbar a:hover {
-      background-color: #555;
-    }
-    .active-link {
-      background-color: #007bff;
-    }
-  </style>
-  <div class="navbar">
-    <div class="navbar-left">
-      <a href="/admin" class="<%= activePage === 'home' ? 'active-link' : '' %>">Home</a>
-    </div>
-    <div class="navbar-right nav-links">
-      <a href="/admin/event-requests" class="<%= activePage === 'event-requests' ? 'active-link' : '' %>">View Event Requests</a>
-      <a href="/admin/events" class="<%= activePage === 'events' ? 'active-link' : '' %>">View Events</a>
-      <a href="/admin/event-results" class="<%= activePage === 'event-results' ? 'active-link' : '' %>">View Event Results</a> <!-- New Link Added -->
-      <a href="/admin/team-members" class="<%= activePage === 'team-members' ? 'active-link' : '' %>">Team Members</a>
-    </div>
-  </div>
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #333;
+    color: #fff;
+  }
+  .navbar-left a {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .navbar-right {
+    display: flex;
+    gap: 15px;
+  }
+  .navbar a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+  .navbar a:hover {
+    background-color: #555;
+  }
+  .active-link {
+    background-color: #007bff;
+  }
+</style>
+
+<div class="navbar">
+<div class="navbar-left">
+  <a href="/admin" class="<%= activePage === 'home' ? 'active-link' : '' %>">Admin Home</a>
+  <a href="/" class="">Back to Turtle Shell Project</a>
+</div>
+<div class="navbar-right nav-links">
+  <a href="/admin/event-requests" class="<%= activePage === 'event-requests' ? 'active-link' : '' %>">View Event Requests</a>
+  <a href="/admin/events" class="<%= activePage === 'events' ? 'active-link' : '' %>">View Events</a>
+  <a href="/admin/event-results" class="<%= activePage === 'event-results' ? 'active-link' : '' %>">View Event Results</a>
+  <a href="/admin/team-members" class="<%= activePage === 'team-members' ? 'active-link' : '' %>">Team Members</a>
+</div>
+</div>
