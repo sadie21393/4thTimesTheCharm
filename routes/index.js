@@ -29,6 +29,7 @@ router.use((req, res, next) => {
     next();
 });
 
+
 //configuration for OpenAI API
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
