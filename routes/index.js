@@ -1,5 +1,5 @@
 // ==============================
-/* 1. Import Required Modules */
+// 1. Import Required Modules
 // ==============================
 require('dotenv').config();
 const express = require('express');
@@ -29,8 +29,7 @@ router.use((req, res, next) => {
     next();
 });
 
-
-//configuration for OpenAI API
+// Configuration for OpenAI API
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -57,9 +56,6 @@ router.post('/chatbot', async (req, res) => {
         res.status(500).send("Something went wrong!");
     }
 });
-
-// Login and Logout
-// Combined '/login' GET and POST Routes
 
 // Middleware to check if a user is authenticated
 function isAuthenticated(req, res, next) {
@@ -134,10 +130,10 @@ router.get('/about', (req, res) => {
     }
 });
 
-//Volunteer form
- router.get('/volunteer', (req, res) => {
+// Volunteer form
+router.get('/volunteer', (req, res) => {
    res.render('volunteer'); 
- });
+});
 
 // Volunteer Form Route
 
@@ -172,8 +168,6 @@ router.post('/contact', (req, res) => {
 });
 
 
-
-
 // router.get('/show-events-by-month', (req, res) => {
 //     try {
 //         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
@@ -182,6 +176,7 @@ router.post('/contact', (req, res) => {
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
+
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
@@ -193,7 +188,7 @@ router.get('/contact', (req, res) => {
     }
 });
 
-// Handle Contact Form Submission
+// Handle Contact Form Submission (Duplicate - Remove if necessary)
 router.post('/contact', async (req, res) => {
     const { name, email, message } = req.body;
 
@@ -227,31 +222,17 @@ router.post('/contact', async (req, res) => {
     }
 });
 
-// router.post('/volunteer', async (req, res) => {
-//     const { name, email, level, hours } = req.body;
-//     await pool.query('INSERT INTO Volunteers (name, email, level, hours) VALUES ($1, $2, $3, $4)', [name, email, level, hours]);
-//     res.redirect('/');
-// });
-
-// Event request form
-// router.get('/event-request', (req, res) => res.render('event-request'));
-// router.post('/event-request', async (req, res) => {
-//     const { contactName, email, date, type } = req.body;
-//     await pool.query('INSERT INTO EventRequests (contact_name, email, event_date, event_type) VALUES ($1, $2, $3, $4)', [contactName, email, date, type]);
-//     res.redirect('/');
-// });
-
 // Donate Page Route
 router.get('/donate', (req, res) => {
     res.render('donate'); // Ensure this matches the file name of your Donate Page (donate.ejs)
 });
 
-// // One-Time Donation Route
+// One-Time Donation Route
 router.get('/donate/one-time', (req, res) => {
     res.send('Thank you for your support!'); // Placeholder for one-time donation logic
 });
 
-// // Monthly Donation Route
+// Monthly Donation Route
 router.get('/donate/monthly', (req, res) => {
     res.send('Thank you for setting up a monthly donation!'); // Placeholder for monthly donation logic
 });
@@ -260,7 +241,8 @@ router.get('/donate/monthly', (req, res) => {
 // 7.1. Redirect Root URL to /admin
 router.get("/", (req, res) => {
     res.redirect("/admin");
-  });
+});
+
 // 7.2. Admin Home Route
 router.get("/admin", isAuthenticated, (req, res) => {
     try {
@@ -272,13 +254,15 @@ router.get("/admin", isAuthenticated, (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   });
+
 // ==============================
-/* 7.19. Add Team Member Routes */
+// 7.19. Add Team Member Routes
 // ==============================
 // 7.19.1. GET Route to Render Add Team Member Form
 router.get("/admin/team-members/add", isAuthenticated, (req, res) => {
     res.render("add-team-member", { activePage: "team-members" });
-  });
+});
+
 // 7.19.2. POST Route to Handle Add Team Member Form Submission
 router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
     const {
@@ -776,7 +760,7 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
       const events = await query;
   
       const formattedEvents = events.map(event => {
-        const eventDate = DateTime.fromJSDate(event.event_date, { zone: "America/Denver" });
+        const eventDate = DateTime.fromJSDate(new Date(event.event_date), { zone: "America/Denver" });
         const totalVolunteers = (event.num_no_sewing || 0) + (event.num_basic_sewing || 0) + (event.num_adv_sewing || 0);
   
         return {
@@ -957,49 +941,115 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
     res.redirect("/admin/events/upcoming");
   });
 
-router.get('/admin/team-members', isAuthenticated, async (req, res) => {
-    try {
-        const teamMembers = await knex('users')
-            .select('user_name', 'first_name', 'last_name', 'email', 'role', 'phone', 'street_address', 'city', 'state', 'zip')
-            .whereIn('role', ['Admin', 'Team Member']) // Select only Admins and Team Members
-            .orderBy('role', 'asc');
+  // ==============================
+  /* 7.20. Assign Team Member to Event Routes */
+  // ==============================
 
-        res.render('team-members', {
-            users: teamMembers, // Use 'users' to make this page dynamic for both roles
-            activeTab: 'team-members',
-            activePage: 'team-members',
-            success_messages: [],
-            error_messages: []
+  // 7.20.1. GET Route to Render Assign Team Member to Event Form
+  router.get("/admin/team-members/:user_name/assign", isAuthenticated, async (req, res) => {
+    const userName = req.params.user_name;
+
+    try {
+        // Fetch the team member's details
+        const member = await knex("users")
+            .select("user_name", "first_name", "last_name", "email")
+            .where("user_name", userName)
+            .first();
+
+        if (!member) {
+            req.flash("error", "Team member not found.");
+            return res.redirect("/admin/team-members");
+        }
+
+        // Fetch all upcoming events
+        const events = await knex("events as e")
+            .join("eventstatus as es", "e.event_id", "=", "es.event_id")
+            .select("e.event_id", "e.event_location", "e.event_date", "e.event_time")
+            .where("es.status", "Upcoming")
+            .orderBy("e.event_date", "asc");
+
+        // Render the 'assign-team-members' page
+        res.render("assign-team-members", { 
+            member,
+            events,
+            activePage: "team-members", // Pass activePage for the navbar
+            success_messages: res.locals.success_messages || [],
+            error_messages: res.locals.error_messages || []
         });
     } catch (error) {
-        console.error('Error fetching team members:', error);
-        req.flash('error', 'Failed to fetch team members.');
-        res.redirect('/admin');
+        console.error("Error rendering assign team member page:", error);
+        req.flash("error", "Failed to load assignment page.");
+        res.redirect("/admin/team-members");
     }
 });
 
-router.get('/admin/volunteers',isAuthenticated,  async (req, res) => {
-    try {
-        const volunteers = await knex('users')
-            .select('user_name', 'first_name', 'last_name', 'email', 'role', 'phone', 'street_address', 'city', 'state', 'zip')
-            .where('role', 'Volunteer') // Select only Volunteers
-            .orderBy('first_name', 'asc');
 
-        res.render('team-members', {
-            users: volunteers, // Use 'users' to make this page dynamic for both roles
-            activeTab: 'volunteers',
-            activePage: 'team-members',
-            success_messages: [],
-            error_messages: []
-        });
-    } catch (error) {
-        console.error('Error fetching volunteers:', error);
-        req.flash('error', 'Failed to fetch volunteers.');
-        res.redirect('/admin');
-    }
-});
-  
-  // 7.14. Route to Display Individual Team Member Details
+  // 7.20.2. POST Route to Handle Assigning Team Member to Event
+  router.post("/admin/team-members/:user_name/assign", isAuthenticated, async (req, res) => {
+      const userName = req.params.user_name;
+      const { event_id } = req.body;
+
+      try {
+          // Validate that event_id is provided
+          if (!event_id) {
+              req.flash("error", "Please select an event.");
+              return res.redirect(`/admin/team-members/${userName}/assign`);
+          }
+
+          // Check if the team member exists
+          const member = await knex("users")
+              .where("user_name", userName)
+              .first();
+
+          if (!member) {
+              req.flash("error", "Team member not found.");
+              return res.redirect("/admin/team-members");
+          }
+
+          // Check if the event exists and is upcoming
+          const event = await knex("events as e")
+              .join("eventstatus as es", "e.event_id", "=", "es.event_id")
+              .select("e.event_id", "e.event_location", "e.event_date", "e.event_time")
+              .where("e.event_id", event_id)
+              .andWhere("es.status", "Upcoming")
+              .first();
+
+          if (!event) {
+              req.flash("error", "Selected event is not available.");
+              return res.redirect(`/admin/team-members/${userName}/assign`);
+          }
+
+          // Check if the attendance record already exists to prevent duplicates
+          const existingAttendance = await knex("attendance")
+              .where({
+                  event_id: event_id,
+                  user_name: userName
+              })
+              .first();
+
+          if (existingAttendance) {
+              req.flash("error", "This team member is already assigned to the selected event.");
+              return res.redirect(`/admin/team-members/${userName}/assign`);
+          }
+
+          // Create the attendance record
+          await knex("attendance").insert({
+              event_id: event_id,
+              user_name: userName
+          });
+
+          req.flash("success", `Team member ${member.first_name} ${member.last_name} has been assigned to the event "${event.event_location}" on ${new Date(event.event_date).toLocaleDateString()} at ${event.event_time}.`);
+          res.redirect("/admin/team-members");
+      } catch (error) {
+          console.error("Error assigning team member to event:", error);
+          req.flash("error", "Failed to assign team member to event. Please try again.");
+          res.redirect(`/admin/team-members/${userName}/assign`);
+      }
+  });
+
+  // ==============================
+  /* 7.16. Route to Display Individual Team Member Details */
+  // ==============================
   router.get("/admin/team-members/:user_name", isAuthenticated, async (req, res) => {
     const userName = req.params.user_name;
   
@@ -1022,11 +1072,55 @@ router.get('/admin/volunteers',isAuthenticated,  async (req, res) => {
       res.redirect("/admin/team-members");
     }
   });
+  
+// ==============================
+// 7.15. Edit Team Member Routes 
+// ==============================
+
+router.get("/admin/team-members", isAuthenticated, async (req, res) => {
+    try {
+        // Fetch Admins/Team Members
+        const users = await knex("users")
+            .whereIn("role", ["Admin", "Team Member"]) // Match "Admin" or "Team Member"
+            .select("user_name", "first_name", "last_name", "email", "role");
+
+        // Render the 'team-members' page for admins and team members
+        res.render("team-members", {
+            users, // Pass the admins/team members data
+            activePage: "team-members", // Highlight navbar
+            activeTab: "team-members", // Highlight the correct tab
+            success_messages: res.locals.success_messages || [],
+            error_messages: res.locals.error_messages || []
+        });
+    } catch (error) {
+        console.error("Error fetching team members:", error);
+        req.flash("error", "Failed to load team members.");
+        res.redirect("/admin");
+    }
+});
 
 
-// ==============================
-/* 7.15. Edit Team Member Routes */
-// ==============================
+router.get("/admin/volunteers", isAuthenticated, async (req, res) => {
+    try {
+        // Fetch Volunteers
+        const users = await knex("users")
+            .where("role", "Volunteer") // Adjust this to match your database structure
+            .select("user_name", "first_name", "last_name", "email", "role");
+
+        // Render the 'team-members' page for volunteers
+        res.render("team-members", {
+            users, // Pass the volunteers data
+            activePage: "team-members", // Highlight navbar
+            activeTab: "volunteers", // Highlight the correct tab
+            success_messages: res.locals.success_messages || [],
+            error_messages: res.locals.error_messages || []
+        });
+    } catch (error) {
+        console.error("Error fetching volunteers:", error);
+        req.flash("error", "Failed to load volunteers.");
+        res.redirect("/admin");
+    }
+});
 
 // 7.15.1. GET Route to Render Edit Team Member Form
 router.get("/admin/team-members/:user_name/edit", isAuthenticated, async (req, res) => {
@@ -1099,7 +1193,7 @@ router.post("/admin/team-members/:user_name/edit", isAuthenticated, async (req, 
 });
 
 // ==============================
-/* 7.16. Delete Team Member Route */
+// 7.16. Delete Team Member Route 
 // ==============================
 
 // 7.16.1. POST Route to Handle Deletion of a Team Member
@@ -1127,7 +1221,7 @@ router.post("/admin/team-members/:user_name/delete", isAuthenticated,  async (re
 });
 
 // ==============================
-/* 7.17. Automated Status Updates Using node-cron */
+// 7.17. Automated Status Updates Using node-cron 
 // ==============================
 
 cron.schedule(
@@ -1166,7 +1260,7 @@ cron.schedule(
 );
 
 // ==============================
-/* 7.18. Route to Display Event Results */
+// 7.18. Route to Display Event Results 
 // ==============================
 
 // 7.18.1. GET Route to Display Event Results for a Specific Event
@@ -1241,11 +1335,11 @@ router.get("/admin/event-results", isAuthenticated, async (req, res) => {
 });
 
 // ==============================
-/* 7.19. Event Request Details Route */
+// 7.19. Event Request Details Route 
 // ==============================
 router.get("/admin/event-requests/details/:id", isAuthenticated, async (req, res) => {
     const { id } = req.params;
-    const { tab } = req.query || 'pending'; // Default to 'pending' if no tab is provided
+    const tab = req.query.tab || 'pending'; // Default to 'pending' if no tab is provided
   
     try {
       const eventRequest = await knex("requests as r")
@@ -1371,8 +1465,8 @@ router.post('/sendRequest', async (req, res) => {
 
 // Admin dashboard
 router.get('/dashboard', async (req, res) => {
-    const events = await pool.query('SELECT * FROM Events');
-    res.render('admin', { events: events.rows });
+    const events = await knex('events').select('*');
+    res.render('admin', { events: events });
 });
 
 // Route for Take Action Page
@@ -1447,11 +1541,15 @@ router.post('/events/:eventId/signup', async (req, res) => {
             .orWhere('phone', phone)
             .first();
 
+        // Generate a timestamp for unique user_name if needed
+        const truncatedFirstName = firstName.toLowerCase().slice(0, 10); // Limit first name to 10 chars
+        const truncatedLastName = lastName.toLowerCase().slice(0, 10);   // Limit last name to 10 chars
+        const timestamp = Date.now().toString().slice(-8);    
         // If no user exists, create a new user
-        const timestamp = Date.now();
         if (!user) {
+            const user_name = `${truncatedFirstName}${truncatedLastName}${timestamp}`; // Max 28 chars
             const [newUserId] = await knex('users').insert({
-                user_name: `${firstName.toLowerCase()}${lastName.toLowerCase()}${timestamp}`.slice(0, 30), // Ensure it is 30 characters max,
+                user_name: user_name,
                 first_name: firstName,
                 last_name: lastName,
                 phone: phone,
@@ -1484,5 +1582,15 @@ router.post('/events/:eventId/signup', async (req, res) => {
     }
 });
 
-//   THIS NEEDS TO BE AT THE BOTTOM 
+// ==============================
+// 7.20. Assign Team Member to Event Routes
+// ==============================
+
+// 7.20.1. GET Route to Render Assign Team Member to Event Form
+// (Already included above)
+
+// 7.20.2. POST Route to Handle Assigning Team Member to Event
+// (Already included above)
+
+// Export the router at the bottom 
 module.exports = router;

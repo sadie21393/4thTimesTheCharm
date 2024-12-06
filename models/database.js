@@ -25,6 +25,10 @@ const knex = require("knex")({
         password: process.env.RDS_PASSWORD || "Crossroads0402",
         database: process.env.RDS_DB_NAME || "INTEX",
         port: process.env.RDS_PORT || 5432,
+        // ssl: {
+        //     require: true,
+        //     rejectUnauthorized: false
+        // }
     },
     pool: { min: 0, max: 7 },
 });
