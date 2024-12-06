@@ -140,7 +140,7 @@ router.get('/about', (req, res) => {
  });
 
 // Volunteer Form Route
-<<<<<<< HEAD
+
 router.get('/volunteerForm', (req, res) => {
     try {
         res.render('volunteerForm'); // Ensure 'volunteerForm.ejs' exists in the views folder
@@ -173,7 +173,7 @@ router.post('/contact', (req, res) => {
 
 
 const nodemailer = require('nodemailer');
-=======
+
 // router.get('/show-events-by-month', (req, res) => {
 //     try {
 //         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
@@ -182,7 +182,7 @@ const nodemailer = require('nodemailer');
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
->>>>>>> 10ee99e8b5df79a382a51abdcbd7c79925ad769c
+
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
