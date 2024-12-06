@@ -266,17 +266,21 @@ router.get("/admin/team-members/add", isAuthenticated, (req, res) => {
 // 7.19.2. POST Route to Handle Add Team Member Form Submission
 router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
     const {
-      user_name,
-      first_name,
-      last_name,
-      email,
-      role,
-      phone,
-      street_address,
-      city,
-      state,
-      zip
-    } = req.body;
+        user_name,
+        first_name,
+        last_name,
+        email,
+        role,
+        phone,
+        street_address,
+        city,
+        state,
+        zip,
+        sewing_level,
+        hours_willing_to_work,
+        heard_of_tsp
+      } = req.body;
+      
   
     try {
       // Basic validation to ensure all fields are filled
@@ -306,7 +310,10 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
         street_address,
         city,
         state,
-        zip
+        zip,
+        sewing_level,
+        hours_willing_to_work,
+        heard_of_tsp
       });
   
       req.flash("success", "Team member added successfully.");
@@ -1542,7 +1549,7 @@ router.post('/events/:eventId/signup', async (req, res) => {
         if (!user) {
             const user_name = `${truncatedFirstName}${truncatedLastName}${timestamp}`; // Max 28 chars
             const [newUserId] = await knex('users').insert({
-                user_name: newUserName,
+                user_name: user_name,
                 first_name: firstName,
                 last_name: lastName,
                 phone: phone,
