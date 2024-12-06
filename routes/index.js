@@ -172,7 +172,7 @@ router.post('/contact', (req, res) => {
 });
 
 
-const nodemailer = require('nodemailer');
+
 
 // router.get('/show-events-by-month', (req, res) => {
 //     try {
@@ -182,7 +182,6 @@ const nodemailer = require('nodemailer');
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
-
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
