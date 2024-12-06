@@ -1542,7 +1542,7 @@ router.post('/events/:eventId/signup', async (req, res) => {
         if (!user) {
             const user_name = `${truncatedFirstName}${truncatedLastName}${timestamp}`; // Max 28 chars
             const [newUserId] = await knex('users').insert({
-                user_name: newUserName,
+                user_name: user_name,
                 first_name: firstName,
                 last_name: lastName,
                 phone: phone,
