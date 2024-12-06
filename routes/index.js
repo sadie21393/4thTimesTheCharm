@@ -140,6 +140,40 @@ router.get('/about', (req, res) => {
  });
 
 // Volunteer Form Route
+
+router.get('/volunteerForm', (req, res) => {
+    try {
+        res.render('volunteerForm'); // Ensure 'volunteerForm.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Volunteer Form page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Contact Us Route
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Contact Us page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handle Contact Form Submission
+router.post('/contact', (req, res) => {
+    const { name, email, message } = req.body;
+
+    // You can add logic here to handle the form submission, like sending an email or storing the message
+    console.log('Contact Form Submitted:', { name, email, message });
+
+    // Send a response back to the user
+    res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
+});
+
+
+
+
 // router.get('/show-events-by-month', (req, res) => {
 //     try {
 //         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
