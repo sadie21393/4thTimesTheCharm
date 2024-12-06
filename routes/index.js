@@ -171,9 +171,6 @@ router.post('/contact', (req, res) => {
     res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
 });
 
-
-const nodemailer = require('nodemailer');
-
 // router.get('/show-events-by-month', (req, res) => {
 //     try {
 //         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
@@ -1443,10 +1440,11 @@ router.post('/events/:eventId/signup', async (req, res) => {
 
         // If no user exists, create a new user
         if (!user) {
+            const truncatedFirstName = firstName.toLowerCase().slice(0, 10); // Limit to 10 characters
+            const truncatedLastName = lastName.toLowerCase().slice(0, 10);  // Limit to 10 characters
+            const timestamp = Date.now().toString().slice(-10);            // Last 10 digits of the timestamp
             const [newUserId] = await knex('users').insert({
-                user_name: `${firstName.toLowerCase()}${lastName.toLowerCase()}${timestamp}`.slice(0, 30), // Ensure it is 30 characters max,
-                first_name: firstName,
-                last_name: lastName,
+                user_name: `${truncatedFirstName}${truncatedLastName}${timestamp}`.slice(0, 30),last_name: lastName,
                 phone: phone,
                 email: email,
                 role: 'Volunteer',

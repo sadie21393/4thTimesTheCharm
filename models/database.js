@@ -6,10 +6,10 @@ const knex = require("knex")({
         password: process.env.RDS_PASSWORD || "admin",
         database: process.env.RDS_DB_NAME || "admin testing",
         port: process.env.RDS_PORT || 5432,
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
+        // ssl: {
+        //     require: true,
+        //     rejectUnauthorized: false
+        // }
     },
     pool: { min: 0, max: 7 },
 });
