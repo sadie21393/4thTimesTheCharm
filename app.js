@@ -35,8 +35,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Middleware to parse JSON and form data
-app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public'))); // Serving public folder for CSS, JS, etc.

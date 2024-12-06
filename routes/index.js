@@ -1532,7 +1532,7 @@ router.get('/events/:eventId/signup', async (req, res) => {
 // Route to process volunteer sign-up
 router.post('/events/:eventId/signup', async (req, res) => {
     const eventId = req.params.eventId;
-    const { firstName, lastName, phone, email } = req.body;
+    const { firstName, lastName, phone, email, sewing_level, hours_willing_to_work, heard_of_tsp } = req.body;
 
     try {
         // Check if a user with the provided email or phone already exists
