@@ -49,6 +49,7 @@
         font-size: 16px; /* Match tabs font size */
         text-align: center;
         border-radius: 5px; /* Match tabs border radius */
+        text-decoration: none;
       }
       .add-button:hover {
         background-color: #218838;
@@ -106,6 +107,12 @@
       }
       .delete-button:hover {
         background-color: #c82333;
+      }
+      .assign-button {
+        background-color: #17a2b8; /* Teal */
+      }
+      .assign-button:hover {
+        background-color: #138496;
       }
   
       /* Flash Messages Styles */
@@ -192,6 +199,9 @@
               <td>
                 <!-- Edit Button -->
                 <a href="/admin/team-members/<%= user.user_name %>/edit" class="action-button edit-button">Edit</a>
+                
+                <!-- Assign to Event Button -->
+                <a href="/admin/team-members/<%= user.user_name %>/assign" class="action-button assign-button">Assign to Event</a>
                 
                 <!-- Delete Button -->
                 <form action="/admin/team-members/<%= user.user_name %>/delete" method="POST" style="display:inline;">
