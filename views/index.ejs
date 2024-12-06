@@ -6,31 +6,111 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 
+<style>
+/* Navbar Styling */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.8); /* Transparent effect */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out elements */
+    padding: 10px 20px;
+    
+}
+
+/* Logo Section */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-logo {
+    height: 75px; /* Consistent logo size */
+    flex-shrink: 0; /* Prevent the logo from shrinking */
+}
+
+/* Navbar Links */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-links a {
+    font-size: 1.2rem;
+    color: black;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.navbar-links a:hover {
+    text-decoration: underline;
+}
+
+/* Donate Button */
+.navbar-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.btn-take-action {
+    background-color: #a63636;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-take-action:hover {
+    background-color: #8c2e2e;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap; /* Allow navbar to wrap on smaller screens */
+    }
+
+    .navbar-links {
+        flex-wrap: wrap; /* Wrap links to the next row */
+        justify-content: center;
+    }
+
+    .navbar-button-container {
+        margin-top: 10px;
+    }
+}
+</style>
+
 <body>
     <!-- Transparent Navbar -->
     <nav class="navbar transparent-navbar">
-        <div class="container navbar-container">
-            <div class="navbar-brand-container" style="display: flex; align-items: center; gap: 10px;">
-                <img src="/images/logo.png" alt="Logo" style="height: 115px; position: absolute; left: 0;"> <!-- Adjust the path and size as needed -->
-                <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
-            </div>
-            <div class="navbar-links" style="display: flex; align-items: center; gap: 15px;">
-                <a href="/about" class="nav-link" style="font-size: 1.2rem; padding: 10px;">About</a>
-                <a href="/volunteer" class="nav-link" style="font-size: 1.2rem; padding: 10px;">Volunteer</a>
-                <a href="/contact" class="nav-link" style="font-size: 1.2rem; padding: 10px;">Contact Us</a>
-                <a href="/login" class="nav-link" style="font-size: 1.2rem; padding: 10px;">Login</a>
-                <a href="https://www.instagram.com/turtleshelterproject/?hl=en" 
-                   class="text-white" style="font-size: 1.5rem; padding: 10px; color: black;">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.facebook.com/turtleshelterproject/" 
-                   class="text-white" style="font-size: 1.5rem; padding: 10px; color: black;">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-            </div>
-            <div class="navbar-button-container">
-                <a href="/donate" class="btn btn-take-action">DONATE</a>
-            </div>
+        <div class="logo-container">
+            <img src="/images/logo.png" alt="Logo" class="navbar-logo">
+            <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="navbar-links">
+            <a href="/about" class="nav-link">About</a>
+            <a href="/volunteer" class="nav-link">Volunteer</a>
+            <a href="/contact" class="nav-link">Contact Us</a>
+            <a href="/login" class="nav-link">Login</a>
+            <a href="https://www.instagram.com/turtleshelterproject/?hl=en" class="nav-link">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/turtleshelterproject/" class="nav-link">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </div>
+
+        <!-- Button Section -->
+        <div class="navbar-button-container">
+            <a href="/donate" class="btn btn-take-action">DONATE</a>
         </div>
     </nav>
 
@@ -41,7 +121,7 @@
                 <p class="subheadline">Helping to save lives of people experiencing homelessness</p>
                 <h1>STARTS WITH YOU</h1>
                 <!-- Correct Route Link -->
-                <a href="/JenStory" class="btn btn-learn-more">JEN'S STORY</a>
+                <a href="/JenStor" class="btn btn-learn-more">JEN'S STORY</a>
             </div>
         </div>
     </header>

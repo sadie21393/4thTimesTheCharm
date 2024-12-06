@@ -247,11 +247,17 @@ body {
         background-color: rgba(200, 200, 200, 0.7);
     }
 
-    header {
-        padding-bottom: 20px; /* Adds spacing below the header */
-      }
-      
-      main.container {
-        margin-top: 20px; /* Adds spacing above the main content */
-      }
-   
+
+    
+    button,
+a.btn-primary,
+a.btn-secondary {
+    outline: none; /* Remove outline */
+}
+
+button:focus,
+a.btn-primary:focus,
+a.btn-secondary:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: none; /* Remove any focus shadow */
+}
