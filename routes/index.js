@@ -1201,52 +1201,54 @@ router.get("/admin/event-results", isAuthenticated, async (req, res) => {
 /* 7.19. Event Request Details Route */
 // ==============================
 router.get("/admin/event-requests/details/:id", isAuthenticated, async (req, res) => {
-  const { id } = req.params;
-  const { tab } = req.query || 'pending'; // Default to 'pending' if no tab is provided
-
-  try {
-    const eventRequest = await knex("requests as r")
-      .join("requeststatus as rs", "r.req_id", "=", "rs.req_id")
-      .select(
-        "r.req_id",
-        "r.req_location",
-        "r.req_street_address",
-        "r.req_city",
-        "r.req_state",
-        "r.req_zip",
-        "r.req_event_date",
-        "r.req_event_time",
-        "r.req_event_duration",
-        "r.num_no_sewing",
-        "r.num_basic_sewing",
-        "r.num_adv_sewing",
-        "r.num_sewing_machines",
-        "r.num_sergers",
-        "r.req_first_name",
-        "r.req_last_name",
-        "r.req_phone",
-        "r.req_email",
-        "rs.status"
-      )
-      .where("r.req_id", id)
-      .first();
-
-    if (!eventRequest) {
-      req.flash("error", "Event Request not found.");
-      return res.redirect(`/admin/event-requests/${tab}`);
+    const { id } = req.params;
+    const { tab } = req.query || 'pending'; // Default to 'pending' if no tab is provided
+  
+    try {
+      const eventRequest = await knex("requests as r")
+        .join("requeststatus as rs", "r.req_id", "=", "rs.req_id")
+        .select(
+          "r.req_id",
+          "r.req_location",
+          "r.req_street_address",
+          "r.req_city",
+          "r.req_state",
+          "r.req_zip",
+          "r.req_event_date",
+          "r.req_event_time",
+          "r.req_event_duration",
+          "r.num_no_sewing",
+          "r.num_basic_sewing",
+          "r.num_adv_sewing",
+          "r.num_sewing_machines",
+          "r.num_sergers",
+          "r.req_first_name",
+          "r.req_last_name",
+          "r.req_phone",
+          "r.req_email",
+          "r.share_jens_story",  // Add this field
+          "r.sewing_event",      // Add this field
+          "rs.status"
+        )
+        .where("r.req_id", id)
+        .first();
+  
+      if (!eventRequest) {
+        req.flash("error", "Event Request not found.");
+        return res.redirect(`/admin/event-requests/${tab}`);
+      }
+  
+      res.render("event-request-details", {
+        eventRequest, // Pass eventRequest to the template
+        activeTab: tab,
+        activePage: "event-requests", // Pass activePage for the navbar
+      });
+    } catch (error) {
+      console.error("Error fetching event request details:", error);
+      req.flash("error", "Failed to load event request details.");
+      res.redirect(`/admin/event-requests/${tab}`);
     }
-
-    res.render("event-request-details", {
-      eventRequest, // Pass eventRequest to the template
-      activeTab: tab,
-      activePage: "event-requests", // Pass activePage for the navbar
-    });
-  } catch (error) {
-    console.error("Error fetching event request details:", error);
-    req.flash("error", "Failed to load event request details.");
-    res.redirect(`/admin/event-requests/${tab}`);
-  }
-});
+  });  
 
 //sendRequest
 router.get('/sendRequest', (req, res) => {
@@ -1255,6 +1257,72 @@ router.get('/sendRequest', (req, res) => {
     } catch (error) {
         console.error('Error loading the Send Request Page:', error);
         res.status(500).send('Internal Server Error');
+    }
+});
+
+// Add POST route to handle event request submission
+router.post('/sendRequest', async (req, res) => {
+    const {
+        req_location,
+        req_street_address,
+        req_city,
+        req_state,
+        req_zip,
+        req_event_date,
+        event_time,
+        req_event_duration,
+        share_jens_story,
+        sewing_event,
+        num_no_sewing,
+        num_basic_sewing,
+        num_adv_sewing,
+        num_sewing_machines,
+        num_sergers,
+        req_first_name,
+        req_last_name,
+        req_phone,
+        req_email
+    } = req.body;
+
+    try {
+        // Insert request data into the 'requests' table
+        const insertedRequest = await knex('requests').insert({
+            req_location,
+            req_street_address,
+            req_city,
+            req_state,
+            req_zip,
+            req_event_date,
+            req_event_time: event_time,
+            req_event_duration: Math.round(req_event_duration),
+            share_jens_story: share_jens_story === 'true',
+            sewing_event: sewing_event === 'true',
+            num_no_sewing,
+            num_basic_sewing,
+            num_adv_sewing,
+            num_sewing_machines,
+            num_sergers,
+            req_first_name,
+            req_last_name,
+            req_phone,
+            req_email
+        }).returning('req_id');
+
+        const newRequestId = insertedRequest[0].req_id || insertedRequest[0];
+
+        // Insert a new request status with the status set to 'Pending'
+        await knex('requeststatus').insert({
+            req_id: newRequestId, // Use the ID from the inserted request
+            status: 'Pending' // Set the default status to 'Pending'
+        });
+
+        // Set a success flash message and redirect to a confirmation page
+        req.flash('success', 'Your event request has been submitted successfully!');
+        res.redirect('/sendRequest'); // Create a confirmation page if needed
+    } catch (error) {
+        console.error('Error submitting event request:', error);
+        req.flash('error', 'There was an error submitting your request. Please try again later.');
+        res.redirect('/sendRequest'); // Redirect back to form with error message
     }
 });
 

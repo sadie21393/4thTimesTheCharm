@@ -140,6 +140,14 @@
         <td>Email</td>
         <td><%= eventRequest.req_email %></td>
       </tr>
+      <tr>
+        <td>Share Jen's Story</td>
+        <td><%= eventRequest.share_jens_story ? 'Yes' : 'No' %></td>
+      </tr>
+      <tr>
+        <td>Sewing Event</td>
+        <td><%= eventRequest.sewing_event ? 'Yes' : 'No' %></td>
+      </tr>
     </table>
     <a href="/admin/event-requests/<%= activeTab || 'pending' %>" class="back-button">Back to Event Requests</a>
   </div>
