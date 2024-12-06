@@ -71,8 +71,7 @@ router.post('/contact', (req, res) => {
     res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
 });
 
-const express = require('express');
-const router = express.Router();
+
 const nodemailer = require('nodemailer');
 
 // Contact Us Route

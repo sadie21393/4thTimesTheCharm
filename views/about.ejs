@@ -4,99 +4,185 @@
 <head>
     <%- include('partials/head') %>
     <link rel="stylesheet" href="/styles.css">
-    <script src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
     <style>
         body {
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             background-color: #f9f6f3;
         }
 
         .content-wrapper {
-            margin-top: 80px;
-            padding: 20px;
+            flex: 1;
+            padding: 40px 20px;
+        }
+
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
             text-align: center;
         }
 
-        h1 {
-            font-size: 48px;
-            font-weight: bold;
+        .about-container h1 {
+            font-size: 36px;
             color: #333;
             margin-bottom: 20px;
         }
 
-        p {
-            font-size: 20px;
+        .about-container p {
+            font-size: 18px;
             line-height: 1.8;
             color: #555;
             margin-bottom: 20px;
+            text-align: justify;
         }
 
-        .dashboard-container {
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            align-items: center;
             text-align: center;
-            margin-top: 30px;
+        }
+            
+        .tab-container button {
+            background-color: #ebe6e2;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+            color: #333;
+            border-radius: 5px;
+            outline: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .dashboard-buttons button {
+        .tab-container button.active {
             background-color: #a63636;
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            margin: 10px;
-            cursor: pointer;
         }
 
-        .dashboard-buttons button:hover {
-            background-color: #8c2e2e;
+        .tab-indicator {
+            position: absolute;
+            bottom: -5px;
+            height: 3px;
+            width: 50%;
+            background-color: #a63636;
+            transition: transform 0.3s ease;
+        }
+
+        .tableau-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 50px auto;
         }
 
         iframe {
             width: 100%;
-            height: 800px;
+            max-width: 1200px;
+            height: 900px;
             border: none;
+            display: none;
+        }
+
+        iframe.active {
+            display: block;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        footer a {
+            color: #a63636;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
+    <script>
+        function showDashboard(type) {
+            const utahIframe = document.getElementById("utahDashboard");
+            const nationalIframe = document.getElementById("nationalDashboard");
+            const tabIndicator = document.querySelector(".tab-indicator");
+            const utahTab = document.getElementById("utahTab");
+            const nationalTab = document.getElementById("nationalTab");
+
+            if (type === 'utah') {
+                utahIframe.classList.add('active');
+                nationalIframe.classList.remove('active');
+                utahTab.classList.add('active');
+                nationalTab.classList.remove('active');
+                tabIndicator.style.transform = 'translateX(0%)';
+            } else {
+                nationalIframe.classList.add('active');
+                utahIframe.classList.remove('active');
+                nationalTab.classList.add('active');
+                utahTab.classList.remove('active');
+                tabIndicator.style.transform = 'translateX(0%)';
+            }
+        }
+
+        window.onload = function () {
+            showDashboard('utah');
+        };
+    </script>
 </head>
 
 <body>
     <%- include('partials/navbar') %>
 
     <div class="content-wrapper">
-        <h1>About Turtle Shelter Project</h1>
-        <p>
-            The <strong>Turtle Shelter Project</strong> was born from a desire to protect those experiencing homelessness from the harsh realities of the cold. 
-            Every year, extreme weather conditions claim the lives of individuals without access to proper shelter and clothing.
-        </p>
-        <p>
-            Inspired by the resilience and adaptability of turtles, our vests are designed to be lightweight, portable, and incredibly effective. 
-            With the help of compassionate volunteers, donors, and community support, we've distributed thousands of vests and saved countless lives. 
-            Together, we can continue to make a difference.
-        </p>
+        <div class="about-container">
+            <h1>About Turtle Shelter Project</h1>
+            <p>
+                The <strong>Turtle Shelter Project</strong> was born from a desire to protect those experiencing homelessness from the harsh realities of the cold. 
+                Every year, extreme weather conditions claim the lives of individuals without access to proper shelter and clothing.
+                Our mission is to provide portable, durable, and insulating <strong>"Turtle Shelter"</strong> vests to those in need, ensuring they have a source of warmth 
+                even in the most challenging conditions.
+            </p>
+            <p>
+                Inspired by the resilience and adaptability of turtles, our vests are designed to be lightweight, portable, and incredibly effective. 
+                With the help of compassionate volunteers, donors, and community support, we've distributed thousands of vests and saved countless lives. 
+                Together, we can continue to make a difference.
+            </p>
+        </div>
 
-        <h2>Explore Homelessness Statistics</h2>
-        <p>Switch between Utah-specific and National data to understand homelessness trends and insights.</p>
-        <div class="dashboard-container">
-            <div class="dashboard-buttons">
-                <button onclick="showDashboard('utah')">Utah Data</button>
-                <button onclick="showDashboard('national')">National Data</button>
+        <!-- Tableau Dashboard Tabs -->
+        <div class="tableau-container">
+            <h2 class="dashboard-title">Explore Homelessness Statistics</h2>
+            <p>Switch between Utah-specific and National data to understand homelessness trends and insights.</p>
+            <div class="tab-container">
+                <button id="utahTab" onclick="showDashboard('utah')">Utah Statistics</button>
+                <button id="nationalTab" onclick="showDashboard('national')">National Statistics</button>
+                <div class="tab-indicator"></div>
             </div>
-            <iframe id="dashboard" src="https://public.tableau.com/views/NationalDashboard/NationalDashbaord" title="Homelessness Dashboard"></iframe>
+            <iframe id="utahDashboard" 
+                src="https://public.tableau.com/views/NationalDashboard_17334398234280/UtahDashboard?:showVizHome=no&:embed=true&:device=desktop" 
+                title="Utah Homelessness Statistics">
+            </iframe>
+            <iframe id="nationalDashboard" 
+                src="https://public.tableau.com/views/NationalDashboard_17334398234280/Dashboard3?:showVizHome=no&:embed=true&:device=desktop" 
+                title="National Dashboard" 
+                style="width: 100%; height: 900px; border: none;">
+            </iframe>
+ 
+
         </div>
     </div>
 
     <%- include('partials/footer') %>
-
-    <script>
-        function showDashboard(type) {
-            const iframe = document.getElementById('dashboard');
-            if (type === 'utah') {
-                iframe.src = 'https://public.tableau.com/views/NationalDashboard/UtahDashboard';
-            } else if (type === 'national') {
-                iframe.src = 'https://public.tableau.com/views/NationalDashboard/NationalDashbaord';
-            }
-        }
-    </script>
 </body>
 
 </html>

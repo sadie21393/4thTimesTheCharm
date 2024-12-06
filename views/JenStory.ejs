@@ -4,187 +4,174 @@
 <head>
     <%- include('partials/head') %>
     <link rel="stylesheet" href="/styles.css">
+    <script src="https://public.tableau.com/javascripts/api/viz_v1.js"></script>
     <style>
-      body {
-          margin: 0;
-          padding: 0;
-      }
-  
-      
-      .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background-color: #ebe6e2;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar a.nav-link {
-            color: black;
-            text-decoration: none;
-        }
-
-        .navbar a.nav-link:hover {
-            text-decoration: underline;
-        }
-
-        .navbar .navbar-brand {
-            color: black;
-            text-decoration: none;
-        }
-
-        .navbar-links {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .navbar-links a i {
-            color: black; /* Black color for icons */
-            font-size: 1.5rem; /* Uniform size for icons */
-        }
-
-        .navbar-links a i:hover {
-            color: #333; /* Optional hover effect */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f9f6f3;
         }
 
         .content-wrapper {
-            margin-top: 80px;
-            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
         }
-      .story-container {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: flex-start;
-          gap: 20px;
-          
-      }
-  
-      .story-container img {
-          flex: 1;
-          max-width: 40%;
-          border-radius: 8px;
-          object-fit: cover;
-      }
-  
-      .story-text {
-          flex: 2;
-      }
-  
-      h1, h2 {
-          color: #333;
-      }
-  
-      p {
-          font-size: 20px;
-          line-height: 1.8;
-          color: #555;
-      }
-  
-      .btn-primary,
-      .btn-secondary {
-          background-color: #a63636;
-          border-radius: 5px;
-          padding: 10px 20px;
-          text-decoration: none;
-          font-size: 16px;
-          display: inline-block;
-          margin: 10px;
-      }
-      .navbar-button-container .btn-take-action {
-            background-color: #a63636; /* Donate button color */
-            color: white;
-      }
 
-      .btn-primary:hover,
-        .btn-secondary:hover {
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tabs button {
+            background-color: #a63636;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .tabs button:hover {
             background-color: #8c2e2e;
         }
-  </style>
-</head>
-<body>
-    <!-- Navbar -->
-<nav class="navbar">
-  <div class="container navbar-container">
-      <div class="navbar-brand-container">
-          <a class="navbar-brand" href="/">TURTLE SHELTER PROJECT</a>
-          <img src="/images/logo.png" alt="Logo" style="height: 75px; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">
-      </div>
-      <div class="navbar-links">
-          <a href="/about" class="nav-link">About</a>
-          <a href="/sendRequest" class="nav-link">Volunteer</a>
-          <a href="/contact" class="nav-link">Contact Us</a>
-          <a href="/login" class="nav-link">Login</a>
-          <a href="https://www.instagram.com/turtleshelterproject/?hl=en" 
-               class="text-black" style="font-size: 1.25rem; padding: 10px; color: black;">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.facebook.com/turtleshelterproject/" 
-               class="text-black" style="font-size: 1.25rem; padding: 10px; color: rgb(0, 0, 0);">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-      </div>
-      <div class="navbar-button-container">
-          <a href="/donate" class="btn btn-take-action">DONATE</a>
-      </div>
-  </div>
-</nav>
-    <!-- Main Content Section -->
-    <div class="content-wrapper">
-        <section class="story-section py-5" style="background-color: #f9f9f9;">
-            <div class="container">
-                <br>
-                <h1 style="text-align: center; font-size: 32px; margin-bottom: 20px;">Jen's Story</h1>
-                <div class="story-container">
-                    <img src="/images/Jen.png" alt="Jen's Story">
-                    <div class="story-text">
-                        <p>
-                            My addiction led me to being homeless on several occasions throughout my life, and during that time I personally knew seven people who froze to death. When I first learned about this lifesaving technology, my mind flooded with ideas on how many people's lives this could save. I'd recently been homeless during an extreme winter. It had been one of the coldest winters Utah had suffered in a long time, so the misery of surviving the bitter cold was still very fresh in my mind.
-                        </p>
-                        <p>
-                            While I was homeless I remember feeling the chill all the way to my bones. I couldn't even think or function. It completely zapped me of my energy so much that I was losing my will to live. Everything felt beyond overwhelming. Simple tasks, like finding a bathroom, seemed to feel like huge obstacles.
-                        </p>
-                        <p> The crazy thing about it was: I had a car I was living in; I had a storage unit I could hang out in during the day and at night; and I had an income that was sufficient for my needs. But being homeless completely broke me - even with all of the resources I had available to me.
-                        </p>
-                    </div>
-                <p>
-                    I began thinking that if homelessness crushed me, even with all that I had, then what would it do to someone who had much less, or even nothing? I wanted to do something to help people with this burden. When I learned about foam clothing, I knew without a doubt that God was telling me - "THIS IS HOW YOU CAN HELP!"
-                </p>
-                <p>
-                    After a lot of prayer and asking God to put the right people in my path, I started talking to everyone about my desire to make foam clothing for the homeless. Eventually, I told the right person, and that is how I met Marian Edmonds-Allen. Marian was particularly interested in my idea for getting foam clothing into the hands of the homeless and arranged a meeting to hear more.
-                </p>
-                <p>
-                    Things were put on hold for a while because I needed to finish getting clean, sober, and stable. After about two years, in January 2017, God led me to Angela Roth. Angela is someone who not only knows how to create a pattern but can sew like a rock star! Together, we started the Turtle Shelter Project.
-                </p>
-                <p>
-                    We decided to make vests because a simple vest could keep a person's core warm. If your core is warm, the rest of you stays warm longer. Between September 2017 and January 2018, with the help of many volunteers, we produced 50 TSP vests. The response was excellent, and the project has grown ever since.
-                </p>
-                <p>
-                    The vests are called "Turtle Shelters" because they are a portable shelter - just like a turtle taking its shelter with it. Wearing a Turtle Shelter Vest makes having a source of heat a nicety, but not a necessity. The vests harness body heat, conserve it, and provide durability, wind resistance, insulation, and comfort.
-                </p>
-            </div>
-        </section>
 
-        <!-- Call-to-Action Section -->
-        <section class="cta-section py-5" style="background-color: #ebe6e2;">
-            <div class="container text-center">
-                <h2 class="cta-heading" style="font-size: 28px; margin-bottom: 20px;">Get Involved in Jen's Mission</h2>
-                <p class="cta-description" style="font-size: 18px; color: #555; margin-bottom: 30px;">
-                    Whether it’s volunteering your time, donating funds, or spreading the word, every action you take helps save lives.
-                </p>
-                <div>
-                    <a href="/sendRequest" class="btn btn-primary btn-lg mx-2" style="background-color: #a63636; color: white;">Volunteer</a>
-                    <a href="/donate" class="btn btn-secondary btn-lg mx-2" style="background-color: #555; color: white;">Donate</a>
-                </div>
+        .dashboard {
+            display: none; /* Hide dashboards by default */
+            width: 90%;
+            max-width: 1200px; /* Optional maximum width */
+            height: 900px; /* Fixed height for dashboards */
+            margin: 20px auto;
+        }
+
+        .dashboard.active {
+            display: flex; /* Show the active dashboard */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tableauPlaceholder {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tableauPlaceholder object {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="content-wrapper">
+        <h1>About Turtle Shelter Project</h1>
+        <p>
+            The <strong>Turtle Shelter Project</strong> was born from a desire to protect those experiencing homelessness from the harsh realities of the cold.
+            Every year, extreme weather conditions claim the lives of individuals without access to proper shelter and clothing.
+        </p>
+        <p>
+            Inspired by the resilience and adaptability of turtles, our vests are designed to be lightweight, portable, and incredibly effective.
+            With the help of compassionate volunteers, donors, and community support, we've distributed thousands of vests and saved countless lives.
+            Together, we can continue to make a difference.
+        </p>
+
+        <h2>Explore Homelessness Statistics</h2>
+        <p>Switch between Utah-specific and National data to understand homelessness trends and insights.</p>
+
+        <!-- Tab Buttons -->
+        <div class="tabs">
+            <button data-dashboard="utah">Utah Data</button>
+            <button data-dashboard="national">National Data</button>
+        </div>
+
+        <!-- Utah Dashboard -->
+        <div id="utah" class="dashboard">
+            <div class="tableauPlaceholder">
+                <noscript>
+                    <a href="#"><img alt="Utah Dashboard"
+                                     src="https://public.tableau.com/static/images/Na/NationalDashboard_17334398234280/UtahDashboard/1_rss.png"
+                                     style="border: none;" /></a>
+                </noscript>
+                <object class="tableauViz">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                    <param name="name" value="NationalDashboard_17334398234280/UtahDashboard" />
+                    <param name="tabs" value="no" />
+                    <param name="toolbar" value="yes" />
+                </object>
             </div>
-        </section>
+        </div>
+
+        <!-- National Dashboard -->
+        <div id="national" class="dashboard">
+            <div class="tableauPlaceholder">
+                <noscript>
+                    <a href="#">
+                        <img alt="National Dashboard"
+                             src="https://public.tableau.com/static/images/Na/NationalDashboard_17334398234280/NationalDashbaord/1_rss.png"
+                             style="border: none;" />
+                    </a>
+                </noscript>
+                <object class="tableauViz">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+                    <param name="name" value="NationalDashboard_17334398234280/NationalDashbaord" />
+                    <param name="tabs" value="no" />
+                    <param name="toolbar" value="yes" />
+                </object>
+            </div>
+        </div>
     </div>
 
-     <!-- Footer -->
-     <%- include('partials/footer') %>
+    <%- include('partials/footer') %>
 
-   
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const showDashboard = (type) => {
+                // Hide all dashboards
+                document.querySelectorAll('.dashboard').forEach(dashboard => {
+                    dashboard.classList.remove('active');
+                });
+
+                // Show the selected dashboard
+                const activeDashboard = document.getElementById(type);
+                if (activeDashboard) {
+                    activeDashboard.classList.add('active');
+                }
+            };
+
+            // Attach click event listeners to buttons
+            document.querySelectorAll('.tabs button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const dashboardType = button.getAttribute('data-dashboard');
+                    showDashboard(dashboardType);
+                });
+            });
+
+            // Show Utah dashboard by default
+            showDashboard('utah');
+        });
+    </script>
 </body>
 
 </html>
