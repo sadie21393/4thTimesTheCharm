@@ -116,6 +116,7 @@
       <p><strong>Address:</strong> <%= event.street_address %>, <%= event.city %>, <%= event.state %> <%= event.zip %></p>
       <p><strong>Date:</strong> <%= DateTime.fromJSDate(new Date(event.event_date), { zone: "America/Denver" }).toLocaleString(DateTime.DATE_MED) %></p>
       <p><strong>Time:</strong> <%= event.event_time ? event.event_time.substring(0,5) : '' %></p>
+      <p><strong>Duration (Hours):</strong> <%= eventResults.event_duration %></p>
       <p><strong>Status:</strong> <%= event.status %></p>
     </div>
 

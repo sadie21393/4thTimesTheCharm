@@ -857,6 +857,7 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
     const {
       num_volunteers,
       num_team_members,
+      event_duration,
       pockets_produced,
       collars_produced,
       envelopes_produced,
@@ -870,6 +871,7 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
         event_id: eventId,
         num_volunteers: parseInt(num_volunteers, 10),
         num_team_members: parseInt(num_team_members, 10),
+        event_duration: parseInt(event_duration, 10),
         pockets_produced: parseInt(pockets_produced, 10),
         collars_produced: parseInt(collars_produced, 10),
         envelopes_produced: parseInt(envelopes_produced, 10),
