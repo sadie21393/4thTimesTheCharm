@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Request Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .back-button {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      text-align: center;
+      background-color: #6c757d;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
+  <%- include('admin-navbar') %>
+  <div class="container">
+    <h1>Event Request Details</h1>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Request ID</td>
+        <td><%= eventRequest.req_id %></td>
+      </tr>
+      <tr>
+        <td>Location</td>
+        <td><%= eventRequest.req_location %></td>
+      </tr>
+      <tr>
+        <td>Street Address</td>
+        <td><%= eventRequest.req_street_address %></td>
+      </tr>
+      <tr>
+        <td>City</td>
+        <td><%= eventRequest.req_city %></td>
+      </tr>
+      <tr>
+        <td>State</td>
+        <td><%= eventRequest.req_state %></td>
+      </tr>
+      <tr>
+        <td>ZIP</td>
+        <td><%= eventRequest.req_zip %></td>
+      </tr>
+      <tr>
+        <td>Event Date</td>
+        <td><%= eventRequest.req_event_date ? new Date(eventRequest.req_event_date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A' %></td>
+      </tr>           
+      <tr>
+        <td>Event Time</td>
+        <td><%= eventRequest.req_event_time ? eventRequest.req_event_time.substring(0, 5) : 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Event Duration</td>
+        <td><%= eventRequest.req_event_duration ? (Math.round(eventRequest.req_event_duration / 60 * 2) / 2) + ' hrs' : 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>No Sewing Volunteers</td>
+        <td><%= eventRequest.num_no_sewing || 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Basic Sewing Volunteers</td>
+        <td><%= eventRequest.num_basic_sewing || 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Advanced Sewing Volunteers</td>
+        <td><%= eventRequest.num_adv_sewing || 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Sewing Machines</td>
+        <td><%= eventRequest.num_sewing_machines || 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Sergers</td>
+        <td><%= eventRequest.num_sergers || 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Requested By</td>
+        <td><%= eventRequest.req_first_name %> <%= eventRequest.req_last_name %></td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td><%= eventRequest.req_phone %></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><%= eventRequest.req_email %></td>
+      </tr>
+      <tr>
+        <td>Share Jen's Story</td>
+        <td><%= eventRequest.share_jens_story ? 'Yes' : 'No' %></td>
+      </tr>
+      <tr>
+        <td>Sewing Event</td>
+        <td><%= eventRequest.sewing_event ? 'Yes' : 'No' %></td>
+      </tr>
+    </table>
+    <a href="/admin/event-requests/<%= activeTab || 'pending' %>" class="back-button">Back to Event Requests</a>
+  </div>
+</body>
+</html>

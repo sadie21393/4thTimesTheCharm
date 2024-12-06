@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Event Results</title>
+  <style>
+    /* Form Styles */
+    .container {
+      width: 60%;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background-color: #0069d9;
+    }
+
+    /* Flash Messages Styles */
+    .alert {
+      padding: 15px;
+      margin: 20px auto;
+      width: 60%;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navbar -->
+  <%- include('admin-navbar.ejs') %>
+
+  <!-- Flash Messages -->
+  <% if (error_messages && error_messages.length > 0) { %>
+    <div class="alert">
+      <ul>
+        <% error_messages.forEach(function(message){ %>
+          <li><%= message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="container">
+    <h2>Submit Event Results for <%= event.event_location %></h2>
+    <form action="/admin/events/complete/<%= event.event_id %>" method="post">
+      <label for="num_volunteers">Number of Volunteers:</label>
+      <input type="number" id="num_volunteers" name="num_volunteers" min="0" required>
+
+      <label for="num_team_members">Number of Team Members:</label>
+      <input type="number" id="num_team_members" name="num_team_members" min="0" required>
+
+      <label for="pockets_produced">Pockets Produced:</label>
+      <input type="number" id="pockets_produced" name="pockets_produced" min="0" required>
+
+      <label for="collars_produced">Collars Produced:</label>
+      <input type="number" id="collars_produced" name="collars_produced" min="0" required>
+
+      <label for="envelopes_produced">Envelopes Produced:</label>
+      <input type="number" id="envelopes_produced" name="envelopes_produced" min="0" required>
+
+      <label for="vests_produced">Vests Produced:</label>
+      <input type="number" id="vests_produced" name="vests_produced" min="0" required>
+
+      <label for="completed_products">Completed Products:</label>
+      <input type="number" id="completed_products" name="completed_products" min="0" required>
+
+      <button type="submit" class="submit-button">Submit Results</button>
+    </form>
+  </div>
+</body>
+</html>

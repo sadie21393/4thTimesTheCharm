@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Results</title>
+  <style>
+    /* Container Styles */
+    .container {
+      width: 60%;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .event-details, .event-results {
+      margin-bottom: 20px;
+    }
+
+    .event-details p, .event-results p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    /* Table Styles for Event Results */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .results-table th, .results-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    .results-table th {
+      background-color: #333;
+      color: #fff;
+    }
+
+    /* Buttons */
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 20px auto 0;
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    /* New Styles for Button Container */
+    .button-container {
+      text-align: center;
+    }
+
+    /* Back Button (Existing Style) */
+    .back-button {
+      display: block;
+      width: 200px;
+      margin: 20px auto 0;
+      padding: 10px;
+      background-color: #6c757d;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+
+    /* Flash Messages Styles */
+    .alert {
+      padding: 15px;
+      margin: 20px auto;
+      width: 60%;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navbar -->
+  <%- include('admin-navbar.ejs') %>
+
+  <!-- Flash Messages -->
+  <% if (error_messages && error_messages.length > 0) { %>
+    <div class="alert">
+      <ul>
+        <% error_messages.forEach(function(message){ %>
+          <li><%= message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="container">
+    <h2>Event Results for <%= event.event_location %></h2>
+
+    <div class="event-details">
+      <p><strong>Address:</strong> <%= event.street_address %>, <%= event.city %>, <%= event.state %> <%= event.zip %></p>
+      <p><strong>Date:</strong> <%= DateTime.fromJSDate(new Date(event.event_date), { zone: "America/Denver" }).toLocaleString(DateTime.DATE_MED) %></p>
+      <p><strong>Time:</strong> <%= event.event_time ? event.event_time.substring(0,5) : '' %></p>
+      <p><strong>Status:</strong> <%= event.status %></p>
+    </div>
+
+    <div class="event-results">
+      <h3>Results</h3>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Number of Volunteers</th>
+            <th>Number of Team Members</th>
+            <th>Pockets Produced</th>
+            <th>Collars Produced</th>
+            <th>Envelopes Produced</th>
+            <th>Vests Produced</th>
+            <th>Completed Products</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= eventResults.num_volunteers %></td>
+            <td><%= eventResults.num_team_members %></td>
+            <td><%= eventResults.pockets_produced %></td>
+            <td><%= eventResults.collars_produced %></td>
+            <td><%= eventResults.envelopes_produced %></td>
+            <td><%= eventResults.vests_produced %></td>
+            <td><%= eventResults.completed_products %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- New Button to Navigate to All Event Results -->
+    <div class="button-container">
+      <a href="/admin/event-results" class="button">View All Event Results</a>
+    </div>
+  </div>
+</body>
+</html>

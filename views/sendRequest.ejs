@@ -89,6 +89,13 @@
             border-radius: 5px;
         }
 
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
         button {
             background-color: #a63636;
             color: white;
@@ -111,7 +118,7 @@
         .navbar-button-container .btn-take-action {
             background-color: #a63636; /* Donate button color */
             color: white;
-      }
+        }
         
     </style>
 </head>
@@ -165,8 +172,57 @@
                 <input type="text" id="req_city" name="req_city" required pattern="^[A-Za-z\s]+$" title="City name should only contain letters and spaces">
                 <label for="req_state">Event State</label>
                 <select id="req_state" name="req_state" required>
+                    <option value="" disabled>Select a state</option>
+                    <option value="AL">AL</option>
+                    <option value="AK">AK</option>
+                    <option value="AZ">AZ</option>
+                    <option value="AR">AR</option>
+                    <option value="CA">CA</option>
+                    <option value="CO">CO</option>
+                    <option value="CT">CT</option>
+                    <option value="DE">DE</option>
+                    <option value="FL">FL</option>
+                    <option value="GA">GA</option>
+                    <option value="HI">HI</option>
+                    <option value="ID">ID</option>
+                    <option value="IL">IL</option>
+                    <option value="IN">IN</option>
+                    <option value="IA">IA</option>
+                    <option value="KS">KS</option>
+                    <option value="KY">KY</option>
+                    <option value="LA">LA</option>
+                    <option value="ME">ME</option>
+                    <option value="MD">MD</option>
+                    <option value="MA">MA</option>
+                    <option value="MI">MI</option>
+                    <option value="MN">MN</option>
+                    <option value="MS">MS</option>
+                    <option value="MO">MO</option>
+                    <option value="MT">MT</option>
+                    <option value="NE">NE</option>
+                    <option value="NV">NV</option>
+                    <option value="NH">NH</option>
+                    <option value="NJ">NJ</option>
+                    <option value="NM">NM</option>
+                    <option value="NY">NY</option>
+                    <option value="NC">NC</option>
+                    <option value="ND">ND</option>
+                    <option value="OH">OH</option>
+                    <option value="OK">OK</option>
+                    <option value="OR">OR</option>
+                    <option value="PA">PA</option>
+                    <option value="RI">RI</option>
+                    <option value="SC">SC</option>
+                    <option value="SD">SD</option>
+                    <option value="TN">TN</option>
+                    <option value="TX">TX</option>
                     <option value="UT" selected>UT</option>
-                    <!-- Add other states as needed -->
+                    <option value="VT">VT</option>
+                    <option value="VA">VA</option>
+                    <option value="WA">WA</option>
+                    <option value="WV">WV</option>
+                    <option value="WI">WI</option>
+                    <option value="WY">WY</option>
                 </select>
                 <label for="req_zip">Event Zip Code</label>
                 <input type="text" id="req_zip" name="req_zip" maxlength="5" required pattern="\d{5}" title="Enter a 5-digit ZIP code">
@@ -176,6 +232,18 @@
                 <input type="time" id="event_time" name="event_time" required>
                 <label for="req_event_duration">Event Duration (hours)</label>
                 <input type="number" id="req_event_duration" name="req_event_duration" step="0.5" min="0.5" max="12" required>
+                <div class="checkbox-container">
+                    <label for="share_jens_story">Share Jen's Story:</label>
+                    <br>
+                    <label>Yes <input type="checkbox" id="share_jens_story_yes" name="share_jens_story" value="true" onclick="toggleCheckbox('share_jens_story_yes', 'share_jens_story_no')"></label>
+                    <label>No <input type="checkbox" id="share_jens_story_no" name="share_jens_story" value="false" onclick="toggleCheckbox('share_jens_story_no', 'share_jens_story_yes')"></label>
+                </div>
+                <div class="checkbox-container">
+                    <label for="sewing_event">Sewing Event:</label>
+                    <br>
+                    <label>Yes <input type="checkbox" id="sewing_event_yes" name="sewing_event" value="true" onclick="toggleCheckbox('sewing_event_yes', 'sewing_event_no')"></label>
+                    <label>No <input type="checkbox" id="sewing_event_no" name="sewing_event" value="false" onclick="toggleCheckbox('sewing_event_no', 'sewing_event_yes')"></label>
+                </div>
             </div>
             <div id="volunteer_info">
                 <h2>Volunteer Information:</h2>
@@ -206,7 +274,17 @@
     </div>
     <!-- Footer -->
  <%- include('partials/footer') %>
+
+ <script>
+    function toggleCheckbox(currentId, otherId) {
+        const currentCheckbox = document.getElementById(currentId);
+        const otherCheckbox = document.getElementById(otherId);
+
+        if (currentCheckbox.checked) {
+            otherCheckbox.checked = false;
+        }
+    }
+ </script>
 </body>
- 
 
 </html>

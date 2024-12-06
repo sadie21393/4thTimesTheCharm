@@ -3,4 +3,9 @@
 .DS_Store
 .html
 .md
+<<<<<<< HEAD
+*.env
+=======
 .env
+echo ".env" >> .gitignore
+>>>>>>> 70bba622d4da523dd0478288334a25058a3b69a8

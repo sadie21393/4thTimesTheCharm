@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Details</title>
+  <style>
+    /* Styles for Details Page */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .back-button {
+      display: block;
+      width: 150px;
+      margin: 30px auto 0;
+      padding: 10px;
+      text-align: center;
+      background-color: #6c757d;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .back-button:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
+  <%- include('admin-navbar') %>
+  <div class="container">
+    <h1>Event Details</h1>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Event ID</td>
+        <td><%= event.event_id %></td>
+      </tr>
+      <tr>
+        <td>Request ID</td>
+        <td><%= event.req_id || 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Event Location</td>
+        <td><%= event.event_location %></td>
+      </tr>
+      <tr>
+        <td>Street Address</td>
+        <td><%= event.street_address %></td>
+      </tr>
+      <tr>
+        <td>City</td>
+        <td><%= event.city %></td>
+      </tr>
+      <tr>
+        <td>State</td>
+        <td><%= event.state %></td>
+      </tr>
+      <tr>
+        <td>Zip</td>
+        <td><%= event.zip %></td>
+      </tr>
+      <tr>
+        <td>Event Date</td>
+        <td><%= event.event_date ? new Date(event.event_date).toDateString() : 'N/A' %></td>
+      </tr>      
+      <tr>
+        <td>Event Time</td>
+        <td><%= event.event_time ? event.event_time.substring(0, 5) : 'N/A' %></td>
+      </tr>
+      <tr>
+        <td>Event Duration (minutes)</td>
+        <td><%= event.event_duration %></td>
+      </tr>
+      <tr>
+        <td>Expected Pockets</td>
+        <td><%= event.num_exp_pockets %></td>
+      </tr>
+      <tr>
+        <td>Expected Collars</td>
+        <td><%= event.num_exp_collars %></td>
+      </tr>
+      <tr>
+        <td>Expected Envelopes</td>
+        <td><%= event.num_exp_envelopes %></td>
+      </tr>
+      <tr>
+        <td>Expected Vests</td>
+        <td><%= event.num_exp_vests %></td>
+      </tr>
+      <tr>
+        <td>Expected Completed Products</td>
+        <td><%= event.num_expected_completed_products %></td>
+      </tr>
+      <tr>
+        <td>Number of Team Members Scheduled</td>
+        <td><%= event.num_teammembers_scheduled %></td>
+      </tr>
+    </table>
+    <a href="/admin/events/<%= activeTab %>" class="back-button">Back to Events</a>
+  </div>
+</body>
+</html>
