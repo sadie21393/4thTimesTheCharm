@@ -1442,6 +1442,7 @@ router.post('/events/:eventId/signup', async (req, res) => {
             .first();
 
         // If no user exists, create a new user
+        const timestamp = Date.now();
         if (!user) {
             const [newUserId] = await knex('users').insert({
                 user_name: `${firstName.toLowerCase()}${lastName.toLowerCase()}${timestamp}`.slice(0, 30), // Ensure it is 30 characters max,
@@ -1454,7 +1455,10 @@ router.post('/events/:eventId/signup', async (req, res) => {
                 city: null,
                 state: null,
                 zip: null,
-                password: null
+                password: null,
+                sewing_level: sewing_level,
+                hours_willing_to_work: hours_willing_to_work,
+                heard_of_tsp: heard_of_tsp
             }).returning('user_name'); // Get the user_name of the newly created user
 
             user = { user_name: newUserId };

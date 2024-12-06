@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <form action="/events/<%= event.event_id %>/signup" method="POST">
+        <form action="/events/<%= event.event_id %>/signup" method="POST" id="signupForm">
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" id="firstName" name="firstName" required>
@@ -83,19 +83,66 @@
                 <label for="lastName">Last Name</label>
                 <input type="text" id="lastName" name="lastName" required>
             </div>
-
+            
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" required pattern="^\d{10}$" maxlength="10" oninput="this.value = this.value.replace(/\D/g, '')" title="Please enter a 10-digit phone number without spaces, parentheses, or dashes.">
             </div>
-
+            
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
 
+            <!-- Sewing Level Dropdown -->
+            <div class="form-group">
+                <label for="sewing_level">Sewing Level</label>
+                <select id="sewing_level" name="sewing_level" required>
+                    <option value="">Select Sewing Level</option>
+                    <option value="No Sewing Experience">No Sewing Experience</option>
+                    <option value="Beginner Sewing Experience">Beginner Sewing Experience</option>
+                    <option value="Advanced Sewing Experience">Advanced Sewing Experience</option>
+                </select>
+            </div>
+
+            <!-- Hours Willing to Work -->
+            <div class="form-group">
+                <label for="hours_willing_to_work">Hours Willing to Work</label>
+                <input type="number" id="hours_willing_to_work" name="hours_willing_to_work" min="1" max="40" required>
+            </div>
+
+            <!-- Where Did You Hear About Us Dropdown -->
+            <div class="form-group">
+                <label for="heard_of_us">Where did you hear about us?</label>
+                <select id="heard_of_us" name="heard_of_us" required>
+                    <option value="">Select an option</option>
+                    <option value="Family Member">Family Member</option>
+                    <option value="Social Media">Social Media</option>
+                    <option value="Religious Congregation">Religious Congregation</option>
+                    <option value="Friend">Friend</option>
+                    <option value="Community Event">Community Event</option>
+                    <option value="Flyer">Flyer</option>
+                    <option value="Website">Website</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
             <button type="submit" class="submit-btn">Submit</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            var sewingLevel = document.getElementById("sewing_level").value;
+            var hoursWillingToWork = document.getElementById("hours_willing_to_work").value;
+            var heardOfUs = document.getElementById("heard_of_us").value;
+
+            if (!sewingLevel || !hoursWillingToWork || !heardOfUs) {
+                alert("Please fill out all fields before submitting.");
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    </script>
 </body>
+
 </html>
