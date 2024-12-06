@@ -168,7 +168,17 @@ router.post('/contact', (req, res) => {
 });
 
 
-// Contact Us Route (Duplicate - Remove if necessary)
+// router.get('/show-events-by-month', (req, res) => {
+//     try {
+//         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
+//     } catch (error) {
+//         console.error('Error loading the Volunteer Form page:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
+
+
+// Contact Us Route
 router.get('/contact', (req, res) => {
     try {
         res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
@@ -1542,7 +1552,10 @@ router.post('/events/:eventId/signup', async (req, res) => {
                 city: null,
                 state: null,
                 zip: null,
-                password: null
+                password: null,
+                sewing_level: sewing_level,
+                hours_willing_to_work: hours_willing_to_work,
+                heard_of_tsp: heard_of_tsp
             }).returning('user_name'); // Get the user_name of the newly created user
 
             user = { user_name: newUserId };
