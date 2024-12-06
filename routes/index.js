@@ -930,39 +930,42 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
 
   // 7.20.1. GET Route to Render Assign Team Member to Event Form
   router.get("/admin/team-members/:user_name/assign", isAuthenticated, async (req, res) => {
-      const userName = req.params.user_name;
+    const userName = req.params.user_name;
 
-      try {
-          // Fetch the team member's details
-          const member = await knex("users")
-              .select("user_name", "first_name", "last_name", "email")
-              .where("user_name", userName)
-              .first();
+    try {
+        // Fetch the team member's details
+        const member = await knex("users")
+            .select("user_name", "first_name", "last_name", "email")
+            .where("user_name", userName)
+            .first();
 
-          if (!member) {
-              req.flash("error", "Team member not found.");
-              return res.redirect("/admin/team-members");
-          }
+        if (!member) {
+            req.flash("error", "Team member not found.");
+            return res.redirect("/admin/team-members");
+        }
 
-          // Fetch all upcoming events
-          const events = await knex("events as e")
-              .join("eventstatus as es", "e.event_id", "=", "es.event_id")
-              .select("e.event_id", "e.event_location", "e.event_date", "e.event_time")
-              .where("es.status", "Upcoming")
-              .orderBy("e.event_date", "asc");
+        // Fetch all upcoming events
+        const events = await knex("events as e")
+            .join("eventstatus as es", "e.event_id", "=", "es.event_id")
+            .select("e.event_id", "e.event_location", "e.event_date", "e.event_time")
+            .where("es.status", "Upcoming")
+            .orderBy("e.event_date", "asc");
 
-          res.render("assign-team-members", { 
-              member, 
-              events,
-              success_messages: res.locals.success_messages,
-              error_messages: res.locals.error_messages
-          });
-      } catch (error) {
-          console.error("Error rendering assign team member page:", error);
-          req.flash("error", "Failed to load assignment page.");
-          res.redirect("/admin/team-members");
-      }
-  });
+        // Render the 'assign-team-members' page
+        res.render("assign-team-members", { 
+            member,
+            events,
+            activePage: "team-members", // Pass activePage for the navbar
+            success_messages: res.locals.success_messages || [],
+            error_messages: res.locals.error_messages || []
+        });
+    } catch (error) {
+        console.error("Error rendering assign team member page:", error);
+        req.flash("error", "Failed to load assignment page.");
+        res.redirect("/admin/team-members");
+    }
+});
+
 
   // 7.20.2. POST Route to Handle Assigning Team Member to Event
   router.post("/admin/team-members/:user_name/assign", isAuthenticated, async (req, res) => {
@@ -1056,6 +1059,51 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
 // ==============================
 // 7.15. Edit Team Member Routes 
 // ==============================
+
+router.get("/admin/team-members", isAuthenticated, async (req, res) => {
+    try {
+        // Fetch Admins/Team Members
+        const users = await knex("users")
+            .whereIn("role", ["Admin", "Team Member"]) // Match "Admin" or "Team Member"
+            .select("user_name", "first_name", "last_name", "email", "role");
+
+        // Render the 'team-members' page for admins and team members
+        res.render("team-members", {
+            users, // Pass the admins/team members data
+            activePage: "team-members", // Highlight navbar
+            activeTab: "team-members", // Highlight the correct tab
+            success_messages: res.locals.success_messages || [],
+            error_messages: res.locals.error_messages || []
+        });
+    } catch (error) {
+        console.error("Error fetching team members:", error);
+        req.flash("error", "Failed to load team members.");
+        res.redirect("/admin");
+    }
+});
+
+
+router.get("/admin/volunteers", isAuthenticated, async (req, res) => {
+    try {
+        // Fetch Volunteers
+        const users = await knex("users")
+            .where("role", "Volunteer") // Adjust this to match your database structure
+            .select("user_name", "first_name", "last_name", "email", "role");
+
+        // Render the 'team-members' page for volunteers
+        res.render("team-members", {
+            users, // Pass the volunteers data
+            activePage: "team-members", // Highlight navbar
+            activeTab: "volunteers", // Highlight the correct tab
+            success_messages: res.locals.success_messages || [],
+            error_messages: res.locals.error_messages || []
+        });
+    } catch (error) {
+        console.error("Error fetching volunteers:", error);
+        req.flash("error", "Failed to load volunteers.");
+        res.redirect("/admin");
+    }
+});
 
 // 7.15.1. GET Route to Render Edit Team Member Form
 router.get("/admin/team-members/:user_name/edit", isAuthenticated, async (req, res) => {
