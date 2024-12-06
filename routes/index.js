@@ -140,6 +140,40 @@ router.get('/about', (req, res) => {
  });
 
 // Volunteer Form Route
+<<<<<<< HEAD
+router.get('/volunteerForm', (req, res) => {
+    try {
+        res.render('volunteerForm'); // Ensure 'volunteerForm.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Volunteer Form page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Contact Us Route
+router.get('/contact', (req, res) => {
+    try {
+        res.render('contact'); // Ensure 'contact.ejs' exists in the views folder
+    } catch (error) {
+        console.error('Error loading the Contact Us page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Handle Contact Form Submission
+router.post('/contact', (req, res) => {
+    const { name, email, message } = req.body;
+
+    // You can add logic here to handle the form submission, like sending an email or storing the message
+    console.log('Contact Form Submitted:', { name, email, message });
+
+    // Send a response back to the user
+    res.send(`<script>alert('Thank you for your message, ${name}! We will get back to you soon.'); window.location.href='/contact';</script>`);
+});
+
+
+const nodemailer = require('nodemailer');
+=======
 // router.get('/show-events-by-month', (req, res) => {
 //     try {
 //         res.render('show-events-by-month'); // Ensure '/show-events-by-month' exists in the views folder
@@ -148,6 +182,7 @@ router.get('/about', (req, res) => {
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
+>>>>>>> 10ee99e8b5df79a382a51abdcbd7c79925ad769c
 
 // Contact Us Route
 router.get('/contact', (req, res) => {
@@ -857,6 +892,7 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
     const {
       num_volunteers,
       num_team_members,
+      event_duration,
       pockets_produced,
       collars_produced,
       envelopes_produced,
@@ -870,6 +906,7 @@ router.post("/admin/team-members/add", isAuthenticated, async (req, res) => {
         event_id: eventId,
         num_volunteers: parseInt(num_volunteers, 10),
         num_team_members: parseInt(num_team_members, 10),
+        event_duration: parseInt(event_duration, 10),
         pockets_produced: parseInt(pockets_produced, 10),
         collars_produced: parseInt(collars_produced, 10),
         envelopes_produced: parseInt(envelopes_produced, 10),
